@@ -15,12 +15,10 @@ use App\Http\Controllers\LoginController;
 |
 */
 Route::group(['middleware' => 'auth:sanctum'], function(){
-    Route::post('user/add',[LoginController::class,'save']);
-    Route::post('user/edit',[LoginController::class,'edit']);
-    Route::post('user/delete',[LoginController::class,'delete']);
-    Route::get("user",[LoginController::class,'checkUser'])->name('checkUser');
-    Route::post("users",[LoginController::class,'AllUser']);
-    Route::post("users/count",[LoginController::class,'count']);
+    
+    require __DIR__."/asliddin.php";
+    require __DIR__."/sheroz.php";
+    require __DIR__."/axror.php";
 
 });
 Route::post("logout",[LoginController::class,'logout']);
