@@ -13,10 +13,10 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          Ekosfera
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>Ekosfera.uz</div>
       </q-toolbar>
     </q-header>
     <q-drawer
@@ -33,9 +33,42 @@
             <q-icon name="dashboard" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Dashboard</q-item-label>
+            <q-item-label>Asosiy</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item  tag="a"  :to='{name:"yuridik"}' clickable>
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Yuridik bo'limi</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item  tag="a"  :to='{name:"kadrlar"}' clickable>
+          <q-item-section avatar>
+            <q-icon name="people" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Kadrlar bo'limi</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item  tag="a"  :to='{name:"hisobotlar"}' clickable>
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Hisobotlar</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item  tag="a"  :to='{name:"shablonlar"}' clickable>
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Shablonlar</q-item-label>
+          </q-item-section>
+        </q-item>
+        
         <q-item  tag="a"  :to='{name:"users"}' clickable>
           <q-item-section avatar>
             <q-icon name="people" />
