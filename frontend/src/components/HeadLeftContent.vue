@@ -13,10 +13,10 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          Ekosfera
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>Ekosfera.uz</div>
       </q-toolbar>
     </q-header>
     <q-drawer
@@ -25,17 +25,79 @@
       bordered
     >
     <!-- style="background-color:#081040;color:#97A2D6;" -->
-
-      <q-list>
+    
+     <q-list>
         <q-item-label header>Menu</q-item-label>
         <q-item  tag="a"  :to='{name:"dashboard"}' clickable>
           <q-item-section avatar>
             <q-icon name="dashboard" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Dashboard</q-item-label>
+            <q-item-label>Asosiy</q-item-label>
           </q-item-section>
         </q-item>
+        <q-expansion-item :content-inset-level="0.5" expand-separator icon="assessment" label="Yuridik bo'lim" caption="Shartnomalar va talonlar" >
+        <q-item  tag="a"  :to='{name:"shartnomalar"}' clickable>
+          <q-item-section avatar>
+            <q-icon name="receipt" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Shartnomalar</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item  tag="a"  :to='{name:"talonlar"}' clickable>
+          <q-item-section avatar>
+            <q-icon name="receipt" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Talonlar</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item  tag="a"  :to='{name:"dalolatnoma"}' clickable>
+          <q-item-section avatar>
+            <q-icon name="receipt" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Dalolatnoma</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item  tag="a"  :to='{name:"buyurtma"}' clickable>
+          <q-item-section avatar>
+            <q-icon name="receipt" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Buyurtma</q-item-label>
+          </q-item-section>
+        </q-item>
+        
+       
+
+      </q-expansion-item>
+        <q-item  tag="a"  :to='{name:"kadrlar"}' clickable>
+          <q-item-section avatar>
+            <q-icon name="people" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Kadrlar bo'limi</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item  tag="a"  :to='{name:"hisobotlar"}' clickable>
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Hisobotlar</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item  tag="a"  :to='{name:"shablonlar"}' clickable>
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Shablonlar</q-item-label>
+          </q-item-section>
+        </q-item>
+        
         <q-item  tag="a"  :to='{name:"users"}' clickable>
           <q-item-section avatar>
             <q-icon name="people" />
@@ -62,7 +124,7 @@
                   
         </q-item>
         
-      </q-list>
+      </q-list> 
     </q-drawer>
 </div>
     

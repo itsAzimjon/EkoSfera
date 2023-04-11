@@ -121,13 +121,7 @@ class LoginController extends Controller
             'user'=> $user
         ]); 
     }
-    public function count(Request $request)
-    {
-        $count=User::where('name','like','%'.$request->filter.'%')->orwhere('email','like','%'.$request->filter.'%')->count();
-        return response()->json([
-            'count'=> $count
-        ]); 
-    }
+    
     public function delete(Request $request)
     {
         User::find($request->id)->delete();
