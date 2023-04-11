@@ -10,8 +10,7 @@ class Organization extends Model
         "id", "name", "created_at", "updated_at"
     ];
 
-    public function regions()
-    {
-        return $this->hasMany("App\Region", "organization_id", "id");
+    public function regions(){
+        return $this->belongsToMany("App\Region", "region_organizations", "organization_id", "region_id");
     }
 }
