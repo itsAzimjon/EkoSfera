@@ -21,6 +21,28 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('admin'),
         ]);
         factory(App\User::class, 50)->create();
+        
+        $regions = [
+            "Arnasoy tumani",
+            "G'allarol tumani",
+            "Paxtakor tumani",
+            "Mirzacho'l tumani",
+            "Forish tumani",
+            "Yangiobod tumani",
+            "Baxmal tumani",
+            "Zomin tumani",
+            "Zafarobod tumani",
+            "Do'stlik tumani",
+            "Sh.Rashidov tumani",
+            "Zarbdor tumani",
+            "Jizzax shahar"
+        ];
+
+        foreach ($regions as $region) {
+            DB::table('regions')->insert([
+                'name' => $region
+            ]); 
+        }
 
     }
 }
