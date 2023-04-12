@@ -2,6 +2,7 @@ import Login from '../layouts/Login.vue'
 import MainLayout from '../layouts/MainLayout.vue'
 import Index from '../pages/Index.vue'
 import Users from '../pages/user/Users.vue'
+import Organizations from '../pages/organization/Organizations.vue'
 import Error404 from '../layouts/Error404.vue'
 import { getItem } from '../helpers/Storage'
 
@@ -20,6 +21,11 @@ const routes = [
         path: '/',
         name: 'dashboard',
         component: () => Index,
+      },
+      {
+        path: '/organizations',
+        name: 'organizations',
+        component: () => Organizations,
       },
       {
         path: '/users',

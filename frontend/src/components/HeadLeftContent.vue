@@ -36,6 +36,14 @@
             <q-item-label>Asosiy</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item  tag="a"  :to='{name:"organizations"}' clickable>
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Tashkilotlar</q-item-label>
+          </q-item-section>
+        </q-item>
         <q-expansion-item :content-inset-level="0.5" expand-separator icon="assessment" label="Yuridik bo'lim" caption="Shartnomalar va talonlar" >
         <q-item  tag="a"  :to='{name:"shartnomalar"}' clickable>
           <q-item-section avatar>
