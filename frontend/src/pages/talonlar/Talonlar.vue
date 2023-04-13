@@ -4,7 +4,7 @@
         flat bordered
         ref="tableRef"
         title="Foydalanuvchilar"
-        :rows="users"
+        :rows="talonlar"
         :columns="columns"
         row-key="id"
         v-model:pagination="pagination"
@@ -17,12 +17,12 @@
         no-results-label="Ma'lumotlar topilmadi"
       >
        
-        <template v-slot:body-cell-action="users">
-          <q-td :users="users" align="left" width="20px">
+        <template v-slot:body-cell-action="talonlar">
+          <q-td :talonlar="talonlar" align="left" width="20px">
             <q-btn
               color="blue-8"
               icon="edit"
-              @click="ShowEditModal(users.row)"
+              @click="ShowEditModal(talonlar.row)"
               size="sm"
               danse
               class="q-ml-sm"
@@ -30,7 +30,7 @@
             <q-btn
               color="red"
               icon="delete"
-              @click="ShowDeleteModal(users.row)"
+              @click="ShowDeleteModal(talonlar.row)"
               size="sm"
               danse
               class="q-ml-sm"
@@ -41,7 +41,7 @@
           <q-btn
             color="blue"
             :disable="loading"
-            label="Add User"
+            label="Add talonlar"
             @click="ShowAddModal"
           />
           
@@ -84,12 +84,12 @@
   
   </template>
   <script>
-    import userAdd from "./userAdd.vue"
+    import AddEdit from "./AddEdit.vue"
   
     export default {
-      name:"Users",
+      name:"Talonlar",
       components:{
-        userAdd
+        AddEdit
       },
       data () {
         return {
@@ -104,50 +104,79 @@
             },
             columns: [
                 {
-                name: 'index',
-                label: '#',
-                field: 'index',
-                align: "left",
-                style: 'width: 10px',
-                sortable: true
+                    name: 'index',
+                    label: '#',
+                    field: 'index',
+                    align: "left",
+                    style: 'width: 10px',
+                    sortable: true
                 },
                 {
-                name: 'name',
-                field: 'name',
-                label: 'FIO',
-                align: 'left',
-                sortable: true,
+                    name: 'sana',
+                    field: 'sana',
+                    label: 'Sana',
+                    align: 'left',
+                    sortable: true,
                 },
                 {
-                name: 'email',
-                field: 'email',
-                label: 'Email',
-                align: 'left',
-                sortable: true,
+                    name: 'buyurtmachi',
+                    field: 'buyurtmachi',
+                    label: 'Buyurtmachi',
+                    align: 'left',
+                    sortable: true,
                 },
                 {
-                name: 'role',
-                field: 'role',
-                label: 'Role',
-                align: 'left',
-                sortable: false,
+                    name: 'stir',
+                    field: 'stir',
+                    label: 'Stir',
+                    align: 'left',
+                    sortable: false,
                 },
                 {
-                name: 'action',
-                label: 'Action',
-                align: 'left',
-                style: 'width: 20px !important',
+                    name: 'texnika',
+                    field: 'texnika',
+                    label: 'Maxsus texnika',
+                    align: 'left',
+                    sortable: false,
+                },
+                {
+                    name: 'hayadovchi',
+                    field: 'hayadovchi',
+                    label: 'Hayadovchi',
+                    align: 'left',
+                    sortable: false,
+                },
+                {
+                    name: 'yuk',
+                    field: 'yuk',
+                    label: 'Tashilgan yuk(kub)',
+                    align: 'left',
+                    sortable: false,
+                },
+                {
+                    name: 'type',
+                    field: 'type',
+                    label: 'Chiqindi turi',
+                    align: 'left',
+                    sortable: false,
+                },
+                {
+                    name: 'action',
+                    label: 'Action',
+                    align: 'left',
+                    style: 'width: 20px !important',
                 },
             ],
-            visibleColumns:['index','name','email','role','action'],
-            users:[],
+            visibleColumns:['index','sana','buyurtmachi','stir','texnika','hayadovchi','yuk','type','action'],
+            talonlar:[],
             AddData:{
                 id: "",
-                name: "",
-                email: "",
-                role_id: "",
-                password: "",
-                return_password: ""
+                sana:"",
+                buyurtmachi_id:"",
+                texnika:"",
+                hayadovchi:"",
+                yuk:"",
+                type:"",
             },
         }
       },
@@ -169,24 +198,24 @@
                 'filter':search,
                 'descending':pagination.descending
             };
-            this.$axios.post('users',data).then(response=>{
+            this.$axios.post('talonlar',data).then(response=>{
                 console.log(response.data);
-                let data=response.data.users.data
-                this.users=[]
-                let ind = (response.data.users.current_page-1)*response.data.users.per_page+1
+                let data=response.data.talonlar.data
+                this.talonlar=[]
+                let ind = (response.data.talonlar.current_page-1)*response.data.talonlar.per_page+1
                 for(var i=0;i<data.length;i++){
                     var json = {
                         "index": ind++,
                         "id": data[i].id,
-                        "name": data[i].name,
-                        "email": data[i].email,
-                        "role": ['Admin','Users'][data[i].role_id],
-                        "password": "",
-                        "return_password": ""
+                        "sana": data[i].sana,
+                        "buyurtmachi": data[i].buyurtmachi.name,
+                        "hayadovchi": data[i].hayadovchi,
+                        "texnika": data[i].texnika,
+                        "type": ['Mayshiy','Suyuq'][data[i].type],
                     }
-                    this.users.push(json)
+                    this.talonlar.push(json)
                 }
-                this.pagination.rowsNumber=response.data.users.total
+                this.pagination.rowsNumber=response.data.talonlar.total
 
             }).catch(error=>{
                 this.$e("Mauloat olishda xato")
@@ -194,7 +223,6 @@
             });
         },
         onRequest (props) {
-            console.log(props);
             this.loading=true
             this.pagination=props.pagination
             this.getData(props.pagination,this.search)
@@ -205,7 +233,7 @@
         ShowAddModal(){
           
           this.$q.dialog({
-            component: userAdd,
+            component: AddEdit,
   
             // props forwarded to your custom component
             componentProps: {
@@ -213,20 +241,29 @@
                 text:"Yangi Foydalanuvchi"
             }
           }).onOk((from) => {
-            this.$axios.post('user/add',from).then(response=>{
+            this.$axios.post('talonlar/add',from).then(response=>{
                 this.$s("Muofaqqiyatli qo'shildi")
                 
             }).catch(error=>{
                 this.$e("Qo'shilmadi")
                 
             });
+            this.AddData={
+                id: "",
+                sana:"",
+                buyurtmachi_id:"",
+                texnika:"",
+                hayadovchi:"",
+                yuk:"",
+                type:"",
+            },
             this.getData(this.pagination,this.search)
 
           })
         },
         ShowEditModal(data){
           this.$q.dialog({
-            component: userAdd,
+            component: AddEdit,
   
             // props forwarded to your custom component
             componentProps: {
@@ -234,7 +271,7 @@
               text:"Foydalanuvchini O'zgartish"
             }
           }).onOk((from) => {
-            this.$axios.post('user/edit',from).then(response=>{
+            this.$axios.post('talonlar/edit',from).then(response=>{
                 this.$s("Muofaqqiyatli O'zgartirildi")
                 
             }).catch(error=>{
@@ -259,7 +296,7 @@
           },
           persistent: true
         }).onOk(() => {
-            this.$axios.post('user/delete',{'id':data.id}).then(response=>{
+            this.$axios.post('talonlar/delete',{'id':data.id}).then(response=>{
                 this.$s("Muofaqqiyatli O'chirildi")
                 
             }).catch(error=>{
