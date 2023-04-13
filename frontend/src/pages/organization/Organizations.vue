@@ -38,7 +38,7 @@
           <q-btn
             color="blue"
             :disable="loading"
-            label="Add User"
+            label="Yangi qo'shish"
             @click="ShowAddModal"
           />
           
