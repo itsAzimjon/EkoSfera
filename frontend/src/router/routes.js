@@ -2,6 +2,7 @@ import Login from '../layouts/Login.vue'
 import MainLayout from '../layouts/MainLayout.vue'
 import Index from '../pages/Index.vue'
 import Users from '../pages/user/Users.vue'
+import Talonlar from '../pages/talonlar/Talonlar.vue'
 import Shartnomalar from '../pages/shartnomalar/Shartnoma.vue'
 import Organizations from '../pages/organization/Organizations.vue'
 import Error404 from '../layouts/Error404.vue'
@@ -36,6 +37,11 @@ const routes = [
         path: '/shartnomalar',
         name: 'shartnomalar',
         component: () => Shartnomalar,
+      },
+      {
+        path: '/talonlar',
+        name: 'talonlar',
+        component: () => Talonlar,
       },
     ],
   },
