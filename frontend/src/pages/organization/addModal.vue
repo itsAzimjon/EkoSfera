@@ -107,11 +107,11 @@
       getRegions () {
         this.$axios.post('region/get').then(response => {
           // console.log(response.data.datas);
-          let datas = response.data.datas;
-          for (var i = 0; i < datas.length; i++) {
+          let data = response.data.data;
+          for (var i = 0; i < data.length; i++) {
             var json = {
-                "value": datas[i].id,
-                "label": datas[i].name,
+                "value": data[i].id,
+                "label": data[i].name,
             }
             this.regions.push(json)
           }

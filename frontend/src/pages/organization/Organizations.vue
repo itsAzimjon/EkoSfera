@@ -12,8 +12,6 @@
         :filter="search"
         binary-state-sort
         @request="onRequest"
-        :visible-columns="visibleColumns"
-
       >
        
         <template v-slot:body-cell-action="mainData">
@@ -45,7 +43,7 @@
           />
           
           <q-space />
-          <q-select
+          <!-- <q-select
             v-model="visibleColumns"
             multiple
             outlined
@@ -58,7 +56,7 @@
             option-value="name"
             options-cover
             style="min-width: 150px"
-          />
+          /> -->
           <q-input
             dense
             rounded
@@ -103,49 +101,41 @@
             },
             columns: [
               {
-              name: 'index',
-              label: '#',
-              field: 'index',
-              align: "left",
-              style: 'width: 10px',
-              sortable: true
+                name: 'index',
+                label: '#',
+                field: 'index',
+                align: "left",
+                style: 'width: 10px',
+                sortable: true
               },
               {
-              name: 'name',
-              field: 'name',
-              label: 'FIO',
-              align: 'left',
-              sortable: true,
+                name: 'name',
+                field: 'name',
+                label: 'Korxona nomi',
+                align: 'left',
+                sortable: true,
               },
               {
-              name: 'email',
-              field: 'email',
-              label: 'Email',
-              align: 'left',
-              sortable: true,
+                name: 'regions_name',
+                field: 'regions_name',
+                label: 'Tuman/Shahar',
+                align: 'left',
+                sortable: false,
               },
               {
-              name: 'role',
-              field: 'role',
-              label: 'Role',
-              align: 'left',
-              sortable: false,
-              },
-              {
-              name: 'action',
-              label: 'Action',
-              align: 'left',
-              style: 'width: 20px !important',
+                name: 'action',
+                label: 'Action',
+                align: 'left',
+                style: 'width: 20px !important',
               },
             ],
-            visibleColumns:['index','name','email','role','action'],
             mainData: [],
         }
       },
       mounted() {
         //tokenni tekshiruvdan o'tkazish
         this.$store.dispatch('check').then(res => {
-          this.getData(this.pagination,this.search)
+          this.getData(this.pagination, this.search)
         }).catch(error => {
           this.$router.push(
             {
@@ -163,27 +153,32 @@
             'filter': search,
             'descending': pagination.descending
           };
-          this.$axios.post('users', data).then(response => {
-              console.log(response.data);
-              let data = response.data.users.data
+          this.$axios.post('organization/get', data).then(response => {
+              console.log(response.data.data.data);
+              let data = response.data.data.data
               this.mainData = []
-              let ind = (response.data.users.current_page-1) * response.data.users.per_page+1
+              let ind = (response.data.data.current_page-1) * response.data.data.per_page+1
               for (var i = 0; i < data.length; i++) {
+                  let regions_name = "";
+                  let regions_id = [];
+                  for (var j = 0; j < data[i].regions.length; j++) {
+                    regions_name += data[i].regions[j].name + ", ";
+                    regions_id.push(data[i].regions[j].id);
+                  }
                   var json = {
                       "index": ind++,
                       "id": data[i].id,
                       "name": data[i].name,
-                      "email": data[i].email,
-                      "role": ['Admin','Users'][data[i].role_id],
-                      "password": "",
-                      "return_password": ""
+                      "regions": data[i].regions,
+                      "regions_name": regions_name,
+                      "regions_id": regions_id,
                   }
                   this.mainData.push(json)
               }
-              this.pagination.rowsNumber=response.data.users.total
+              this.pagination.rowsNumber = response.data.data.total
 
           }).catch(error=>{
-              this.$e("Mauloat olishda xato")
+              this.$e("Ma'lumot olishda xatolik")
               
           });
         },

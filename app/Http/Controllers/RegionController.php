@@ -9,9 +9,9 @@ class RegionController extends Controller
 {
     public function get(Request $request)
     {
-        $datas = Region::all();
+        $data = Region::all();
         return response()->json([
-            'datas'=> $datas,
-        ]); 
+            'data' => $data,
+        ], 200); 
     }
 }

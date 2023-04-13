@@ -8,9 +8,22 @@ use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
 {
-    public function get()
+    public function get(Request $request)
     {
-        
+        if ($request->descending) {
+            $sort = "ASC";
+        } else {
+            $sort = "desc";
+        }  
+        if ($request->sortBy == "index") {
+            $request->sortBy = 'id';
+        }
+        $data = Organization::where('name', 'like', '%' . $request->filter . '%')->with("regions")->orderBy($request->sortBy, $sort)->paginate($request->rowsPerPage);
+
+        return response()->json([
+            'status' => 1,
+            'data' => $data
+        ], 200); 
     }
 
     public function add(Request $request)
