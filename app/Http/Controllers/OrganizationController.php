@@ -38,8 +38,8 @@ class OrganizationController extends Controller
         $data = Organization::create([
             "name" => $request->name
         ]);
-        if (isset($request->regions)) {
-            foreach ($request->regions as $region) {
+        if (isset($request->regions_id)) {
+            foreach ($request->regions_id as $region) {
                 RegionOrganization::create([
                     "organization_id" => $data->id,
                     "region_id" => $region
@@ -50,5 +50,24 @@ class OrganizationController extends Controller
         return response()->json([
             "status" => 1
         ], 201);
+    }
+
+    public function edit(Request $request)
+    {
+        Organization::where("id", $request->id)->update([
+            "name" => $request->name
+        ]);
+        RegionOrganization::where("organization_id", $request->id)->delete();
+        if (isset($request->regions_id)) {
+            foreach ($request->regions_id as $region) {
+                RegionOrganization::create([
+                    "organization_id" => $request->id,
+                    "region_id" => $region
+                ]);
+            }
+        }
+        return response()->json([
+            "status" => 1
+        ], 200);
     }
 }

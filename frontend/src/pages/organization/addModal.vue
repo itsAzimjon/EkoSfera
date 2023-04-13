@@ -19,7 +19,7 @@
         <div class="text-h7">Tuman/Shahar</div>
         <q-select 
           filled
-          v-model="form.regions" 
+          v-model="form.regions_id" 
           multiple
           :options="regions"
           label='Tuman/Shahar'
@@ -39,22 +39,27 @@
  <script>
   export default {
     props: {
-    Data:{
-        type: Array,
-        required: true
+    Data: {
+      type: Array,
+      required: true
     },
-    text:{
+    text: {
+      type: String,
+      required: true
+    },
+    action: {
       type: String,
       required: true
     }
     },
     data() {
       return {
-        isPwd:true,
+        isPwd: true,
+        url: "",
         form: {
             id: "",
             name: "",
-            regions: [],
+            regions_id: [],
         },
         regions:[],
         rules: {
@@ -70,6 +75,7 @@
     ],
 
     mounted() {
+      this.url = this.action
       if (this.Data.length != 0) {
         this.form = this.Data
       }
@@ -89,7 +95,7 @@
           this.$e("Korxona nomi to'liq emas")
         } else {
           //console.log(this.form.regions)
-          this.$axios.post('organization/add', this.form).then(response => {
+          this.$axios.post('organization/' + this.url, this.form).then(response => {
             this.$s("Muvofaqqiyatli qo'shildi")
             this.form = {
               id: "",

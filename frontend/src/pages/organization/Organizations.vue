@@ -198,7 +198,8 @@
             // props forwarded to your custom component
             componentProps: {
               Data: [],
-              text: "Yangi Tashkilot"
+              text: "Yangi Tashkilot",
+              action: "add"
             }
           }).onOk((from) => {
             this.getData(this.pagination, this.search)
@@ -212,16 +213,10 @@
             // props forwarded to your custom component
             componentProps: {
               Data: data,
-              text: "Tashkilot Tahrirlash"
+              text: "Tashkilot Tahrirlash",
+              action: "edit"
             }
           }).onOk((from) => {
-            this.$axios.post('organization/edit',from).then(response=>{
-                this.$s("Muofaqqiyatli O'zgartirildi")
-                
-            }).catch(error=>{
-                this.$e("Qo'shilmadi")
-                
-            });
             this.getData(this.pagination,this.search)
           })
         },
