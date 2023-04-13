@@ -1,145 +1,124 @@
 <template>
-    <q-dialog ref="dialog" @hide="onDialogHide">
-     <q-card style="min-width: 50%" @keyup.enter="onOKClick" @keyup.esc="hide()">
-       <q-card-section class="sticky">
-         <div class="text-h6">{{ text }}</div>
-       </q-card-section>
+  <q-dialog ref="dialog" @hide="onDialogHide">
+    <q-card style="min-width: 50%" @keyup.enter="onOKClick" @keyup.esc="hide()">
+      <q-card-section class="sticky">
+        <div class="text-h6">{{ text }}</div>
+      </q-card-section>
 
-       <q-card-section class="q-pt-none">
-         <div class="text-h7">FIO</div>
-         <q-input 
-           dense 
-           v-model="form.name" 
-           autofocus 
-         />
-       </q-card-section>
+      <q-card-section class="q-pt-none">
+        <div class="text-h7">Xizmat ko'rsatuvchi korxona</div>
+        <q-input 
+          dense 
+          v-model="form.name" 
+          autofocus 
+          :rules="rules.nameRules"
+        />
+      </q-card-section>
 
-       <q-card-section class="q-pt-none">
-         <div class="text-h7">Email</div>
-         <q-input
-           dense 
-           v-model="form.email" 
-           autofocus 
-         />
-       </q-card-section>
+      <q-card-section class="q-pt-none">
+        <div class="text-h7">Tuman/Shahar</div>
+        <q-select 
+          filled
+          v-model="form.regions" 
+          multiple
+          :options="regions"
+          label='Tuman/Shahar'
+          emit-value
+          map-options
+        />
+      </q-card-section>
 
-       <q-card-section class="q-pt-none">
-         <div class="text-h7">Role</div>
-         <q-select 
-           filled
-           v-model="form.role_id" 
-           :options="roles" 
-           label='Foydalanuvchi vazifasi' 
-           emit-value
-           map-options
-         />
-       </q-card-section>
-
-       <q-card-section class="q-pt-none">
-         <div class="text-h7">Parol</div>
-         <q-input v-model="form.password" filled :type="isPwd ? 'password' : 'text'" hint="Parol 8ta belgidan iborat bo'lsin">
-         <template v-slot:append>
-           <q-icon
-             :name="isPwd ? 'visibility_off' : 'visibility'"
-             class="cursor-pointer"
-             @click="isPwd = !isPwd"
-           />
-         </template>
-       </q-input>
-       </q-card-section>
-
-       <q-card-section class="q-pt-none">
-         <div class="text-h7">Qayta parol</div>
-         <q-input v-model="form.return_password" filled :type="isPwd ? 'password' : 'text'" hint="Qayta kiriting">
-           <template v-slot:append>
-             <q-icon
-               :name="isPwd ? 'visibility_off' : 'visibility'"
-               class="cursor-pointer"
-               @click="isPwd = !isPwd"
-             />
-           </template>
-         </q-input>
-       </q-card-section>
-
-       <q-card-actions align="right" class="text-blue stickybutton">
-         <q-btn color="red"  label="Bekor qilish" @click="hide()"/>
-         <q-btn color="blue"  label="Saqlash" @click="onOKClick"/>
-       </q-card-actions>
-     </q-card>
-   </q-dialog>
- </template>
+      <q-card-actions align="right" class="text-blue stickybutton">
+        <q-btn color="red"  label="Bekor qilish" @click="hide()"/>
+        <q-btn color="blue"  label="Saqlash" @click="onOKClick"/>
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+</template>
  
  <script>
- export default {
-   props: {
-       Data:{
-           type:Array,
-           required:true
-       },
-       text:{
-         type:String,
-         required:true
-       }
-   },
-   data() {
-       return {
-           isPwd:true,
-           form:{
-               id: "",
-               name: "",
-               email: "",
-               role_id: "",
-               password: "",
-               return_password: ""
-           },
-           roles:[
-             {
-               value:0,
-               label:"Admin"
-             },
-             {
-               value:1,
-               label:"User"
-             }
-           ]
-       }
-   },
-   emits: [
-     'ok' //, 'hide'
-   ],
-   mounted() {
-       this.form=this.Data
-   },
-   methods: {
-     show () {
-       this.$refs.dialog.show()
-     },
-     hide () {
-       this.$refs.dialog.hide()
-     },
- 
-     onOKClick () {
-       if (this.form.name.length<3){
-         this.$e("FIO to'liq emas")
-       }
-       else if(!this.form.email.match( /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
-         this.$e("Email kiriting")
-       }
-       else if(this.form.role_id.length<1){
-         this.$e("Rol tanlang")
-       }
-       else if(this.form.password.length<8){
-         this.$e("Parol 8ta belgidan ko'p bo'lishi kerak")
-       }
-       else if(this.form.password!=this.form.return_password){
-         this.$e("Ikki parol bir biriga most emas")
-       }
-       else{
-         this.$emit('ok',this.form)
-         this.hide()
-       }
-      
-     },
+  export default {
+    props: {
+    Data:{
+        type: Array,
+        required: true
+    },
+    text:{
+      type: String,
+      required: true
+    }
+    },
+    data() {
+      return {
+        isPwd:true,
+        form: {
+            id: "",
+            name: "",
+            regions: [],
+        },
+        regions:[],
+        rules: {
+          nameRules: [
+            val => val.length >= 3 || 'Korxona nomi 3 ta harfdan ko\'p bo\'lishi kerak'
+          ]
+        }
+      }
+    },
+
+    emits: [
+      'ok' //, 'hide'
+    ],
+
+    mounted() {
+      if (this.Data.length != 0) {
+        this.form = this.Data
+      }
+      this.getRegions();
+    },
+
+    methods: {
+      show () {
+        this.$refs.dialog.show()
+      },
+      hide () {
+        this.$refs.dialog.hide()
+      },
+
+      onOKClick () {
+        if (this.form.name.length < 3) {
+          this.$e("Korxona nomi to'liq emas")
+        } else {
+          //console.log(this.form.regions)
+          this.$axios.post('organization/add', this.form).then(response => {
+            this.$s("Muvofaqqiyatli qo'shildi")
+            this.form = {
+              id: "",
+              name: "",
+              regions: [],
+            }
+            this.$emit('ok', this.form)
+            this.hide();
+          }).catch(error => {
+            this.$e(error.response.data.error);
+          });
+        }
+      },
+
+      getRegions () {
+        this.$axios.post('region/get').then(response => {
+          // console.log(response.data.datas);
+          let datas = response.data.datas;
+          for (var i = 0; i < datas.length; i++) {
+            var json = {
+                "value": datas[i].id,
+                "label": datas[i].name,
+            }
+            this.regions.push(json)
+          }
+        }).catch(error => {
+          this.$e("Tumanlar olishda xatolik")  
+        });
+      }
  
    //   onDialogHide () {
    //     // required to be emitted

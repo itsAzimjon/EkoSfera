@@ -102,94 +102,90 @@
                 rowsNumber: 0
             },
             columns: [
-                {
-                name: 'index',
-                label: '#',
-                field: 'index',
-                align: "left",
-                style: 'width: 10px',
-                sortable: true
-                },
-                {
-                name: 'name',
-                field: 'name',
-                label: 'FIO',
-                align: 'left',
-                sortable: true,
-                },
-                {
-                name: 'email',
-                field: 'email',
-                label: 'Email',
-                align: 'left',
-                sortable: true,
-                },
-                {
-                name: 'role',
-                field: 'role',
-                label: 'Role',
-                align: 'left',
-                sortable: false,
-                },
-                {
-                name: 'action',
-                label: 'Action',
-                align: 'left',
-                style: 'width: 20px !important',
-                },
+              {
+              name: 'index',
+              label: '#',
+              field: 'index',
+              align: "left",
+              style: 'width: 10px',
+              sortable: true
+              },
+              {
+              name: 'name',
+              field: 'name',
+              label: 'FIO',
+              align: 'left',
+              sortable: true,
+              },
+              {
+              name: 'email',
+              field: 'email',
+              label: 'Email',
+              align: 'left',
+              sortable: true,
+              },
+              {
+              name: 'role',
+              field: 'role',
+              label: 'Role',
+              align: 'left',
+              sortable: false,
+              },
+              {
+              name: 'action',
+              label: 'Action',
+              align: 'left',
+              style: 'width: 20px !important',
+              },
             ],
             visibleColumns:['index','name','email','role','action'],
             mainData: [],
-            AddData:{
-                id: "",
-                name: "",
-                email: "",
-                role_id: "",
-                password: "",
-                return_password: ""
-            },
         }
       },
       mounted() {
         //tokenni tekshiruvdan o'tkazish
         this.$store.dispatch('check').then(res => {
-            this.getData(this.pagination,this.search)
+          this.getData(this.pagination,this.search)
         }).catch(error => {
-          this.$router.push({name:"login"})
+          this.$router.push(
+            {
+              name: "login"
+            }
+          )
         })
       },
       methods: {
         getData(pagination, search) {
-            var data = {
-                'page': pagination.page,
-                'rowsPerPage': pagination.rowsPerPage,
-                'sortBy': pagination.sortBy,
-                'filter': search,
-                'descending': pagination.descending
-            };
-            this.$axios.post('users', data).then(response => {
-                console.log(response.data);
-                let data = response.data.users.data
-                this.mainData = []
-                let ind = (response.data.users.current_page-1) * response.data.users.per_page+1
-                for (var i = 0; i < data.length; i++) {
-                    var json = {
-                        "index": ind++,
-                        "id": data[i].id,
-                        "name": data[i].name,
-                        "email": data[i].email,
-                        "role": ['Admin','Users'][data[i].role_id],
-                        "password": "",
-                        "return_password": ""
-                    }
-                    this.mainData.push(json)
-                }
-                this.pagination.rowsNumber=response.data.users.total
+          var data = {
+            'page': pagination.page,
+            'rowsPerPage': pagination.rowsPerPage,
+            'sortBy': pagination.sortBy,
+            'filter': search,
+            'descending': pagination.descending
+          };
+          this.$axios.post('users', data).then(response => {
+              console.log(response.data);
+              let data = response.data.users.data
+              this.mainData = []
+              let ind = (response.data.users.current_page-1) * response.data.users.per_page+1
+              for (var i = 0; i < data.length; i++) {
+                  var json = {
+                      "index": ind++,
+                      "id": data[i].id,
+                      "name": data[i].name,
+                      "email": data[i].email,
+                      "role": ['Admin','Users'][data[i].role_id],
+                      "password": "",
+                      "return_password": ""
+                  }
+                  this.mainData.push(json)
+              }
+              this.pagination.rowsNumber=response.data.users.total
 
-            }).catch(error=>{
-                this.$e("Mauloat olishda xato")
-                
-            });
+          }).catch(error=>{
+              this.$e("Mauloat olishda xato")
+              
+          });
         },
         onRequest (props) {
             console.log(props);
@@ -201,38 +197,30 @@
         },
         
         ShowAddModal(){
-          
           this.$q.dialog({
             component: addModal,
   
             // props forwarded to your custom component
             componentProps: {
-                Data:this.AddData,
-                text:"Yangi Foydalanuvchi"
+              Data: [],
+              text: "Yangi Tashkilot"
             }
           }).onOk((from) => {
-            this.$axios.post('user/add',from).then(response=>{
-                this.$s("Muofaqqiyatli qo'shildi")
-                
-            }).catch(error=>{
-                this.$e("Qo'shilmadi")
-                
-            });
-            this.getData(this.pagination,this.search)
-
+            this.getData(this.pagination, this.search)
           })
         },
+
         ShowEditModal(data){
           this.$q.dialog({
             component: addModal,
   
             // props forwarded to your custom component
             componentProps: {
-              Data:data,
-              text:"Foydalanuvchini O'zgartish"
+              Data: data,
+              text: "Tashkilot Tahrirlash"
             }
           }).onOk((from) => {
-            this.$axios.post('user/edit',from).then(response=>{
+            this.$axios.post('organization/edit',from).then(response=>{
                 this.$s("Muofaqqiyatli O'zgartirildi")
                 
             }).catch(error=>{
