@@ -6,13 +6,28 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none margin">
+          <q-input filled v-model="form.sana" mask="date" :rules="['date']" label="Sanasi">
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                  <q-date v-model="form.sana">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+        </q-card-section>
+        <q-card-section class="q-pt-none margin">
           <q-input 
             dense 
-            v-model="form.name" 
-            label="Nomi"
+            v-model="form.buyurtmachi" 
+            label="Buyurtmachi"
             autofocus 
-            ref="name"
-            :rules="[ val => val.length >3 || 'Nomini kiriting']"
+            ref="buyurtmachi"
+            :rules="[ val => val.length >3 || 'Buyurtmachini kiriting']"
           />
         </q-card-section>
         <q-card-section class="q-pt-none margin">
@@ -27,143 +42,51 @@
           />
         </q-card-section>
         <q-card-section class="q-pt-none margin">
+          <q-input 
+            dense 
+            label="Texnika"
+            type="text"
+            v-model="form.texnika" 
+            ref="texnika"
+            :rules="[ val => val.length >3 || 'Texnikani kiriting']"
+            autofocus 
+          />
+        </q-card-section>
+        <q-card-section class="q-pt-none margin">
+          <q-input 
+            dense 
+            label="Haydovchi"
+            type="text"
+            v-model="form.haydovchi" 
+            ref="haydovchi"
+            :rules="[ val => val.length >3 || 'Haydovchi kiriting']"
+            autofocus 
+          />
+        </q-card-section>
+        <q-card-section class="q-pt-none margin">
+          <q-input 
+            dense 
+            label="Yuk"
+            type="text"
+            v-model="form.yuk" 
+            ref="yuk"
+            :rules="[ val => val.length >3 || 'Yukni kiriting']"
+            autofocus 
+          />
+        </q-card-section>
+        
+        
+        <q-card-section class="q-pt-none margin">
           <q-select 
             filled
-            v-model="form.type" 
+            v-model="form.chiqindi" 
             :options="types" 
-            label='Shartnoma turini tanlang' 
+            label='Chiqindi turini tanlang' 
             emit-value
             map-options
           />
         </q-card-section>
 
-        <q-card-section class="q-pt-none margin">
-          <q-input filled v-model="form.start" mask="date" :rules="['date']" ref="start" label="Shartnoma sanasi">
-            <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="form.start">
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="Close" color="primary" flat />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-        </q-card-section>
-        <q-card-section class="q-pt-none margin">
-          <q-input filled v-model="form.finish" mask="date" :rules="['date']" ref="finish" label="Shartnoma muddati">
-            <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="form.finish">
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="Close" color="primary" flat />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-        </q-card-section>
-        <q-card-section class="q-pt-none margin">
-          <q-input
-            label="Shartnoma raqami"
-            dense 
-            v-model="form.raqami" 
-            autofocus 
-          />
-        </q-card-section>
-        <q-card-section class="q-pt-none margin">
-          <q-input 
-            label="Shartnoma summasi "
-            dense 
-            v-model="form.summa" 
-            autofocus 
-          />
-        </q-card-section>
-        <q-card-section class="q-pt-none margin">
-          <q-select 
-            label="Tuman tanlang"
-            dense 
-            v-model="form.tuman_id" 
-            autofocus 
-            :options="tuman" 
-            emit-value
-            map-options
-          />
-        </q-card-section>
-        <q-card-section class="q-pt-none margin">
-          <q-input 
-            dense 
-            label="Manzil (tuman nomi yozilmasin)"
-            v-model="form.manzil" 
-            autofocus 
-          />
-        </q-card-section>
-        <q-card-section class="q-pt-none margin">
-          <q-input 
-            dense 
-            label="Rahbar"
-            v-model="form.rahbar" 
-            autofocus 
-          />
-        </q-card-section>
-        <q-card-section class="q-pt-none margin">
-          <q-input 
-            dense 
-            label="Bugalter"
-            v-model="form.bugalter" 
-            autofocus 
-          />
-        </q-card-section>
-        <q-card-section class="q-pt-none margin">
-          <q-input 
-            dense 
-            type="number"
-            :rules="[ val => val.length == 9 || 'Telefon raqam kiriting']"
-            label="Telefon"
-            v-model="form.tel" 
-            autofocus 
-          >
-          <template v-slot:prepend>
-            +998
-          </template>
-          </q-input>
-        </q-card-section>
-        <q-card-section class="q-pt-none margin">
-          <q-input 
-            dense 
-            label="MFO"
-            v-model="form.mfo" 
-            autofocus 
-          />
-        </q-card-section>
-        <q-card-section class="q-pt-none margin">
-          <q-input 
-            dense 
-            label="Hison raqam"
-            v-model="form.hison_raqam" 
-            autofocus 
-          />
-        </q-card-section>
-        <q-card-section class="q-pt-none margin">
-          <q-input 
-            dense 
-            label="QQS to'lovchining ro'yxatdan o'tish ko'di"
-            v-model="form.qqs" 
-            autofocus 
-          />
-        </q-card-section>
-        <q-card-section class="q-pt-none margin" v-if="form.type==2">
-          <q-input 
-            dense 
-            label="G'azna STIR"
-            v-model="form.gazna" 
-            autofocus 
-          />
-        </q-card-section>
         <q-card-actions align="right" class="text-blue stickybutton">
           <q-btn color="red"  label="Bekor qilish" @click="hide()"/>
           <q-btn color="blue"  label="Saqlash" @click="onOKClick"/>
@@ -198,11 +121,11 @@
             types:[
               {
                 value:1,
-                label:"Yuridik"
+                label:"Maishiy"
               },
               {
                 value:2,
-                label:"Budjet"
+                label:"Suyuq"
               }
             ],
             tuman:[]
@@ -236,9 +159,8 @@
       },
   
       onOKClick () {
-        if (this.form.name.length<3){
-          this.$refs.name.isDirty = false
-          this.$e("Nomi kiritilmagan")
+        if(this.form.sana.length<1){
+          this.$e("Sharnoma sanasini kiriting")
         }
         else if(this.form.stir.length<3){
           this.$refs.stir.isDirty = false
@@ -248,44 +170,17 @@
           this.$refs.type.isDirty = false
           this.$e("Turini tanlang")
         }
-        else if(this.form.start.length<1){
-          this.$e("Sharnoma sanasini kiriting")
+        else if(this.form.buyurtmachi.length<1){
+          this.$e("Buyurtmachini kiriting")
         }
-        else if(this.form.finish.length<1){
-          this.$e("Sharnoma muddatini kiriting")
+        else if(this.form.texnika.length<1){
+          this.$e("Texnika tanlang")
         }
-        else if(this.form.raqami.length<1){
-          this.$e("Sharnoma raqamini kiriting")
+        else if(this.form.haydovchi.length<3){
+          this.$e("Haydovchi kiriting")
         }
-        else if(this.form.summa.length<1){
-          this.$e("Sharnoma summasini kiriting")
-        }
-        else if(this.form.tuman_id.length<1){
-          this.$e("Tuman tanlang")
-        }
-        else if(this.form.manzil.length<3){
-          this.$e("Manzil kiriting")
-        }
-        else if(this.form.rahbar.length<3){
-          this.$e("Rahbar kiriting")
-        }
-        else if(this.form.bugalter.length<3){
-          this.$e("Bugalter kiriting")
-        }
-        else if(this.form.tel.length!=9){
-          this.$e("Telefon raqamni kiriting")
-        }
-        else if(this.form.mfo.length<3){
-          this.$e("MFO kiriting")
-        }
-        else if(this.form.hison_raqam.length<3){
-          this.$e("Hison raqamini kiriting")
-        }
-        else if(this.form.qqs.length<1){
-          this.$e("QQS to'lovchining ro'yxatdan o'tish ko'dini kiriting")
-        }
-        else if(this.form.gazna.length<1 && this.form.type==2){
-          this.$e("Gazna STIRini kiriting")
+        else if(this.form.yuk.length<3){
+          this.$e("Yukni kiriting")
         }
         else{
           this.$emit('ok',this.form)

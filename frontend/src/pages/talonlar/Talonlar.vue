@@ -3,7 +3,7 @@
       <q-table
         flat bordered
         ref="tableRef"
-        title="Foydalanuvchilar"
+        title="Talonlar"
         :rows="talonlar"
         :columns="columns"
         row-key="id"
@@ -41,7 +41,7 @@
           <q-btn
             color="blue"
             :disable="loading"
-            label="Add talonlar"
+            label="Qo'shish"
             @click="ShowAddModal"
           />
           
@@ -140,9 +140,9 @@
                     sortable: false,
                 },
                 {
-                    name: 'hayadovchi',
-                    field: 'hayadovchi',
-                    label: 'Hayadovchi',
+                    name: 'haydovchi',
+                    field: 'haydovchi',
+                    label: 'Haydovchi',
                     align: 'left',
                     sortable: false,
                 },
@@ -154,8 +154,8 @@
                     sortable: false,
                 },
                 {
-                    name: 'type',
-                    field: 'type',
+                    name: 'chiqindi',
+                    field: 'chiqindi',
                     label: 'Chiqindi turi',
                     align: 'left',
                     sortable: false,
@@ -167,16 +167,16 @@
                     style: 'width: 20px !important',
                 },
             ],
-            visibleColumns:['index','sana','buyurtmachi','stir','texnika','hayadovchi','yuk','type','action'],
+            visibleColumns:['index','sana','buyurtmachi','stir','texnika','haydovchi','yuk','chiqindi','action'],
             talonlar:[],
             AddData:{
                 id: "",
                 sana:"",
-                buyurtmachi_id:"",
+                buyurtmachi:"",
                 texnika:"",
-                hayadovchi:"",
+                haydovchi:"",
                 yuk:"",
-                type:"",
+                chiqindi:"",
             },
         }
       },
@@ -209,16 +209,16 @@
                         "id": data[i].id,
                         "sana": data[i].sana,
                         "buyurtmachi": data[i].buyurtmachi.name,
-                        "hayadovchi": data[i].hayadovchi,
+                        "haydovchi": data[i].haydovchi,
                         "texnika": data[i].texnika,
-                        "type": ['Mayshiy','Suyuq'][data[i].type],
+                        "chiqindi": ['Maishiy','Suyuq'][data[i].type],
                     }
                     this.talonlar.push(json)
                 }
                 this.pagination.rowsNumber=response.data.talonlar.total
 
             }).catch(error=>{
-                this.$e("Mauloat olishda xato")
+                this.$e("Malumot olishda xato")
                 
             });
         },
@@ -238,11 +238,11 @@
             // props forwarded to your custom component
             componentProps: {
                 Data:this.AddData,
-                text:"Yangi Foydalanuvchi"
+                text:"Qo'shish"
             }
           }).onOk((from) => {
             this.$axios.post('talonlar/add',from).then(response=>{
-                this.$s("Muofaqqiyatli qo'shildi")
+                this.$s("Muvaffaqqiyatli qo'shildi")
                 
             }).catch(error=>{
                 this.$e("Qo'shilmadi")
@@ -251,17 +251,19 @@
             this.AddData={
                 id: "",
                 sana:"",
-                buyurtmachi_id:"",
+                buyurtmachi:"",
+                stir:"",
                 texnika:"",
-                hayadovchi:"",
+                haydovchi:"",
                 yuk:"",
-                type:"",
+                chiqindi:"",
             },
             this.getData(this.pagination,this.search)
 
           })
         },
         ShowEditModal(data){
+          dd(this.$data);
           this.$q.dialog({
             component: AddEdit,
   
