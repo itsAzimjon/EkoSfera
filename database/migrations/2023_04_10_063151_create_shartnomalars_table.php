@@ -15,6 +15,7 @@ class CreateShartnomalarsTable extends Migration
     {
         Schema::create('shartnomalars', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('tuman_id');
             $table->string('stir');
             $table->string('name');
             $table->string('type');
@@ -29,8 +30,8 @@ class CreateShartnomalarsTable extends Migration
             $table->string('mfo');
             $table->string('hison_raqam');
             $table->string('qqs');
-            $table->string('varaqa');
-            $table->string('gazna');
+            $table->string('gazna')->nullable();
+            $table->string('holati')->default(1);
             $table->timestamps();
         });
     }
