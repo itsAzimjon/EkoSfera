@@ -1,54 +1,45 @@
-import Login from '../layouts/Login.vue'
-import MainLayout from '../layouts/MainLayout.vue'
-import Index from '../pages/Index.vue'
-import Users from '../pages/user/Users.vue'
-import Talonlar from '../pages/talonlar/Talonlar.vue'
-import Shartnomalar from '../pages/shartnomalar/Shartnoma.vue'
-import Organizations from '../pages/organization/Organizations.vue'
-import Error404 from '../layouts/Error404.vue'
-
 const routes = [
   {
     name:"login",
     path: '/login',
-    component: () => Login,
+    component: () => import('layouts/Login.vue'),
   },
   {
     name:"main",
-    component: () =>MainLayout,
+    component: () =>import('layouts/MainLayout.vue'),
     path:"",
     children: [
       {
         path: '/',
         name: 'dashboard',
-        component: () => Index,
+        component: () => import('pages/Index.vue'),
       },
       {
         path: '/organizations',
         name: 'organizations',
-        component: () => Organizations,
+        component: () => import('pages/organization/Organizations.vue'),
       },
       {
         path: '/users',
         name: 'users',
-        component: () => Users,
+        component: () => import('pages/user/Users.vue'),
       },
       {
         path: '/shartnomalar',
         name: 'shartnomalar',
-        component: () => Shartnomalar,
+        component: () => import('pages/shartnomalar/Shartnoma.vue'),
       },
       {
         path: '/talonlar',
         name: 'talonlar',
-        component: () => Talonlar,
+        component: () => import('pages/talonlar/Talonlar.vue'),
       },
     ],
   },
   {
     name:"eror",
     path: '/:catchAll(.*)*',
-    component: () => Error404,
+    component: () => import('layouts/Error404.vue'),
   },
   
 ]

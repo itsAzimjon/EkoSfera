@@ -8,8 +8,9 @@
 </template>
 
 <script>
+import { defineComponent, ref } from 'vue'
 import HeadLeftContent from '../components/HeadLeftContent.vue'
-export default {
+export default defineComponent({
     name: 'LayoutMain',
     components:{
       HeadLeftContent
@@ -22,8 +23,9 @@ export default {
           this.$router.push({name:"login"})
         })
 
+
   },
     
     
-}
+})
 </script>

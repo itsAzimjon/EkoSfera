@@ -28,7 +28,7 @@
     
      <q-list>
         <q-item-label header>Menu</q-item-label>
-        <q-item  tag="a"  :to='{name:"dashboard"}' clickable>
+        <q-item    :to='{name:"dashboard"}' clickable>
           <q-item-section avatar>
             <q-icon name="dashboard" />
           </q-item-section>
@@ -36,7 +36,7 @@
             <q-item-label>Asosiy</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item  tag="a"  :to='{name:"organizations"}' clickable>
+        <q-item    :to='{name:"organizations"}' clickable>
           <q-item-section avatar>
             <q-icon name="dashboard" />
           </q-item-section>
@@ -45,7 +45,7 @@
           </q-item-section>
         </q-item>
         <q-expansion-item :content-inset-level="0.5" expand-separator icon="assessment" label="Yuridik bo'lim" caption="Shartnomalar va talonlar" >
-        <q-item  tag="a"  :to='{name:"shartnomalar"}' clickable>
+        <q-item    :to='{name:"shartnomalar"}' clickable>
           <q-item-section avatar>
             <q-icon name="receipt" />
           </q-item-section>
@@ -53,7 +53,7 @@
             <q-item-label>Shartnomalar</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item  tag="a"  :to='{name:"talonlar"}' clickable>
+        <q-item    :to='{name:"talonlar"}' clickable>
           <q-item-section avatar>
             <q-icon name="receipt" />
           </q-item-section>
@@ -61,7 +61,7 @@
             <q-item-label>Talonlar</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item  tag="a"  :to='{name:"dalolatnoma"}' clickable>
+        <q-item    :to='{name:"dalolatnoma"}' clickable>
           <q-item-section avatar>
             <q-icon name="receipt" />
           </q-item-section>
@@ -69,7 +69,7 @@
             <q-item-label>Dalolatnoma</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item  tag="a"  :to='{name:"buyurtma"}' clickable>
+        <q-item    :to='{name:"buyurtma"}' clickable>
           <q-item-section avatar>
             <q-icon name="receipt" />
           </q-item-section>
@@ -81,7 +81,7 @@
        
 
       </q-expansion-item>
-        <q-item  tag="a"  :to='{name:"kadrlar"}' clickable>
+        <q-item    :to='{name:"kadrlar"}' clickable>
           <q-item-section avatar>
             <q-icon name="people" />
           </q-item-section>
@@ -89,7 +89,7 @@
             <q-item-label>Kadrlar bo'limi</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item  tag="a"  :to='{name:"hisobotlar"}' clickable>
+        <q-item    :to='{name:"hisobotlar"}' clickable>
           <q-item-section avatar>
             <q-icon name="dashboard" />
           </q-item-section>
@@ -97,7 +97,7 @@
             <q-item-label>Hisobotlar</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item  tag="a"  :to='{name:"shablonlar"}' clickable>
+        <q-item    :to='{name:"shablonlar"}' clickable>
           <q-item-section avatar>
             <q-icon name="dashboard" />
           </q-item-section>
@@ -106,7 +106,7 @@
           </q-item-section>
         </q-item>
         
-        <q-item  tag="a"  :to='{name:"users"}' clickable>
+        <q-item    :to='{name:"users"}' clickable>
           <q-item-section avatar>
             <q-icon name="people" />
           </q-item-section>
@@ -114,7 +114,7 @@
             <q-item-label>Foydalanuvchilar</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item  tag="a"  :to='{name:"roles"}' clickable>
+        <q-item    :to='{name:"roles"}' clickable>
           <q-item-section avatar>
             <q-icon name="settings" />
           </q-item-section>
@@ -122,7 +122,7 @@
             <q-item-label>Rollar</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item @click="logout" tag="a"  clickable>
+        <q-item @click="logout"   clickable>
             <q-item-section avatar>
               <q-icon name="logout" />
             </q-item-section>

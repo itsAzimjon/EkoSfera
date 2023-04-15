@@ -13,7 +13,7 @@
             </h5>
           </div>
           <div class="row">
-            <q-form @submit="signin" ref="form" class="q-gutter-md">
+            <div class="q-gutter-md">
               <q-card square bordered class="q-pa-lg shadow-8">
                 <q-card-section>
                   <q-input
@@ -41,17 +41,16 @@
                 </q-card-section>
                 <q-card-actions class="q-px-md">
                   <q-btn
-                    type="submit"
                     unelevated
                     color="primary"
                     size="lg"
                     class="full-width"
                     label="Login"
-                    
+                    @click="signin" 
                   />
                 </q-card-actions>
               </q-card>
-            </q-form>
+            </div>
           </div>
         </div>
       </q-page>
@@ -101,9 +100,11 @@ export default defineComponent({
   },
   mounted(){
 
-    if(this.$store.state.auth.user!=null){
+    this.$store.dispatch('check').then(res=>{
       this.$router.push({name:"dashboard"})
-    }
+      }).catch(error=>{
+        
+      })
   }
   
 });

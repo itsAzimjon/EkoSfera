@@ -8,6 +8,7 @@ import { getItem } from '../helpers/Storage'
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
+// const api = axios.create({ baseURL: 'http://api.ekosfera.uz/api' })
 const api = axios.create({ baseURL: 'http://127.0.0.1:8000/api' })
 axios.interceptors.request.use(config=>{
   const token=getItem('token')
