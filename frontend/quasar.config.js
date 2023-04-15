@@ -75,13 +75,19 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-devServer
     devServer: {
-      server: {
-        type: 'http'
-      },
-      port: 8080,
-      open: true // opens browser window automatically
+      https:false,
+      port:8080,
+      open:true,
+      proxy: {
+        '/uploads': {
+          target: 'http://uchd.lo/uploads',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/uploads': ''
+          }
+        }
+      }
     },
-
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-framework
     framework: {
       config: {},

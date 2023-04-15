@@ -18,13 +18,11 @@ class TalonlarController extends Controller
             $request->sortBy='id';
         }
         $data=Talonlar::where('sana','like','%'.$request->filter.'%')
-       
-        ->orwhere('stir','like','%'.$request->filter.'%')
-        ->orwhere('buyurtmachi','like','%'.$request->filter.'%')
+        ->with('buyurtmachi')
         ->orwhere('texnika','like','%'.$request->filter.'%')
         ->orwhere('haydovchi','like','%'.$request->filter.'%')
         ->orwhere('yuk','like','%'.$request->filter.'%')
-        ->orwhere('chiqindi','like','%'.$request->filter.'%')
+        ->orwhere('type','like','%'.$request->filter.'%')
         ->orderBy($request->sortBy,$sort)
         ->paginate($request->rowsPerPage);
         return response()->json([
@@ -34,27 +32,24 @@ class TalonlarController extends Controller
    
     public function add(Request $request)
     {
-        dd($request);
 
         $this->validate($request, [
             "sana" => "required",
-            "buyurtmachi" => "required",
-            "stir" => "required",
+            "buyurtmachi_id" => "required",
             "texnika" => "required",
             "haydovchi" => "required",
             "yuk" => "required",
-            "chiqindi" => "required",
+            "type" => "required",
            
         ]);
 
         $talonlar = Talonlar::create([
             "sana" => $request->sana,
-            "buyurtmachi" =>$request->buyurtmachi ,
-            "stir" =>$request->stir ,
+            "buyurtmachi_id" =>$request->buyurtmachi_id ,
             "texnika" =>$request->texnika ,
             "haydovchi" =>$request->haydovchi ,
             "yuk" =>$request->yuk ,
-            "chiqindi" =>$request->chiqindi ,
+            "type" =>$request->type ,
 
         ]);
         return response()->json([

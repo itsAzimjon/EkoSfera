@@ -20,25 +20,17 @@
             </template>
           </q-input>
         </q-card-section>
+        
         <q-card-section class="q-pt-none margin">
-          <q-input 
-            dense 
-            v-model="form.buyurtmachi" 
-            label="Buyurtmachi"
-            autofocus 
-            ref="buyurtmachi"
-            :rules="[ val => val.length >3 || 'Buyurtmachini kiriting']"
-          />
-        </q-card-section>
-        <q-card-section class="q-pt-none margin">
-          <q-input 
-            dense 
-            label="Stir"
-            type="number"
-            v-model="form.stir" 
-            ref="stir"
-            :rules="[ val => val.length >3 || 'Stir kiriting']"
-            autofocus 
+          <q-select 
+            filled
+            use-input
+            @filter="buyurtna_filter"
+            v-model="form.buyurtmachi_id" 
+            :options="shartnomalar" 
+            label='Buyurtmachini tanlang' 
+            emit-value
+            map-options
           />
         </q-card-section>
         <q-card-section class="q-pt-none margin">
@@ -48,7 +40,7 @@
             type="text"
             v-model="form.texnika" 
             ref="texnika"
-            :rules="[ val => val.length >3 || 'Texnikani kiriting']"
+            :rules="[ val => val.length >1 || 'Texnikani kiriting']"
             autofocus 
           />
         </q-card-section>
@@ -70,7 +62,7 @@
             type="text"
             v-model="form.yuk" 
             ref="yuk"
-            :rules="[ val => val.length >3 || 'Yukni kiriting']"
+            :rules="[ val => val.length >1 || 'Yukni kiriting']"
             autofocus 
           />
         </q-card-section>
@@ -79,7 +71,8 @@
         <q-card-section class="q-pt-none margin">
           <q-select 
             filled
-            v-model="form.chiqindi" 
+            use-input
+            v-model="form.type" 
             :options="types" 
             label='Chiqindi turini tanlang' 
             emit-value
@@ -128,7 +121,8 @@
                 label:"Suyuq"
               }
             ],
-            tuman:[]
+            shartnomalar:[],
+            all_shartnomalar:[]
         }
     },
     emits: [
@@ -136,16 +130,17 @@
     ],
     mounted() {
         this.form=this.Data
-        this.$axios.get('tumanlar').then(response=>{
-          let data=response.data.tumanlar;
-          this.tuman=[]
+        this.$axios.get('shartnomalar').then(response=>{
+          let data=response.data.shartnomalar;
+          this.shartnomalar=[]
           for(var i=0;i<data.length;i++){
             var json = {
                   value:data[i].id,
                   label:data[i].name
               }
-              this.tuman.push(json)
+              this.shartnomalar.push(json)
           }
+          this.all_shartnomalar=this.shartnomalar;
         }).catch(error=>{
           this.$e("Tuman olishda muammo")
         });
@@ -157,21 +152,34 @@
       hide () {
         this.$refs.dialog.hide()
       },
-  
+      buyurtna_filter (val, update) {
+          if (val === '') {
+            update(() => {
+              this.optionsStore = this.store
+
+              // here you have access to "ref" which
+              // is the Vue reference of the QSelect
+            })
+            return
+          }
+
+          update(() => {
+            var needle=val.toLowerCase()
+            this.shartnomalar=this.all_shartnomalar.filter((v) => v.label.toLowerCase().indexOf(needle) > -1,)
+          })
+        
+       
+      },
+      
       onOKClick () {
         if(this.form.sana.length<1){
-          this.$e("Sharnoma sanasini kiriting")
-        }
-        else if(this.form.stir.length<3){
-          this.$refs.stir.isDirty = false
-          this.$e("Stir kiriting")
+          this.$e("Sanani kiriting")
         }
         else if(this.form.type.length<1){
-          this.$refs.type.isDirty = false
           this.$e("Turini tanlang")
         }
-        else if(this.form.buyurtmachi.length<1){
-          this.$e("Buyurtmachini kiriting")
+        else if(this.form.buyurtmachi_id.length<1){
+          this.$e("Buyurtmachini tanlang")
         }
         else if(this.form.texnika.length<1){
           this.$e("Texnika tanlang")
@@ -179,7 +187,7 @@
         else if(this.form.haydovchi.length<3){
           this.$e("Haydovchi kiriting")
         }
-        else if(this.form.yuk.length<3){
+        else if(this.form.yuk.length<1){
           this.$e("Yukni kiriting")
         }
         else{

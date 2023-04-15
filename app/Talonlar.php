@@ -9,12 +9,15 @@ class Talonlar extends Model
     protected $fillable = [
         "id",
         "sana",
-        "buyurtmachi",
-        "stir",
+        "buyurtmachi_id",
         "texnika",
         "haydovchi",
         "yuk",
-        "chiqindi",
+        "type",
         "created_at", "updated_at"
     ];
+    public function buyurtmachi()
+    {
+        return $this->belongsTo(\App\Shartnomalar::class,'buyurtmachi_id','id');
+    }
 }

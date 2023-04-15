@@ -170,13 +170,12 @@
             visibleColumns:['index','sana','buyurtmachi','stir','texnika','haydovchi','yuk','chiqindi','action'],
             talonlar:[],
             AddData:{
-                id: "",
                 sana:"",
-                buyurtmachi:"",
+                buyurtmachi_id:"",
                 texnika:"",
                 haydovchi:"",
                 yuk:"",
-                chiqindi:"",
+                type:"",
             },
         }
       },
@@ -209,6 +208,10 @@
                         "id": data[i].id,
                         "sana": data[i].sana,
                         "buyurtmachi": data[i].buyurtmachi.name,
+                        "stir": data[i].buyurtmachi.stir,
+                        "buyurtmachi_id": data[i].buyurtmachi_id,
+                        "type": data[i].type,
+                        "yuk": data[i].yuk,
                         "haydovchi": data[i].haydovchi,
                         "texnika": data[i].texnika,
                         "chiqindi": ['Maishiy','Suyuq'][data[i].type],
@@ -263,7 +266,6 @@
           })
         },
         ShowEditModal(data){
-          dd(this.$data);
           this.$q.dialog({
             component: AddEdit,
   

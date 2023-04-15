@@ -16,12 +16,11 @@ class CreateTalonlarsTable extends Migration
         Schema::create('talonlars', function (Blueprint $table) {
             $table->id();
             $table->date('sana')->format('d/m/Y');
-            $table->string('buyurtmachi')->default('0');
-            $table->string('stir')->default('0');
+            $table->unsignedBigInteger('buyurtmachi_id')->default('0');
             $table->string('texnika')->default('0');
             $table->string('haydovchi')->default('0');
             $table->string('yuk')->default('0');
-            $table->string('chiqindi')->default('0');
+            $table->string('type')->default('0');
             $table->timestamps();
         });
     }

@@ -32,6 +32,13 @@ class ShartnomalarController extends Controller
             'shartnomalar'=> $data,
         ]); 
     }
+    public function get()
+    {
+        $data=Shartnomalar::all();
+        return response()->json([
+            'shartnomalar'=> $data,
+        ]); 
+    }
     public function tumanlar()
     {
         return response()->json([

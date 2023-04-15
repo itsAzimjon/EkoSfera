@@ -9,6 +9,7 @@ Route::get("user",[LoginController::class,'checkUser'])->name('checkUser');
 Route::post("users",[LoginController::class,'AllUser']);
 
 Route::post("shartnomalar",[ShartnomalarController::class,'getAll']);
+Route::get("shartnomalar",[ShartnomalarController::class,'get']);
 Route::post("shartnomalar/add",[ShartnomalarController::class,'add']);
 Route::post("shartnomalar/edit",[ShartnomalarController::class,'edit']);
 Route::post("shartnomalar/delete",[ShartnomalarController::class,'delete']);
