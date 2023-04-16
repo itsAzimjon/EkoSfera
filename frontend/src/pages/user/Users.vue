@@ -126,6 +126,20 @@
                 sortable: true,
                 },
                 {
+                name: 'tuman',
+                field: 'tuman',
+                label: 'Tuman',
+                align: 'left',
+                sortable: false,
+                },
+                {
+                name: 'organizathon',
+                field: 'organizathon',
+                label: 'Organizathon',
+                align: 'left',
+                sortable: false,
+                },
+                {
                 name: 'role',
                 field: 'role',
                 label: 'Role',
@@ -146,6 +160,8 @@
                 name: "",
                 email: "",
                 role_id: "",
+                tuman_id: "",
+                organization_id: "",
                 password: "",
                 return_password: ""
             },
@@ -180,7 +196,12 @@
                         "id": data[i].id,
                         "name": data[i].name,
                         "email": data[i].email,
-                        "role": ['Admin','Users'][data[i].role_id],
+                        "role_id": parseInt(data[i].role_id),
+                        "tuman": data[i].tuman?data[i].tuman.name:"",
+                        "organization": data[i].organization?data[i].organization.name:"",
+                        "tuman_id": data[i].tuman_id,
+                        "organization_id": data[i].organization_id,
+                        "role": ['','Admin',"Korxona admin","Tuman admin"][data[i].role_id],
                         "password": "",
                         "return_password": ""
                     }

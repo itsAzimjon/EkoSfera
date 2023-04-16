@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Organization;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -56,7 +57,11 @@ class LoginController extends Controller
         if($request->sortBy=="index"){
             $request->sortBy='id';
         }
-        $users=User::where('name','like','%'.$request->filter.'%')->orwhere('email','like','%'.$request->filter.'%')->orderBy($request->sortBy,$sort)->paginate($request->rowsPerPage);
+        $users=User::with("tuman")->with('organization')
+        ->where('name','like','%'.$request->filter.'%')
+        ->orwhere('email','like','%'.$request->filter.'%')
+        ->orderBy($request->sortBy,$sort)
+        ->paginate($request->rowsPerPage);
         return response()->json([
             'users'=> $users,
         ]); 
@@ -127,6 +132,13 @@ class LoginController extends Controller
         User::find($request->id)->delete();
         return response()->json([
             'massage'=>"Success"
+        ]); 
+    }
+    public function organization()
+    {
+        $data=Organization::all();
+        return response()->json([
+            'organization'=>$data
         ]); 
     }
 }

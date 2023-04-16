@@ -142,7 +142,7 @@
           }
           this.all_shartnomalar=this.shartnomalar;
         }).catch(error=>{
-          this.$e("Tuman olishda muammo")
+          this.$e("Sharnomalar olinmadi")
         });
     },
     methods: {

@@ -6,25 +6,26 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <div class="text-h7">FIO</div>
           <q-input 
             dense 
             v-model="form.name" 
             autofocus 
+            label='FIO' 
+
           />
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <div class="text-h7">Email</div>
           <q-input
             dense 
             v-model="form.email" 
             autofocus 
+            label='Email' 
+
           />
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <div class="text-h7">Role</div>
           <q-select 
             filled
             v-model="form.role_id" 
@@ -34,10 +35,29 @@
             map-options
           />
         </q-card-section>
-
+        <q-card-section class="q-pt-none margin"  v-if="form.role_id==3">
+          <q-select 
+            filled
+           
+            v-model="form.tuman_id" 
+            :options="tuman" 
+            label='Tuman tanlang' 
+            emit-value
+            map-options
+          />
+        </q-card-section>
+        <q-card-section class="q-pt-none margin" v-if="form.role_id==2">
+          <q-select 
+            filled
+            v-model="form.organization_id" 
+            :options="organization" 
+            label='Korxonani tanlang' 
+            emit-value
+            map-options
+          />
+        </q-card-section>
         <q-card-section class="q-pt-none">
-          <div class="text-h7">Parol</div>
-          <q-input v-model="form.password" filled :type="isPwd ? 'password' : 'text'" hint="Parol 8ta belgidan iborat bo'lsin">
+          <q-input label="Parol" v-model="form.password" filled :type="isPwd ? 'password' : 'text'" hint="Parol 8ta belgidan iborat bo'lsin">
           <template v-slot:append>
             <q-icon
               :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -49,8 +69,7 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <div class="text-h7">Qayta parol</div>
-          <q-input v-model="form.return_password" filled :type="isPwd ? 'password' : 'text'" hint="Qayta kiriting">
+          <q-input label="Qayta parol" v-model="form.return_password" filled :type="isPwd ? 'password' : 'text'" hint="Qayta kiriting">
             <template v-slot:append>
               <q-icon
                 :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -73,7 +92,7 @@
   export default {
     props: {
         Data:{
-            type:Array,
+            type:Object,
             required:true
         },
         text:{
@@ -89,26 +108,62 @@
                 name: "",
                 email: "",
                 role_id: "",
+                tuman_id: "",
+                organization_id: "",
                 password: "",
                 return_password: ""
             },
             roles:[
               {
-                value:0,
-                label:"Admin"
+                value:1,
+                label:"Asosiy Admin"
               },
               {
-                value:1,
-                label:"User"
+                value:2,
+                label:"Xizmat ko'rsatish korxona admini"
+              }, 
+              {
+                value:3,
+                label:"Tuman admin"
               }
-            ]
+            ],
+            tuman:[],
+            organization:[]
         }
     },
     emits: [
       'ok' //, 'hide'
     ],
     mounted() {
-        this.form=this.Data
+      this.form=this.Data
+      console.log(this.Data);
+      this.$axios.get('tumanlar').then(response=>{
+        let data=response.data.tumanlar;
+        this.tuman=[]
+        for(var i=0;i<data.length;i++){
+          var json = {
+                value:data[i].id,
+                label:data[i].name
+            }
+            this.tuman.push(json)
+        }
+
+      }).catch(error=>{
+        this.$e("Tuman olishda muammo")
+      });
+      this.$axios.get('organization').then(response=>{
+        let data=response.data.organization;
+        this.organization=[]
+        for(var i=0;i<data.length;i++){
+          var json = {
+                value:data[i].id,
+                label:data[i].name
+            }
+            this.organization.push(json)
+        }
+      }).catch(error=>{
+        this.$e("Korxanalarni olishda muammo")
+      });
     },
     methods: {
       show () {
@@ -126,7 +181,13 @@
           this.$e("Email kiriting")
         }
         else if(this.form.role_id.length<1){
-          this.$e("Rol tanlang")
+          this.$e("Foydalanuvchi vazifasini tanlang")
+        }
+        else if(this.form.role_id==2 && this.form.organization_id.length<1){
+          this.$e("Korxona  tanlang")
+        }
+        else if(this.form.role_id==3 && this.form.tuman_id.length<1){
+          this.$e("Tuman tanlang")
         }
         else if(this.form.password.length<8){
           this.$e("Parol 8ta belgidan ko'p bo'lishi kerak")

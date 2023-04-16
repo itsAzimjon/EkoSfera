@@ -7,6 +7,7 @@ Route::post('user/edit',[LoginController::class,'edit']);
 Route::post('user/delete',[LoginController::class,'delete']);
 Route::get("user",[LoginController::class,'checkUser'])->name('checkUser');
 Route::post("users",[LoginController::class,'AllUser']);
+Route::get("organization",[LoginController::class,'organization']);
 
 Route::post("shartnomalar",[ShartnomalarController::class,'getAll']);
 Route::get("shartnomalar",[ShartnomalarController::class,'get']);

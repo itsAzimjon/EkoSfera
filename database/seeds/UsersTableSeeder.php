@@ -24,7 +24,7 @@ class UsersTableSeeder extends Seeder
         
         $regions = [
             "Arnasoy tumani",
-            "G'allarol tumani",
+            "G'allaorol tumani",
             "Paxtakor tumani",
             "Mirzacho'l tumani",
             "Forish tumani",

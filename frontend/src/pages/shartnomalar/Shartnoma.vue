@@ -308,7 +308,7 @@
                         id: data[i].id,
                         name:data[i].name,
                         stir:data[i].stir,
-                        type:data[i].type,
+                        type:parseInt(data[i].type),
                         start:data[i].start,
                         finish:data[i].finish,
                         raqami:data[i].raqami,
@@ -321,7 +321,7 @@
                         hison_raqam:data[i].hison_raqam,
                         qqs:data[i].qqs,
                         gazna:data[i].gazna,
-                        tuman_id:data[i].tuman_id,
+                        tuman_id:parseInt(data[i].tuman_id),
                         holat:data[i].holat,
                     }
                     this.shartnoma.push(json)
