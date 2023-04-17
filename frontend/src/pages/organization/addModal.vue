@@ -105,7 +105,9 @@
             this.$emit('ok', this.form)
             this.hide();
           }).catch(error => {
-            this.$e(error.response.data.error);
+            this.$e("error");
+            this.$checkstatus(error.response.status)
+
           });
         }
       },

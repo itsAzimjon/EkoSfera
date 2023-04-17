@@ -66,6 +66,11 @@ const i = (mess) => {
         ]
     })
 }
+const checkstatus = (status) =>{
+    if (status==401){
+        window.location="/"
+    }
+}
 export default boot(({ app,store }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
   app.config.globalProperties.$axios = axios
@@ -77,6 +82,7 @@ export default boot(({ app,store }) => {
   app.config.globalProperties.$s = s
   app.config.globalProperties.$w = w
   app.config.globalProperties.$i = i
+  app.config.globalProperties.$checkstatus = checkstatus
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API
 })

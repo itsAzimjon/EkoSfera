@@ -180,13 +180,7 @@
         }
       },
       mounted() {
-        //tokenni tekshiruvdan o'tkazish
-        this.$store.dispatch('check').then(res=>{
-          this.getData(this.pagination,this.search)
-        }).catch(error=>{
-          this.$router.push({name:"login"})
-        })
-
+        this.getData(this.pagination,this.search)
       },
       methods: {
         getData(pagination,search){
@@ -222,6 +216,7 @@
 
             }).catch(error=>{
                 this.$e("Malumot olishda xato")
+                this.$checkstatus(error.response.status)
                 
             });
         },
@@ -249,6 +244,7 @@
                 
             }).catch(error=>{
                 this.$e("Qo'shilmadi")
+                this.$checkstatus(error.response.status)
                 
             });
             this.AddData={
@@ -280,6 +276,7 @@
                 
             }).catch(error=>{
                 this.$e("Qo'shilmadi")
+                this.$checkstatus(error.response.status)
                 
             });
             this.getData(this.pagination,this.search)
@@ -305,6 +302,7 @@
                 
             }).catch(error=>{
                 this.$e("O'chira olmadik")
+                this.$checkstatus(error.response.status)
                 
             });
             this.getData(this.pagination,this.search)

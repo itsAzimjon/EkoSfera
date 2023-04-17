@@ -130,7 +130,7 @@
     ],
     mounted() {
         this.form=this.Data
-        this.$axios.get('shartnomalar').then(response=>{
+        this.$axios.get('shartnomalar/get').then(response=>{
           let data=response.data.shartnomalar;
           this.shartnomalar=[]
           for(var i=0;i<data.length;i++){

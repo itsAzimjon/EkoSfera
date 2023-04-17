@@ -169,11 +169,7 @@
       },
       mounted() {
         //tokenni tekshiruvdan o'tkazish
-        this.$store.dispatch('check').then(res=>{
-          this.getData(this.pagination,this.search)
-        }).catch(error=>{
-          this.$router.push({name:"login"})
-        })
+        this.getData(this.pagination,this.search)
 
       },
       methods: {
@@ -211,7 +207,7 @@
 
             }).catch(error=>{
                 this.$e("Mauloat olishda xato")
-                
+                this.$checkstatus(error.response.status)
             });
         },
         onRequest (props) {
