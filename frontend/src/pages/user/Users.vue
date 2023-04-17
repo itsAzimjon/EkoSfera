@@ -232,12 +232,12 @@
           }).onOk((from) => {
             this.$axios.post('user/add',from).then(response=>{
                 this.$s("Muofaqqiyatli qo'shildi")
+                this.getData(this.pagination,this.search)
                 
             }).catch(error=>{
                 this.$e("Qo'shilmadi")
                 
-            });
-            this.getData(this.pagination,this.search)
+            })
 
           })
         },
@@ -253,12 +253,11 @@
           }).onOk((from) => {
             this.$axios.post('user/edit',from).then(response=>{
                 this.$s("Muofaqqiyatli O'zgartirildi")
-                
+                this.getData(this.pagination,this.search)
             }).catch(error=>{
                 this.$e("Qo'shilmadi")
                 
-            });
-            this.getData(this.pagination,this.search)
+            })
           })
         },
         ShowDeleteModal(data){
@@ -278,16 +277,13 @@
         }).onOk(() => {
             this.$axios.post('user/delete',{'id':data.id}).then(response=>{
                 this.$s("Muofaqqiyatli O'chirildi")
-                
+                this.getData(this.pagination,this.search)
             }).catch(error=>{
                 this.$e("O'chira olmadik")
-                
-            });
-            this.getData(this.pagination,this.search)
+            })
         })
         }
-        
-      },
+      }
     }
   </script>
   <style lang="sass">

@@ -348,12 +348,12 @@
           }).onOk((from) => {
             this.$axios.post('shartnomalar/add',from).then(response=>{
                 this.$s("Muofaqqiyatli qo'shildi")
-                
+                this.getData(this.pagination,this.search)
             }).catch(error=>{
                 this.$e("Qo'shilmadi")
                 this.$checkstatus(error.response.status)
                 
-            });
+            })
             this.AddData={
               id: "",
                 index:'',
@@ -372,10 +372,8 @@
                 mfo:'',
                 hison_raqam:'',
                 qqs:'',
-                gazna:'',
+                gazna:''
             }
-            this.getData(this.pagination,this.search)
-
           })
         },
         ShowEditModal(data){
@@ -390,13 +388,12 @@
           }).onOk((from) => {
             this.$axios.post('shartnomalar/edit',from).then(response=>{
                 this.$s("Muofaqqiyatli O'zgartirildi")
-                
+                this.getData(this.pagination,this.search)
             }).catch(error=>{
                 this.$e("Qo'shilmadi")
                 this.$checkstatus(error.response.status)
                 
-            });
-            this.getData(this.pagination,this.search)
+            })
           })
         },
         ShowDeleteModal(data){
@@ -417,17 +414,16 @@
         }).onOk(() => {
             this.$axios.post('shartnomalar/delete',{'id':data.id}).then(response=>{
                 this.$s("Muofaqqiyatli O'chirildi")
-                
+                this.getData(this.pagination,this.search)
             }).catch(error=>{
                 this.$e("O'chira olmadik")
                 this.$checkstatus(error.response.status)
                 
-            });
-            this.getData(this.pagination,this.search)
+            })
         })
         }
         
-      },
+      }
     }
   </script>
   <style lang="sass">

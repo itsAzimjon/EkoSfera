@@ -241,7 +241,7 @@
           }).onOk((from) => {
             this.$axios.post('talonlar/add',from).then(response=>{
                 this.$s("Muvaffaqqiyatli qo'shildi")
-                
+                this.getData(this.pagination,this.search)
             }).catch(error=>{
                 this.$e("Qo'shilmadi")
                 this.$checkstatus(error.response.status)
@@ -256,8 +256,7 @@
                 haydovchi:"",
                 yuk:"",
                 chiqindi:"",
-            },
-            this.getData(this.pagination,this.search)
+            }
 
           })
         },
@@ -273,13 +272,12 @@
           }).onOk((from) => {
             this.$axios.post('talonlar/edit',from).then(response=>{
                 this.$s("Muofaqqiyatli O'zgartirildi")
-                
+                this.getData(this.pagination,this.search)
             }).catch(error=>{
                 this.$e("Qo'shilmadi")
                 this.$checkstatus(error.response.status)
                 
-            });
-            this.getData(this.pagination,this.search)
+            })
           })
         },
         ShowDeleteModal(data){
@@ -299,13 +297,12 @@
         }).onOk(() => {
             this.$axios.post('talonlar/delete',{'id':data.id}).then(response=>{
                 this.$s("Muofaqqiyatli O'chirildi")
-                
+                this.getData(this.pagination,this.search)
             }).catch(error=>{
                 this.$e("O'chira olmadik")
                 this.$checkstatus(error.response.status)
                 
-            });
-            this.getData(this.pagination,this.search)
+            })
         })
         }
         
