@@ -114,14 +114,14 @@
             <q-item-label>Foydalanuvchilar</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item    :to='{name:"roles"}' clickable>
+        <!-- <q-item    :to='{name:"roles"}' clickable>
           <q-item-section avatar>
             <q-icon name="settings" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Rollar</q-item-label>
           </q-item-section>
-        </q-item>
+        </q-item> -->
         <q-item @click="logout"   clickable>
             <q-item-section avatar>
               <q-icon name="logout" />

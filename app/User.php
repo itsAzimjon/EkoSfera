@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(\App\Organization::class,'organization_id','id');
     }
+
+    public function role()
+    {
+        return $this->belongsTo(\App\Role::class, "role_id", "id");
+    }
 }

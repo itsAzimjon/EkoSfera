@@ -5,6 +5,7 @@ const state ={
     isLoading:true,
     user:null,
     errors:null,
+    permission: null,
 }
 const mutations = {
     LoginStart(state){
@@ -16,6 +17,7 @@ const mutations = {
     LoginSuccess(state,payload){
         state.isLoading=false
         state.user=payload
+        state.permission= JSON.parse(payload.role.permission) 
         state.errors=null
     },
     LoginError(state,payload){

@@ -37,10 +37,109 @@ class LoginController extends Controller
         ];
     }
     public function checkUser(Request $request){
+        $moduls = [
+            "dashboard" => [
+                "caption" => "Asosiy",
+                "icon" => "dashboard",
+                "url" => "dashboard",
+            ],
+            "organizations" => [
+                "caption" => "Tashkilotlar",
+                "icon" => "dashboard",
+                "url" => "organizations",
+            ],
+            "yuridik" => [
+                "label" => "Yuridik bo'lim",
+                "caption" => "Shartnomalar va talonlar",
+                "icon" => "assessment",
+                "children" => [
+                    "shartnoma" => [
+                        "caption" => "Shartnomalar",
+                        "icon" => "receipt",
+                        "url" => "shartnomalar",
+                    ],
+                    "talon" => [
+                        "caption" => "Talonlar",
+                        "icon" => "receipt",
+                        "url" => "talonlar",
+                    ],
+                    "dalolatnoma" => [
+                        "caption" => "Dalolatnoma",
+                        "icon" => "receipt",
+                        "url" => "dalolatnoma",
+                    ],
+                    "buyurtma" =>[
+                        "caption" => "Buyurtma",
+                        "icon" => "receipt",
+                        "url" => "buyurtma",
+                    ],
+                ]
+            ],
+            "kadr" => [
+                "caption" => "Kadrlar bo'limi",
+                "icon" => "people",
+                "url" => "kadrlar",
+            ],
+            "hisobot" => [
+                "caption" => "Hisobotlar",
+                "icon" => "dashboard",
+                "url" => "hisobotlar",
+            ],
+            "shablon" => [
+                "caption" => "Shablonlar",
+                "icon" => "dashboard",
+                "url" => "shablonlar",
+            ],
+            "user" => [
+                "caption" => "Foydalanuvchilar",
+                "icon" => "people",
+                "url" => "users",
+            ]     
+        ];
         // return Auth::user()->id;
         if(!empty(Auth::user()->id)){
-            $user = User::where("id", Auth::user()->id)->first();
-            return response()->json(["user"=>$user], 200);
+            $user = User::where("id", Auth::user()->id)->with("role")->first();
+            $permission=json_decode($user->role->permission,TRUE)['data'];
+            $all=[];
+            foreach ($permission as $key => $value) {
+                if (empty($moduls[$key]['label']))
+                $all[]=[
+                    "caption" => $moduls[$key]['caption'],
+                    "icon" => $moduls[$key]['icon'],
+                    "url" => $moduls[$key]['url'],
+                    "read" => $value[0],
+                    "add" => $value[1],
+                    "edit" => $value[2],
+                    "delete" => $value[3],
+                ];
+                else {
+                    $child = [];
+                    foreach ($value['children'] as $k => $v) {
+                        $child[] = [
+                            "caption" => $moduls[$key]['children'][$k]['caption'],
+                            "icon" => $moduls[$key]['children'][$k]['icon'],
+                            "url" => $moduls[$key]['children'][$k]['url'],
+                            "read" => $v[0],
+                            "add" => $v[1],
+                            "edit" => $v[2],
+                            "delete" => $v[3],
+                        ];
+                    }
+                    $all[] = [
+                        "label" => $moduls[$key]['label'],
+                        "caption" => $moduls[$key]['caption'],
+                        "icon" => $moduls[$key]['icon'],
+                        "read" => $value['read'],
+                        'children'=>$child
+                    ];
+                }
+               
+            }
+
+            return response()->json([
+                "user" => $user,
+                "moduls" => $all
+            ], 200);
         }
         return response()->json([
             'error'=> "Login bo'lmagansiz"
