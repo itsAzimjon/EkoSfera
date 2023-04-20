@@ -99,7 +99,7 @@ export default {
 </script>
 <style scoped>
 .q-router-link--active{
-  background: #20B2AA;
+  background: rgba(148, 184, 218, 0.76);
   border-radius: 30px 0 0 30px;
 }
 </style>
