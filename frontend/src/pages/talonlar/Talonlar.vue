@@ -84,6 +84,7 @@
   
   </template>
   <script>
+    import {mapState} from "vuex"
     import AddEdit from "./AddEdit.vue"
   
     export default {
@@ -91,9 +92,15 @@
       components:{
         AddEdit
       },
+      computed: {
+        ...mapState({
+          permission:state=>state.auth.permission,
+        })
+      },
       data () {
         return {
             search:"",
+            url:"",
             loading:false,
             pagination : {
                 sortBy: 'id',

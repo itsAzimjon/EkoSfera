@@ -82,15 +82,22 @@
   </template>
   <script>
     import addModal from "./addModal.vue"
+    import {mapState} from "vuex"
   
     export default {
       name: "Tashkilotlar",
       components: {
         addModal
       },
+      computed: {
+        ...mapState({
+          permission:state=>state.auth.permission,
+        })
+      },
       data () {
         return {
             search: "",
+            url:"",
             loading: false,
             pagination : {
                 sortBy: 'id',
