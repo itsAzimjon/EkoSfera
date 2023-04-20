@@ -33,7 +33,13 @@ const routes = [
         name: 'talonlar',
         component: () => import('pages/talonlar/Talonlar.vue'),
       },
+      
     ],
+  },
+  {
+    path: '/dalolatnomapdf',
+    name: 'dalolatnomapdf',
+    component: () => import('pages/dalolatnoma/dalolatnomapdf.vue'),
   },
   {
     name:"eror",
