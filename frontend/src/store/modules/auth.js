@@ -16,8 +16,8 @@ const mutations = {
     },
     LoginSuccess(state,payload){
         state.isLoading=false
-        state.user=payload
-        state.permission= JSON.parse(payload.role.permission) 
+        state.user=payload.user
+        state.permission= payload.permission
         state.errors=null
     },
     LoginError(state,payload){
@@ -47,7 +47,7 @@ const actions = {
         return new Promise((resolve,reject)=>{
             context.commit("LoginStart")
             axios.post('login',date).then(response=>{
-                context.commit("LoginSuccess",response.data.user)
+                context.commit("LoginSuccess",response.data)
                 setItem('token',response.data.token)
                 resolve('success')
             }).catch(error=>{
@@ -66,7 +66,7 @@ const actions = {
         return new Promise((resolve,reject)=>{
             context.commit("StartCheck")
             axios.get('/user').then(response=>{
-                context.commit("LoginSuccess",response.data.user)
+                context.commit("LoginSuccess",response.data)
                 resolve('success')
             }).catch(error=>{
                 if(isEmpty(error.response)){

@@ -15,13 +15,20 @@ export default defineComponent({
     components:{
       HeadLeftContent
     },
-    mounted() {
+    async beforeMount() {
         //tokenni tekshiruvdan o'tkazish
-        this.$store.dispatch('check').then(res=>{
-          //kerakli malumotlar yuklash bo'limi 
+        this.$q.loading.show({
+          spinnerColor: 'green',
+          spinnerSize: 140,
+          backgroundColor: 'blue',
+          message: 'Iltimos kuting!!!',
+          messageColor: 'black'
+        })
+        await this.$store.dispatch('check').then(res=>{
         }).catch(error=>{
           this.$router.push({name:"login"})
         })
+        this.$q.loading.hide()
 
 
   },

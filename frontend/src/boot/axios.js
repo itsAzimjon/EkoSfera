@@ -71,6 +71,28 @@ const checkstatus = (status) =>{
         window.location="/"
     }
 }
+const getter = (arr, namuna) => {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].children != null) 
+      {
+          for (let j = 0; j < arr[i].children.length; j++) {
+              if (arr[i].children[j].url === namuna) return arr[i].children[j];
+  
+          }
+      }
+      else 
+      if (arr[i].url === namuna) return arr[i];
+    }
+  };
+const checkRole = (url,p) =>{
+    let res=getter(p, url)
+    if(res!=null){
+        return res
+    }
+    else{
+        window.location="/"
+    }
+}
 export default boot(({ app,store }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
   app.config.globalProperties.$axios = axios
@@ -83,6 +105,8 @@ export default boot(({ app,store }) => {
   app.config.globalProperties.$w = w
   app.config.globalProperties.$i = i
   app.config.globalProperties.$checkstatus = checkstatus
+  app.config.globalProperties.$getter = getter
+  app.config.globalProperties.$checkRole = checkRole
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API
 })

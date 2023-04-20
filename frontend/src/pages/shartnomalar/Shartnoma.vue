@@ -97,11 +97,17 @@
   </template>
   <script>
     import AddEdit from "./AddEdit.vue"
+    import {mapState} from "vuex"
   
     export default {
       name:"shartnoma",
       components:{
         AddEdit
+      },
+      computed: {
+        ...mapState({
+          permission:state=>state.auth.permission,
+        })
       },
       data () {
         return {
@@ -223,13 +229,6 @@
                     sortable: true,
                 },
                 {
-                    name: 'varaqa',
-                    field: 'varaqa',
-                    label: 'Shaxsiy hisob varaqasi',
-                    align: 'left',
-                    sortable: true,
-                },
-                {
                     name: 'gazna',
                     field: 'gazna',
                     label: 'Gazna CTIR',
@@ -279,11 +278,32 @@
             },
         }
       },
-      mounted() {
-        this.getData(this.pagination,this.search)
+      async mounted() {
+          //tokenni tekshiruvdan o'tkazish
+          this.$q.loading.show({
+            spinnerColor: 'green',
+            spinnerSize: 140,
+            backgroundColor: 'blue',
+            message: 'Iltimos kuting!!!',
+            messageColor: 'black'
+          })
+          await this.getData(this.pagination, this.search)
+          this.url=this.$route.name
+          if(!this.$checkRole(this.url,this.permission)){
+            this.$router.push({name:"login"})
+          }
+          let res=this.$getter(this.permission,this.url)
+          this.ruxsatlar={
+            add:res.add,
+            edit:res.edit,
+            delete:res.delete,
+          }
+          this.$q.loading.hide()
+
+
       },
       methods: {
-        getData(pagination,search){
+        async getData(pagination,search){
             var data={
                 'page':pagination.page,
                 'rowsPerPage':pagination.rowsPerPage,
@@ -291,8 +311,7 @@
                 'filter':search,
                 'descending':pagination.descending
             };
-            this.$axios.post('shartnomalar',data).then(response=>{
-                console.log(response.data);
+            await this.$axios.post('shartnomalar',data).then(response=>{
                 let data=response.data.shartnomalar.data
                 this.shartnoma=[]
                 let ind = (response.data.shartnomalar.current_page-1)*response.data.shartnomalar.per_page+1

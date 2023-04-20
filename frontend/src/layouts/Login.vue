@@ -79,7 +79,7 @@ export default defineComponent({
     })
   },
   methods: {
-    signin(){
+    async signin(){
       this.$q.loading.show({
           spinnerColor: 'green',
           spinnerSize: 140,
@@ -87,7 +87,7 @@ export default defineComponent({
           message: 'Iltimos kuting!!!',
           messageColor: 'black'
         })
-      this.$store.dispatch('Login',this.login).then(ren=>{
+      await this.$store.dispatch('Login',this.login).then(ren=>{
         this.$s("Muofaqqiyatli Kiridingiz")
         this.$router.push({name:"dashboard"})
         this.$q.loading.hide()

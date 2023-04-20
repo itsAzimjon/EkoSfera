@@ -132,11 +132,29 @@
             mainData: [],
         }
       },
-      mounted() {
-        this.getData(this.pagination, this.search)
+      async mounted() {
+        this.$q.loading.show({
+          spinnerColor: 'green',
+          spinnerSize: 140,
+          backgroundColor: 'blue',
+          message: 'Iltimos kuting!!!',
+          messageColor: 'black'
+        })
+        await this.getData(this.pagination,this.search)
+        this.url=this.$route.name
+        if(!this.$checkRole(this.url,this.permission)){
+          this.$router.push({name:"login"})
+        }
+        let res=this.$getter(this.permission,this.url)
+        this.ruxsatlar={
+          add:res.add,
+          edit:res.edit,
+          delete:res.delete,
+        }
+        this.$q.loading.hide()
       },
       methods: {
-        getData(pagination, search) {
+        async getData(pagination, search) {
           var data = {
             'page': pagination.page,
             'rowsPerPage': pagination.rowsPerPage,
@@ -144,7 +162,7 @@
             'filter': search,
             'descending': pagination.descending
           };
-          this.$axios.post('organization/get', data).then(response => {
+          await this.$axios.post('organization/get', data).then(response => {
               console.log(response.data.data.data);
               let data = response.data.data.data
               this.mainData = []

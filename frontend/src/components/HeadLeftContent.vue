@@ -27,101 +27,36 @@
     <!-- style="background-color:#081040;color:#97A2D6;" -->
     
      <q-list>
-        <q-item-label header>Menu</q-item-label>
-        <q-item    :to='{name:"dashboard"}' clickable>
-          <q-item-section avatar>
-            <q-icon name="dashboard" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Asosiy</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item    :to='{name:"organizations"}' clickable>
-          <q-item-section avatar>
-            <q-icon name="dashboard" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Tashkilotlar</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-expansion-item :content-inset-level="0.5" expand-separator icon="assessment" label="Yuridik bo'lim" caption="Shartnomalar va talonlar" >
-        <q-item    :to='{name:"shartnomalar"}' clickable>
-          <q-item-section avatar>
-            <q-icon name="receipt" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Shartnomalar</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item    :to='{name:"talonlar"}' clickable>
-          <q-item-section avatar>
-            <q-icon name="receipt" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Talonlar</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item    :to='{name:"dalolatnoma"}' clickable>
-          <q-item-section avatar>
-            <q-icon name="receipt" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Dalolatnoma</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item    :to='{name:"buyurtma"}' clickable>
-          <q-item-section avatar>
-            <q-icon name="receipt" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Buyurtma</q-item-label>
-          </q-item-section>
-        </q-item>
-        
-       
-
-      </q-expansion-item>
-        <q-item    :to='{name:"kadrlar"}' clickable>
-          <q-item-section avatar>
-            <q-icon name="people" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Kadrlar bo'limi</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item    :to='{name:"hisobotlar"}' clickable>
-          <q-item-section avatar>
-            <q-icon name="dashboard" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Hisobotlar</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item    :to='{name:"shablonlar"}' clickable>
-          <q-item-section avatar>
-            <q-icon name="dashboard" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Shablonlar</q-item-label>
-          </q-item-section>
-        </q-item>
-        
-        <q-item    :to='{name:"users"}' clickable>
-          <q-item-section avatar>
-            <q-icon name="people" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Foydalanuvchilar</q-item-label>
-          </q-item-section>
-        </q-item>
-        <!-- <q-item    :to='{name:"roles"}' clickable>
-          <q-item-section avatar>
-            <q-icon name="settings" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Rollar</q-item-label>
-          </q-item-section>
-        </q-item> -->
+        <template v-for="item in permissions" v-bind:key="item" >
+          <q-item :to='{name:item.url}' clickable v-if="!item.label && item.read">
+            <q-item-section avatar>
+                <q-icon :name="item.icon" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{item.caption}}</q-item-label>
+              </q-item-section>
+          </q-item>
+          <q-expansion-item 
+          :content-inset-level="0.5" 
+          expand-separator 
+          :icon="item.icon" 
+          :label="item.label" 
+          :caption="item.caption"  
+          v-if="item.label && item['read']"
+          >
+          <template v-for="item2 in item.children" :key="item2">
+            <q-item  :to='{name:item2.url}' clickable  :key="item2" v-if="item2.read">
+              <q-item-section avatar>
+                  <q-icon :name="item2.icon" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>{{item2.caption}}</q-item-label>
+                </q-item-section>
+            </q-item>
+          </template>
+           
+          </q-expansion-item>
+        </template>
         <q-item @click="logout"   clickable>
             <q-item-section avatar>
               <q-icon name="logout" />
@@ -138,12 +73,18 @@
     
 </template>
 <script>
+import {mapState} from "vuex"
 
 export default {
     data() {
         return {
         leftDrawerOpen: false
         }
+    },
+    computed: {
+      permissions(){
+        return this.$store.state.auth.permission;
+      }
     },
     methods: {
       logout(){
@@ -156,3 +97,9 @@ export default {
     },
 }
 </script>
+<style scoped>
+.q-router-link--active{
+  background: #20B2AA;
+  border-radius: 30px 0 0 30px;
+}
+</style>

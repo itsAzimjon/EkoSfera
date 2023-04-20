@@ -24,6 +24,7 @@
               icon="edit"
               @click="ShowEditModal(users.row)"
               size="sm"
+              v-if="ruxsatlar.edit"
               danse
               class="q-ml-sm"
             />
@@ -32,6 +33,7 @@
               icon="delete"
               @click="ShowDeleteModal(users.row)"
               size="sm"
+              v-if="ruxsatlar.delete"
               danse
               class="q-ml-sm"
             />
@@ -39,6 +41,7 @@
         </template>
         <template v-slot:top>
           <q-btn
+            v-if="ruxsatlar.add"
             color="blue"
             :disable="loading"
             label="Add User"
@@ -83,209 +86,228 @@
     </div>
   
   </template>
-  <script>
-    import userAdd from "./userAdd.vue"
+<script>
+import userAdd from "./userAdd.vue"
+import {mapState} from "vuex"
   
-    export default {
-      name:"Users",
-      components:{
-        userAdd
-      },
-      data () {
-        return {
-            search:"",
-            loading:false,
-            pagination : {
-                sortBy: 'id',
-                descending: false,
-                page: 1,
-                rowsPerPage: 10,
-                rowsNumber: 0
+export default {
+  name:"Users",
+  components:{
+    userAdd
+  },
+  computed: {
+    ...mapState({
+      permission:state=>state.auth.permission,
+    })
+  },
+  data () {
+    return {
+        url:"",
+        ruxsatlar:{
+          add:false,
+          edit:false,
+          delete:false
+        },
+        search:"",
+        loading:false,
+        pagination : {
+            sortBy: 'id',
+            descending: false,
+            page: 1,
+            rowsPerPage: 10,
+            rowsNumber: 0
+        },
+        columns: [
+            {
+            name: 'index',
+            label: '#',
+            field: 'index',
+            align: "left",
+            style: 'width: 10px',
+            sortable: true
             },
-            columns: [
-                {
-                name: 'index',
-                label: '#',
-                field: 'index',
-                align: "left",
-                style: 'width: 10px',
-                sortable: true
-                },
-                {
-                name: 'name',
-                field: 'name',
-                label: 'FIO',
-                align: 'left',
-                sortable: true,
-                },
-                {
-                name: 'email',
-                field: 'email',
-                label: 'Email',
-                align: 'left',
-                sortable: true,
-                },
-                {
-                name: 'tuman',
-                field: 'tuman',
-                label: 'Tuman',
-                align: 'left',
-                sortable: false,
-                },
-                {
-                name: 'organizathon',
-                field: 'organizathon',
-                label: 'Organizathon',
-                align: 'left',
-                sortable: false,
-                },
-                {
-                name: 'role',
-                field: 'role',
-                label: 'Role',
-                align: 'left',
-                sortable: false,
-                },
-                {
-                name: 'action',
-                label: 'Action',
-                align: 'left',
-                style: 'width: 20px !important',
-                },
-            ],
-            visibleColumns:['index','name','email','role','action'],
-            users:[],
-            AddData:{
-                id: "",
-                name: "",
-                email: "",
-                role_id: "",
-                tuman_id: "",
-                organization_id: "",
-                password: "",
-                return_password: ""
+            {
+            name: 'name',
+            field: 'name',
+            label: 'FIO',
+            align: 'left',
+            sortable: true,
             },
-        }
-      },
-      mounted() {
-        //tokenni tekshiruvdan o'tkazish
-        this.getData(this.pagination,this.search)
-
-      },
-      methods: {
-        getData(pagination,search){
-            var data={
-                'page':pagination.page,
-                'rowsPerPage':pagination.rowsPerPage,
-                'sortBy':pagination.sortBy,
-                'filter':search,
-                'descending':pagination.descending
-            };
-            this.$axios.post('users',data).then(response=>{
-                console.log(response.data);
-                let data=response.data.users.data
-                this.users=[]
-                let ind = (response.data.users.current_page-1)*response.data.users.per_page+1
-                for(var i=0;i<data.length;i++){
-                    var json = {
-                        "index": ind++,
-                        "id": data[i].id,
-                        "name": data[i].name,
-                        "email": data[i].email,
-                        "role_id": parseInt(data[i].role_id),
-                        "tuman": data[i].tuman?data[i].tuman.name:"",
-                        "organization": data[i].organization?data[i].organization.name:"",
-                        "tuman_id": data[i].tuman_id,
-                        "organization_id": data[i].organization_id,
-                        "role": ['','Admin',"Korxona admin","Tuman admin"][data[i].role_id],
-                        "password": "",
-                        "return_password": ""
-                    }
-                    this.users.push(json)
-                }
-                this.pagination.rowsNumber=response.data.users.total
-
-            }).catch(error=>{
-                this.$e("Mauloat olishda xato")
-                this.$checkstatus(error.response.status)
-            });
+            {
+            name: 'email',
+            field: 'email',
+            label: 'Email',
+            align: 'left',
+            sortable: true,
+            },
+            {
+            name: 'tuman',
+            field: 'tuman',
+            label: 'Tuman',
+            align: 'left',
+            sortable: false,
+            },
+            {
+            name: 'organizathon',
+            field: 'organizathon',
+            label: 'Organizathon',
+            align: 'left',
+            sortable: false,
+            },
+            {
+            name: 'role',
+            field: 'role',
+            label: 'Role',
+            align: 'left',
+            sortable: false,
+            },
+            {
+            name: 'action',
+            label: 'Action',
+            align: 'left',
+            style: 'width: 20px !important',
+            },
+        ],
+        visibleColumns:['index','name','email','role','action'],
+        users:[],
+        AddData:{
+            id: "",
+            name: "",
+            email: "",
+            role_id: "",
+            tuman_id: "",
+            organization_id: "",
+            password: "",
+            return_password: ""
         },
-        onRequest (props) {
-            console.log(props);
-            this.loading=true
-            this.pagination=props.pagination
-            this.getData(props.pagination,this.search)
-            this.loading=false
-        
-        },
-        
-        ShowAddModal(){
-          
-          this.$q.dialog({
-            component: userAdd,
-  
-            // props forwarded to your custom component
-            componentProps: {
-                Data:this.AddData,
-                text:"Yangi Foydalanuvchi"
-            }
-          }).onOk((from) => {
-            this.$axios.post('user/add',from).then(response=>{
-                this.$s("Muofaqqiyatli qo'shildi")
-                this.getData(this.pagination,this.search)
-                
-            }).catch(error=>{
-                this.$e("Qo'shilmadi")
-                
-            })
-
-          })
-        },
-        ShowEditModal(data){
-          this.$q.dialog({
-            component: userAdd,
-  
-            // props forwarded to your custom component
-            componentProps: {
-              Data:data,
-              text:"Foydalanuvchini O'zgartish"
-            }
-          }).onOk((from) => {
-            this.$axios.post('user/edit',from).then(response=>{
-                this.$s("Muofaqqiyatli O'zgartirildi")
-                this.getData(this.pagination,this.search)
-            }).catch(error=>{
-                this.$e("Qo'shilmadi")
-                
-            })
-          })
-        },
-        ShowDeleteModal(data){
-          this.$q.dialog({
-          title: "O'chirish",
-          message: data.name+" ushbu ma'lumotni o'chirmoqchimisiz ",
-          ok: {
-            label:"Ha",
-            push: true
-          },
-          cancel: {
-            push: true,
-            label:"Yo'q",
-            color: 'negative'
-          },
-          persistent: true
-        }).onOk(() => {
-            this.$axios.post('user/delete',{'id':data.id}).then(response=>{
-                this.$s("Muofaqqiyatli O'chirildi")
-                this.getData(this.pagination,this.search)
-            }).catch(error=>{
-                this.$e("O'chira olmadik")
-            })
-        })
-        }
-      }
     }
-  </script>
+  },
+  async mounted() {
+    //tokenni tekshiruvdan o'tkazish
+    this.$q.loading.show({
+      spinnerColor: 'green',
+      spinnerSize: 140,
+      backgroundColor: 'blue',
+      message: 'Iltimos kuting!!!',
+      messageColor: 'black'
+    })
+    await this.getData(this.pagination, this.search)
+    this.url=this.$route.name
+    
+    let res=this.$getter(this.permission,this.url)
+    if(!res.read){
+      this.$router.push({name:"login"})
+    }
+    this.ruxsatlar={
+      add:res.add,
+      edit:res.edit,
+      delete:res.delete,
+    }
+    this.$q.loading.hide()
+
+
+  },
+  methods: {
+    async getData(pagination,search){
+        var data={
+            'page':pagination.page,
+            'rowsPerPage':pagination.rowsPerPage,
+            'sortBy':pagination.sortBy,
+            'filter':search,
+            'descending':pagination.descending
+        };
+        await this.$axios.post('users',data).then(response=>{
+            let data=response.data.users.data
+            this.users=[]
+            let ind = (response.data.users.current_page-1)*response.data.users.per_page+1
+            for(var i=0;i<data.length;i++){
+                var json = {
+                    "index": ind++,
+                    "id": data[i].id,
+                    "name": data[i].name,
+                    "email": data[i].email,
+                    "role_id": parseInt(data[i].role_id),
+                    "tuman": data[i].tuman?data[i].tuman.name:"",
+                    "organization": data[i].organization?data[i].organization.name:"",
+                    "tuman_id": data[i].tuman_id,
+                    "organization_id": data[i].organization_id,
+                    "role": ['','Admin',"Korxona admin","Tuman admin"][data[i].role_id],
+                    "password": "",
+                    "return_password": ""
+                }
+                this.users.push(json)
+            }
+            this.pagination.rowsNumber=response.data.users.total
+
+        }).catch(error=>{
+            this.$e("Mauloat olishda xato")
+            this.$checkstatus(error.response.status)
+        });
+    },
+    async onRequest (props) {
+        console.log(props);
+        this.loading=true
+        this.pagination=props.pagination
+        await this.getData(props.pagination,this.search)
+        this.loading=false
+    
+    },
+    ShowAddModal(){
+      this.$q.dialog({
+        component: userAdd,
+        // props forwarded to your custom component
+        componentProps: {
+            Data:this.AddData,
+            url:"add",
+            success:"Muofaqqiyatli qo'shildi",
+            error:"Qo'shilmadi",
+            text:"Yangi Foydalanuvchi"
+        }
+      }).onOk((from) => {
+        this.getData(this.pagination,this.search)
+      })
+    },
+    ShowEditModal(data){
+      this.$q.dialog({
+        component: userAdd,
+        // props forwarded to your custom component
+        componentProps: {
+          Data:data,
+          url:"edit",
+          success:"Muofaqqiyatli tahrirlandi",
+          error:"Tahrirlanmadi",
+          text:"Foydalanuvchini O'zgartish"
+        }
+      }).onOk((from) => {
+        this.getData(this.pagination,this.search)
+      })
+    },
+    ShowDeleteModal(data){
+      this.$q.dialog({
+      title: "O'chirish",
+      message: data.name+" ushbu ma'lumotni o'chirmoqchimisiz ",
+      ok: {
+        label:"Ha",
+        push: true
+      },
+      cancel: {
+        push: true,
+        label:"Yo'q",
+        color: 'negative'
+      },
+      persistent: true
+    }).onOk(() => {
+        this.$axios.post('user/delete',{'id':data.id}).then(response=>{
+            this.$s("Muofaqqiyatli O'chirildi")
+            this.getData(this.pagination,this.search)
+        }).catch(error=>{
+            this.$e("O'chira olmadik")
+        })
+    })
+    }
+  }
+}
+</script>
   <style lang="sass">
   .my-sticky-header-column-table
     /* height or max-height is important */

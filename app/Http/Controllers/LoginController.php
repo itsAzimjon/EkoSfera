@@ -14,20 +14,23 @@ class LoginController extends Controller
     function index(Request $request)
     {
         $user= User::where('email', strtolower($request->email??""))->first();
-            if (!$user || !Hash::check($request->password, $user->password)) {
-                return response([
-                    'error' => ['Parol yoki email xato']
-                ], 401);
-            }
-        
-             $token = $user->createToken('my-app-token')->plainTextToken;
-        
-            $response = [
-                'user' => $user,
-                'token' => $token
-            ];
-        
-             return response($response, 201);
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response([
+                'error' => ['Parol yoki email xato']
+            ], 401);
+        }
+
+        $token = $user->createToken('my-app-token')->plainTextToken;
+        $all=$this->permission($user->id);
+
+        $response = [
+            'user' => $user,
+            'token' => $token,
+            "permission" => $all
+
+        ];
+
+        return response($response, 201);
     }
     public function logout()
     {
@@ -36,7 +39,8 @@ class LoginController extends Controller
             'message' => 'succes'
         ];
     }
-    public function checkUser(Request $request){
+    public function permission($id)
+    {
         $moduls = [
             "dashboard" => [
                 "caption" => "Asosiy",
@@ -96,49 +100,57 @@ class LoginController extends Controller
                 "url" => "users",
             ]     
         ];
-        // return Auth::user()->id;
-        if(!empty(Auth::user()->id)){
-            $user = User::where("id", Auth::user()->id)->with("role")->first();
-            $permission=json_decode($user->role->permission,TRUE)['data'];
-            $all=[];
-            foreach ($permission as $key => $value) {
-                if (empty($moduls[$key]['label']))
-                $all[]=[
-                    "caption" => $moduls[$key]['caption'],
-                    "icon" => $moduls[$key]['icon'],
-                    "url" => $moduls[$key]['url'],
-                    "read" => $value[0],
-                    "add" => $value[1],
-                    "edit" => $value[2],
-                    "delete" => $value[3],
-                ];
-                else {
-                    $child = [];
-                    foreach ($value['children'] as $k => $v) {
-                        $child[] = [
-                            "caption" => $moduls[$key]['children'][$k]['caption'],
-                            "icon" => $moduls[$key]['children'][$k]['icon'],
-                            "url" => $moduls[$key]['children'][$k]['url'],
-                            "read" => $v[0],
-                            "add" => $v[1],
-                            "edit" => $v[2],
-                            "delete" => $v[3],
-                        ];
-                    }
-                    $all[] = [
-                        "label" => $moduls[$key]['label'],
-                        "caption" => $moduls[$key]['caption'],
-                        "icon" => $moduls[$key]['icon'],
-                        "read" => $value['read'],
-                        'children'=>$child
+        $user = User::where("id", $id)->with("role")->first();
+        $permission=json_decode($user->role->permission,TRUE)['data'];
+        $all=[];
+        foreach ($permission as $key => $value) {
+            if (empty($moduls[$key]['label']))
+            $all[]=[
+                "caption" => $moduls[$key]['caption'],
+                "icon" => $moduls[$key]['icon'],
+                "url" => $moduls[$key]['url'],
+                "read" => $value[0],
+                "add" => $value[1],
+                "edit" => $value[2],
+                "delete" => $value[3],
+            ];
+            else {
+                $child = [];
+                foreach ($value['children'] as $k => $v) {
+                    $child[] = [
+                        "caption" => $moduls[$key]['children'][$k]['caption'],
+                        "icon" => $moduls[$key]['children'][$k]['icon'],
+                        "url" => $moduls[$key]['children'][$k]['url'],
+                        "read" => $v[0],
+                        "add" => $v[1],
+                        "edit" => $v[2],
+                        "delete" => $v[3],
                     ];
                 }
-               
+                $all[] = [
+                    "label" => $moduls[$key]['label'],
+                    "caption" => $moduls[$key]['caption'],
+                    "icon" => $moduls[$key]['icon'],
+                    "read" => $value['read'],
+                    'children'=>$child
+                ];
             }
+            
+        }
+        return $all;
+    }
+    public function checkUser(Request $request){
+        
+        // return Auth::user()->id;
+        if(!empty(Auth::user()->id)){
+            
+            $user = User::where("id", Auth::user()->id)->with("role")->first();
+               
+            $all=$this->permission(Auth::user()->id);
 
             return response()->json([
                 "user" => $user,
-                "moduls" => $all
+                "permission" => $all
             ], 200);
         }
         return response()->json([

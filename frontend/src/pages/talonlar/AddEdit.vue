@@ -59,7 +59,7 @@
           <q-input 
             dense 
             label="Yuk"
-            type="text"
+            type="number"
             v-model="form.yuk" 
             ref="yuk"
             :rules="[ val => val.length >1 || 'Yukni kiriting']"

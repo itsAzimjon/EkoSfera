@@ -98,6 +98,18 @@
         text:{
           type:String,
           required:true
+        },
+        url:{
+          type:String,
+          required:true
+        },
+        success:{
+          type:String,
+          required:true
+        },
+        error:{
+          type:String,
+          required:true
         }
     },
     data() {
@@ -134,10 +146,9 @@
     emits: [
       'ok' //, 'hide'
     ],
-    mounted() {
+    async mounted() {
       this.form=this.Data
-      console.log(this.Data);
-      this.$axios.get('tumanlar').then(response=>{
+      await this.$axios.get('tumanlar').then(response=>{
         let data=response.data.tumanlar;
         this.tuman=[]
         for(var i=0;i<data.length;i++){
@@ -151,7 +162,7 @@
       }).catch(error=>{
         this.$e("Tuman olishda muammo")
       });
-      this.$axios.get('organization').then(response=>{
+      await this.$axios.get('organization').then(response=>{
         let data=response.data.organization;
         this.organization=[]
         for(var i=0;i<data.length;i++){
@@ -173,7 +184,8 @@
         this.$refs.dialog.hide()
       },
   
-      onOKClick () {
+      async onOKClick () {
+        this.$q.loading.show()
         if (this.form.name.length<3){
           this.$e("FIO to'liq emas")
         }
@@ -196,9 +208,15 @@
           this.$e("Ikki parol bir biriga most emas")
         }
         else{
-          this.$emit('ok',this.form)
-          this.hide()
+          await this.$axios.post('user/'+this.url,this.form).then(response=>{
+                this.$s(this.success)
+                this.hide()
+            }).catch(error=>{
+                this.$e(this.error)
+                this.$checkstatus(error.response.status)
+            })
         }
+        this.$q.loading.hide()
        
       },
   

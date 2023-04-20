@@ -179,11 +179,29 @@
             },
         }
       },
-      mounted() {
-        this.getData(this.pagination,this.search)
+      async mounted() {
+        this.$q.loading.show({
+          spinnerColor: 'green',
+          spinnerSize: 140,
+          backgroundColor: 'blue',
+          message: 'Iltimos kuting!!!',
+          messageColor: 'black'
+        })
+        await this.getData(this.pagination,this.search)
+        this.url=this.$route.name
+        if(!this.$checkRole(this.url,this.permission)){
+          this.$router.push({name:"login"})
+        }
+        let res=this.$getter(this.permission,this.url)
+        this.ruxsatlar={
+          add:res.add,
+          edit:res.edit,
+          delete:res.delete,
+        }
+        this.$q.loading.hide()
       },
       methods: {
-        getData(pagination,search){
+        async getData(pagination,search){
             var data={
                 'page':pagination.page,
                 'rowsPerPage':pagination.rowsPerPage,
@@ -191,8 +209,7 @@
                 'filter':search,
                 'descending':pagination.descending
             };
-            this.$axios.post('talonlar',data).then(response=>{
-                console.log(response.data);
+            await this.$axios.post('talonlar',data).then(response=>{
                 let data=response.data.talonlar.data
                 this.talonlar=[]
                 let ind = (response.data.talonlar.current_page-1)*response.data.talonlar.per_page+1
@@ -203,12 +220,12 @@
                         "sana": data[i].sana,
                         "buyurtmachi": data[i].buyurtmachi.name,
                         "stir": data[i].buyurtmachi.stir,
-                        "buyurtmachi_id": data[i].buyurtmachi_id,
-                        "type": data[i].type,
+                        "buyurtmachi_id": parseInt(data[i].buyurtmachi_id),
+                        "type": parseInt(data[i].type),
                         "yuk": data[i].yuk,
                         "haydovchi": data[i].haydovchi,
                         "texnika": data[i].texnika,
-                        "chiqindi": ['Maishiy','Suyuq'][data[i].type],
+                        "chiqindi": ['','Maishiy','Suyuq'][parseInt(data[i].type)],
                     }
                     this.talonlar.push(json)
                 }
