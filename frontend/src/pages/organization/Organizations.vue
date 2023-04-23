@@ -12,6 +12,8 @@
         :filter="search"
         binary-state-sort
         @request="onRequest"
+        no-data-label="Ma'lumotlar yo'q"
+        no-results-label="Ma'lumotlar topilmadi"
       >
        
         <template v-slot:body-cell-action="mainData">
@@ -199,11 +201,10 @@
               
           });
         },
-        onRequest (props) {
-            console.log(props);
+        async onRequest (props) {
             this.loading=true
             this.pagination=props.pagination
-            this.getData(props.pagination,this.search)
+            await this.getData(props.pagination,this.search)
             this.loading=false
         
         },
