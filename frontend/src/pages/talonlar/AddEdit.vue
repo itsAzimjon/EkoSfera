@@ -182,13 +182,16 @@
           console.log(data);
           this.buyurtmalar=[]
           for(var i=0;i<data.length;i++){
-            var json = {
-                  value:data[i].id,
-                  label:"#"+data[i].id + "#  " + 
-                  data[i].buyurtmachi.name+ "  " + 
-                  data[i].sana
-              }
-              this.buyurtmalar.push(json)
+            if(data[i].talon)
+            {
+                var json = {
+                    value:data[i].id,
+                    label:"#"+data[i].id + "#  " + 
+                    data[i].buyurtmachi.name+ "  " + 
+                    data[i].sana
+                }
+                this.buyurtmalar.push(json)
+            }
           }
           this.all_buyurtmalar=this.buyurtmalar;
         }).catch(error=>{
