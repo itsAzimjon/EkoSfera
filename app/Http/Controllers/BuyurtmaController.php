@@ -33,7 +33,7 @@ class BuyurtmaController extends Controller
     }
     public function get()
     {
-        $buyurtmalar=Buyurtma::with('buyurtmachi')->get();
+        $buyurtmalar=Buyurtma::with('buyurtmachi')->with('talon')->get();
         return response()->json([
             'buyurtmalar'=> $buyurtmalar,
         ]); 
