@@ -4,25 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Talonlar extends Model
+class Buyurtma extends Model
 {
     protected $fillable = [
         "id",
         "sana",
         "buyurtmachi_id",
-        "buyurtma_id",
-        "texnika",
-        "haydovchi",
-        "yuk",
-        "type",
-        "created_at", "updated_at"
+        "masul",
+        "phone",
     ];
+    public function talon(){
+        return $this->belongsTo("App\Talonlar",'id','buyurtma_id');
+    }
     public function buyurtmachi()
     {
         return $this->belongsTo(\App\Shartnomalar::class,'buyurtmachi_id','id');
-    }
-    public function buyurtma()
-    {
-        return $this->belongsTo(\App\Buyurtma::class,'buyurtma_id','id');
     }
 }

@@ -3,8 +3,8 @@
       <q-table
         flat bordered
         ref="tableRef"
-        title="Talonlar"
-        :rows="talonlar"
+        title="buyurtma"
+        :rows="buyurtma"
         :columns="columns"
         row-key="id"
         v-model:pagination="pagination"
@@ -16,13 +16,24 @@
         no-data-label="Ma'lumotlar yo'q"
         no-results-label="Ma'lumotlar topilmadi"
       >
-       
-        <template v-slot:body-cell-action="talonlar">
-          <q-td :talonlar="talonlar" align="left" width="20px">
+        <template v-slot:body-cell-holat="buyurtma">
+          <q-td :buyurtma="buyurtma" align="left" width="20px">
+            <template v-if="buyurtma.row.holati">
+              <q-badge  color="green" rounded class="q-mr-sm" />
+              Bajarilgan
+            </template>
+            <template v-else >
+              <q-badge color="red" rounded class="q-md" />
+              Bajarilmagan
+            </template>
+          </q-td>
+        </template>
+        <template v-slot:body-cell-action="buyurtma">
+          <q-td :buyurtma="buyurtma" align="left" width="20px">
             <q-btn
               color="green"
               icon="visibility"
-              @click="ViewModel(talonlar.row)"
+              @click="ViewModel(buyurtma.row)"
               size="sm"
               danse
               class="q-ml-sm"
@@ -31,7 +42,7 @@
               color="blue-8"
               icon="edit"
               v-if="ruxsatlar.edit"
-              @click="ShowEditModal(talonlar.row)"
+              @click="ShowEditModal(buyurtma.row)"
               size="sm"
               danse
               class="q-ml-sm"
@@ -40,7 +51,7 @@
               color="red"
               icon="delete"
               v-if="ruxsatlar.delete"
-              @click="ShowDeleteModal(talonlar.row)"
+              @click="ShowDeleteModal(buyurtma.row)"
               size="sm"
               danse
               class="q-ml-sm"
@@ -51,8 +62,8 @@
           <q-btn
             color="blue"
             :disable="loading"
-            v-if="ruxsatlar.add"
             label="Qo'shish"
+            v-if="ruxsatlar.add"
             @click="ShowAddModal"
           />
           
@@ -91,49 +102,51 @@
           </q-input>
         </template>
       </q-table>
-
       <q-dialog style="min-width: 50%;" v-model="ViewModelRef" @hide="viewModelClose">
         <q-card class="q-dialog-plugin">
           <q-card-section class="sticky bg-primary text-white">
             <div class="text-h6">To'liq Ma'lumot</div>
           </q-card-section>
-          <q-card-section class="bg-blue-2">
+          <q-card-section >
             <div>
               <q-list>
-                <q-item class="text-subtitle2">
+                <q-item>
                   Buyurtmachi :  {{ showdata.buyurtmachi }}
                 </q-item>
-                <q-item class="text-subtitle2">
+                <q-item>
                   Buyurtmachi STIR :   {{ showdata.stir }}
                 </q-item>
-                <q-item class="text-subtitle2">
+                <q-item>
                   Sana :   {{ showdata.sana }}
                 </q-item>
-                <q-item class="text-subtitle2">
-                  Maxsus texnika :   {{ showdata.texnika }}
+                <q-item>
+                    Masul :   {{ showdata.masul }}
                 </q-item>
-                <q-item class="text-subtitle2">
-                  Hayadovchi :   {{ showdata.haydovchi }}
+                <q-item>
+                    Telefon :   {{ showdata.phone }}
                 </q-item>
-                <q-item class="text-subtitle2">
-                  Yuk Hajmi :  {{ showdata.yuk }}
-                </q-item>
-                <q-item class="text-subtitle2">
-                  Chiqindi turi :  {{ showdata.chiqindi }}
-                </q-item>
+                
               </q-list>
-              <template v-if="showdata.buyurtma!=null">
+              <template v-if="showdata.talon!=null">
                 <div>
-                  <div class="text-h6">Biriktirilgan Buyurtma</div>
-                  <q-item class="text-subtitle2">
-                    Buyurtma tushgan Sana :   {{ showdata.sana }}
+                  <div class="text-h6">Biriktirilgan Talon</div>
+                  <q-item>
+                    Buyurtma bajarilgan sana :   {{ showdata.talon.sana }}
                   </q-item>
-                  <q-item class="text-subtitle2">
-                    Masul :   {{ showdata.buyurtma.masul }}
+                  <q-item>
+                    Maxsus texnika :   {{ showdata.talon.texnika }}
                   </q-item>
-                  <q-item class="text-subtitle2">
-                    Telefon :   {{ showdata.buyurtma.phone }}
+                  <q-item>
+                    Hayadovchi :   {{ showdata.talon.haydovchi }}
                   </q-item>
+                  <q-item>
+                    Yuk Hajmi :  {{ showdata.talon.yuk }}
+                  </q-item>
+                  <q-item>
+                    Chiqindi turi :  {{ ['','Maishiy','Suyuq'][parseInt(showdata.talon.type)] }}
+                  </q-item>
+                 
+                 
                 
                 </div>
               </template>
@@ -152,7 +165,7 @@
     import AddEdit from "./AddEdit.vue"
   
     export default {
-      name:"Talonlar",
+      name:"buyurtma",
       components:{
         AddEdit
       },
@@ -170,7 +183,6 @@
               delete:false
             },
             url:"",
-            ViewModelRef:false,
             loading:false,
             pagination : {
                 sortBy: 'id',
@@ -182,8 +194,8 @@
             columns: [
                 {
                     name: 'index',
-                    label: '#',
-                    field: 'index',
+                    label: 'Buyurtma raqami',
+                    field: 'id',
                     align: "left",
                     style: 'width: 10px',
                     sortable: true
@@ -210,30 +222,23 @@
                     sortable: false,
                 },
                 {
-                    name: 'texnika',
-                    field: 'texnika',
-                    label: 'Maxsus texnika',
+                    name: 'masul',
+                    field: 'masul',
+                    label: 'Masul shaxs',
                     align: 'left',
                     sortable: true,
                 },
                 {
-                    name: 'haydovchi',
-                    field: 'haydovchi',
-                    label: 'Haydovchi',
+                    name: 'phone',
+                    field: 'phone',
+                    label: 'Telefon',
                     align: 'left',
                     sortable: true,
                 },
                 {
-                    name: 'yuk',
-                    field: 'yuk',
-                    label: 'Tashilgan yuk(kub)',
-                    align: 'left',
-                    sortable: false,
-                },
-                {
-                    name: 'chiqindi',
-                    field: 'chiqindi',
-                    label: 'Chiqindi turi',
+                    name: 'holat',
+                    field: 'holat',
+                    label: 'Holati',
                     align: 'left',
                     sortable: false,
                 },
@@ -244,16 +249,15 @@
                     style: 'width: 20px !important',
                 },
             ],
-            visibleColumns:['index','sana','buyurtmachi','stir','texnika','haydovchi','yuk','chiqindi','action'],
-            talonlar:[],
+            visibleColumns:['index','sana','buyurtmachi','stir','masul','phone','holat','action'],
+            buyurtma:[],
             AddData:{
                 sana:"",
                 buyurtmachi_id:"",
-                texnika:"",
-                haydovchi:"",
-                yuk:"",
-                type:"",
+                masul:"",
+                phone:"",
             },
+            ViewModelRef:false,
             showdata:[]
         }
       },
@@ -287,28 +291,27 @@
                 'filter':search,
                 'descending':pagination.descending
             };
-            await this.$axios.post('talonlar',data).then(response=>{
-                let data=response.data.talonlar.data
-                this.talonlar=[]
-                let ind = (response.data.talonlar.current_page-1)*response.data.talonlar.per_page+1
+            await this.$axios.post('buyurtma',data).then(response=>{
+                let data=response.data.buyurtma.data
+                console.log(data);
+                this.buyurtma=[]
+                let ind = (response.data.buyurtma.current_page-1)*response.data.buyurtma.per_page+1
                 for(var i=0;i<data.length;i++){
                     var json = {
                         "index": ind++,
                         "id": data[i].id,
                         "sana": data[i].sana,
-                        "buyurtma": data[i].buyurtma,
                         "buyurtmachi": data[i].buyurtmachi.name,
                         "stir": data[i].buyurtmachi.stir,
                         "buyurtmachi_id": parseInt(data[i].buyurtmachi_id),
-                        "type": parseInt(data[i].type),
-                        "yuk": data[i].yuk,
-                        "haydovchi": data[i].haydovchi,
-                        "texnika": data[i].texnika,
-                        "chiqindi": ['','Maishiy','Suyuq'][parseInt(data[i].type)],
+                        "masul": data[i].masul,
+                        "phone": data[i].phone,
+                        "holati": data[i].talon!=null,
+                        "talon": data[i].talon,
                     }
-                    this.talonlar.push(json)
+                    this.buyurtma.push(json)
                 }
-                this.pagination.rowsNumber=response.data.talonlar.total
+                this.pagination.rowsNumber=response.data.buyurtma.total
 
             }).catch(error=>{
                 this.$e("Malumot olishda xato")
@@ -323,31 +326,22 @@
             this.loading=false
         
         },
-        
         ShowAddModal(){
-          
           this.$q.dialog({
             component: AddEdit,
-  
-            // props forwarded to your custom component
             componentProps: {
                 Data:this.AddData,
                 text:"Qo'shish",
                 url:"add"
             }
-          }).onOk((from) => {
-                this.getData(this.pagination,this.search)
-                this.AddData={
-                    id: "",
-                    sana:"",
-                    buyurtmachi:"",
-                    stir:"",
-                    texnika:"",
-                    haydovchi:"",
-                    yuk:"",
-                    chiqindi:"",
-                }
-
+          }).onOk(() => {
+            this.getData(this.pagination,this.search)
+            this.AddData={
+              sana:"",
+                buyurtmachi_id:"",
+                masul:"",
+                phone:"",
+            }
           })
         },
         ShowEditModal(data){
@@ -361,13 +355,13 @@
               url:"edit"
             }
           }).onOk((from) => {
-                this.getData(this.pagination,this.search)
+            this.getData(this.pagination,this.search)
           })
         },
         ShowDeleteModal(data){
           this.$q.dialog({
           title: "O'chirish",
-          message: data.id+" nomerli "+data.buyurtmachi+"ga tegishli ushbu ma'lumotni o'chirmoqchimisiz ",
+          message: data.name+" ushbu ma'lumotni o'chirmoqchimisiz ",
           ok: {
             label:"Ha",
             push: true
@@ -379,7 +373,7 @@
           },
           persistent: true
         }).onOk(() => {
-            this.$axios.post('talonlar/delete',{'id':data.id}).then(response=>{
+            this.$axios.post('buyurtma/delete',{'id':data.id}).then(response=>{
                 this.$s("Muofaqqiyatli O'chirildi")
                 this.getData(this.pagination,this.search)
             }).catch(error=>{
@@ -392,7 +386,6 @@
         ViewModel(data){
           this.showdata = data
           this.ViewModelRef=true
-
         },
         viewModelClose(){
           this.ViewModelRef=false

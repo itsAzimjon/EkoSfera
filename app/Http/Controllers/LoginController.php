@@ -168,6 +168,7 @@ class LoginController extends Controller
         if($request->sortBy=="index"){
             $request->sortBy='id';
         }
+        $request->filter=strtolower( $request->filter);
         $users=User::with("tuman")->with('organization')
         ->where('name','like','%'.$request->filter.'%')
         ->orwhere('email','like','%'.$request->filter.'%')

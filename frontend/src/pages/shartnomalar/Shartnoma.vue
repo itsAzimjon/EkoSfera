@@ -34,6 +34,7 @@
             <q-btn
               color="blue-8"
               icon="edit"
+              v-if="ruxsatlar.edit"
               @click="ShowEditModal(shartnoma.row)"
               size="sm"
               danse
@@ -42,6 +43,7 @@
             <q-btn
               color="red"
               icon="delete"
+              v-if="ruxsatlar.delete"
               @click="ShowDeleteModal(shartnoma.row)"
               size="sm"
               danse
@@ -53,6 +55,7 @@
           <q-btn
             color="blue"
             :disable="loading"
+            v-if="ruxsatlar.add"
             label="Shartnoma qo'shish"
             @click="ShowAddModal"
           />
@@ -112,6 +115,11 @@
       data () {
         return {
             search:"",
+            ruxsatlar:{
+              add:false,
+              edit:false,
+              delete:false
+            },
             loading:false,
             pagination : {
                 sortBy: 'id',
@@ -236,6 +244,13 @@
                     sortable: true,
                 },
                 {
+                    name: 'gazna_name',
+                    field: 'gazna_name',
+                    label: 'Gazna Nomi',
+                    align: 'left',
+                    sortable: true,
+                },
+                {
                     name: 'action',
                     label: 'Action',
                     align: 'left',
@@ -275,6 +290,7 @@
                 varaqa:'',
                 photo:'',
                 gazna:'',
+                gazna_name:'',
             },
         }
       },
@@ -336,6 +352,7 @@
                         gazna:data[i].gazna,
                         tuman_id:parseInt(data[i].tuman_id),
                         holat:data[i].holat,
+                        gazna_name:data[i].gazna_name,
                     }
                     this.shartnoma.push(json)
                 }
@@ -391,7 +408,8 @@
                 mfo:'',
                 hison_raqam:'',
                 qqs:'',
-                gazna:''
+                gazna:'',
+                gazna_name:''
             }
           })
         },

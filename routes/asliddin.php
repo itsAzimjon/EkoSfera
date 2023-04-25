@@ -1,6 +1,7 @@
 <?php 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ShartnomalarController;
+use App\Http\Controllers\BuyurtmaController;
 
 Route::post('user/add',[LoginController::class,'save']);
 Route::post('user/edit',[LoginController::class,'edit']);
@@ -15,5 +16,11 @@ Route::post("shartnomalar/add",[ShartnomalarController::class,'add']);
 Route::post("shartnomalar/edit",[ShartnomalarController::class,'edit']);
 Route::post("shartnomalar/delete",[ShartnomalarController::class,'delete']);
 Route::get("tumanlar",[ShartnomalarController::class,'tumanlar']);
+
+Route::get("buyurtma/get",[BuyurtmaController::class,'get']);
+Route::post("buyurtma",[BuyurtmaController::class,'getAll']);
+Route::post('buyurtma/add',[BuyurtmaController::class,'add']);
+Route::post('buyurtma/edit',[BuyurtmaController::class,'edit']);
+Route::post('buyurtma/delete',[BuyurtmaController::class,'delete']);
 
 ?>

@@ -33,6 +33,11 @@ const routes = [
         name: 'talonlar',
         component: () => import('pages/talonlar/Talonlar.vue'),
       },
+      {
+        path: '/buyurtma',
+        name: 'buyurtma',
+        component: () => import('pages/buyurtma/Buyurtmalar.vue'),
+      },
       
     ],
   },

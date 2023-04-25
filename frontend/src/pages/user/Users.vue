@@ -22,18 +22,18 @@
             <q-btn
               color="blue-8"
               icon="edit"
+              v-if="ruxsatlar.edit"
               @click="ShowEditModal(users.row)"
               size="sm"
-              v-if="ruxsatlar.edit"
               danse
               class="q-ml-sm"
             />
             <q-btn
               color="red"
               icon="delete"
+              v-if="ruxsatlar.delete"
               @click="ShowDeleteModal(users.row)"
               size="sm"
-              v-if="ruxsatlar.delete"
               danse
               class="q-ml-sm"
             />

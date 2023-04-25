@@ -31,6 +31,7 @@ class CreateShartnomalarsTable extends Migration
             $table->string('hison_raqam');
             $table->string('qqs');
             $table->string('gazna')->nullable();
+            $table->string('gazna_name')->nullable();
             $table->string('holati')->default(1);
             $table->timestamps();
         });

@@ -25,6 +25,7 @@ class Shartnomalar extends Model
         "qqs",
         "holati",
         "gazna",
+        'gazna_name',
         "created_at", "updated_at"
     ];
     public function tuman()

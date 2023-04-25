@@ -164,6 +164,14 @@
             autofocus 
           />
         </q-card-section>
+        <q-card-section class="q-pt-none margin" v-if="form.type==2">
+          <q-input 
+            dense 
+            label="G'azna nomi"
+            v-model="form.gazna_name" 
+            autofocus 
+          />
+        </q-card-section>
         <q-card-actions align="right" class="text-blue stickybutton">
           <q-btn color="red"  label="Bekor qilish" @click="hide()"/>
           <q-btn color="blue"  label="Saqlash" @click="onOKClick"/>
@@ -204,6 +212,7 @@
               hison_raqam:'',
               qqs:'',
               gazna:'',
+              name:'',
             },
             types:[
               {
@@ -295,6 +304,9 @@
           this.$e("QQS to'lovchining ro'yxatdan o'tish ko'dini kiriting")
         }
         else if(this.form.gazna.length<1 && this.form.type==2){
+          this.$e("Gazna STIRini kiriting")
+        }
+        else if(this.form.gazna_name.length<3 && this.form.type==2){
           this.$e("Gazna STIRini kiriting")
         }
         else{

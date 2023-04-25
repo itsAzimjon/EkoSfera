@@ -25,7 +25,7 @@
           <q-select 
             filled
             use-input
-            @filter="buyurtna_filter"
+            @filter="buyurtmachi_filter"
             v-model="form.buyurtmachi_id" 
             :options="shartnomalar" 
             label='Buyurtmachini tanlang' 
@@ -33,56 +33,80 @@
             map-options
           />
         </q-card-section>
-        <q-card-section class="q-pt-none margin">
-          <q-input 
-            dense 
-            label="Texnika"
-            type="text"
-            v-model="form.texnika" 
-            ref="texnika"
-            :rules="[ val => val.length >1 || 'Texnikani kiriting']"
-            autofocus 
-          />
-        </q-card-section>
-        <q-card-section class="q-pt-none margin">
-          <q-input 
-            dense 
-            label="Haydovchi"
-            type="text"
-            v-model="form.haydovchi" 
-            ref="haydovchi"
-            :rules="[ val => val.length >3 || 'Haydovchi kiriting']"
-            autofocus 
-          />
-        </q-card-section>
-        <q-card-section class="q-pt-none margin">
-          <q-input 
-            dense 
-            label="Yuk"
-            type="number"
-            v-model="form.yuk" 
-            ref="yuk"
-            :rules="[ val => val.length >1 || 'Yukni kiriting']"
-            autofocus 
-          />
-        </q-card-section>
-        
-        
-        <q-card-section class="q-pt-none margin">
-          <q-select 
-            filled
-            use-input
-            v-model="form.type" 
-            :options="types" 
-            label='Chiqindi turini tanlang' 
-            emit-value
-            map-options
-          />
-        </q-card-section>
+        <div class="row">
+          <q-card-section class="q-pt-none margin col">
+            <q-input 
+              dense 
+              label="Texnika"
+              type="text"
+              v-model="form.texnika" 
+              ref="texnika"
+              :rules="[ val => val.length >1 || 'Texnikani kiriting']"
+              autofocus 
+            />
+          </q-card-section>
+          <q-card-section class="q-pt-none margin col">
+            <q-input 
+              dense 
+              label="Haydovchi"
+              type="text"
+              v-model="form.haydovchi" 
+              ref="haydovchi"
+              :rules="[ val => val.length >3 || 'Haydovchi kiriting']"
+              autofocus 
+            />
+          </q-card-section>
+        </div>
+        <div class="row">
 
+          <q-card-section class="q-pt-none margin col">
+            <q-input 
+              dense 
+              label="Yuk"
+              type="number"
+              v-model="form.yuk" 
+              ref="yuk"
+              :rules="[ val => val.length >1 || 'Yukni kiriting']"
+              autofocus 
+            />
+          </q-card-section>
+          
+          
+          <q-card-section class="q-pt-none margin col">
+            <q-select 
+              filled
+              use-input
+              v-model="form.type" 
+              :options="types" 
+              label='Chiqindi turini tanlang' 
+              emit-value
+              map-options
+            />
+          </q-card-section>
+        </div>
+        <div class="row">
+
+          <q-card-section class="q-pt-none margin col">
+            <q-checkbox v-model="buyurtma" label="Buyurtmaga biriktirish"/>
+          </q-card-section>
+
+
+          <q-card-section class="q-pt-none margin col" v-if="buyurtma">
+            <q-select 
+              filled
+              @filter="buyurtma_filter"
+              use-input
+              v-model="form.buyurtma_id" 
+              :options="buyurtmalar" 
+              label='Buyurtmani raqamini kiriting' 
+              emit-value
+              map-options
+            />
+          </q-card-section>
+          </div>
         <q-card-actions align="right" class="text-blue stickybutton">
           <q-btn color="red"  label="Bekor qilish" @click="hide()"/>
-          <q-btn color="blue"  label="Saqlash" @click="onOKClick"/>
+          <q-btn color="blue"  label="Saqlash" @click="onOKClick" :disabled="disabled"/>
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -98,10 +122,16 @@
         text:{
           type:String,
           required:true
+        },
+        url:{
+          type:String,
+          required:true
         }
     },
     data() {
         return {
+            buyurtma:false,
+            disabled:false,
             form:{
               id: "",
               sana:"",
@@ -110,6 +140,7 @@
               hayadovchi:"",
               yuk:"",
               type:"",
+              buyurtma_id:0
             },
             types:[
               {
@@ -122,6 +153,8 @@
               }
             ],
             shartnomalar:[],
+            buyurtmalar:[],
+            all_buyurtmalar:[],
             all_shartnomalar:[]
         }
     },
@@ -136,13 +169,30 @@
           for(var i=0;i<data.length;i++){
             var json = {
                   value:data[i].id,
-                  label:data[i].name
+                  label:data[i].stir + "  " + data[i].name
               }
               this.shartnomalar.push(json)
           }
           this.all_shartnomalar=this.shartnomalar;
         }).catch(error=>{
           this.$e("Sharnomalar olinmadi")
+        });
+        this.$axios.get('buyurtma/get').then(response=>{
+          let data=response.data.buyurtmalar;
+          console.log(data);
+          this.buyurtmalar=[]
+          for(var i=0;i<data.length;i++){
+            var json = {
+                  value:data[i].id,
+                  label:"#"+data[i].id + "#  " + 
+                  data[i].buyurtmachi.name+ "  " + 
+                  data[i].sana
+              }
+              this.buyurtmalar.push(json)
+          }
+          this.all_buyurtmalar=this.buyurtmalar;
+        }).catch(error=>{
+          this.$e("Buyurtmalar olinmadi")
         });
     },
     methods: {
@@ -152,26 +202,32 @@
       hide () {
         this.$refs.dialog.hide()
       },
-      buyurtna_filter (val, update) {
+      buyurtmachi_filter (val, update) {
           if (val === '') {
             update(() => {
               this.optionsStore = this.store
-
-              // here you have access to "ref" which
-              // is the Vue reference of the QSelect
             })
             return
           }
-
           update(() => {
             var needle=val.toLowerCase()
             this.shartnomalar=this.all_shartnomalar.filter((v) => v.label.toLowerCase().indexOf(needle) > -1,)
           })
-        
-       
       },
-      
+      buyurtma_filter(val, update) {
+          if (val === '') {
+            update(() => {
+              this.optionsStore = this.store
+            })
+            return
+          }
+          update(() => {
+            var needle=val.toLowerCase()
+            this.buyurtmalar=this.all_buyurtmalar.filter((v) => v.label.toLowerCase().indexOf(needle) > -1,)
+          })
+      },
       onOKClick () {
+        this.disabled=true
         if(this.form.sana.length<1){
           this.$e("Sanani kiriting")
         }
@@ -191,8 +247,16 @@
           this.$e("Yukni kiriting")
         }
         else{
-          this.$emit('ok',this.form)
-          this.hide()
+          this.$axios.post('talonlar/'+this.url,this.form).then(response=>{
+                this.$emit('ok')
+                this.$s("Muvaffaqqiyatli qo'shildi")
+                this.hide()
+            }).catch(error=>{
+                this.$e("Qo'shilmadi")
+                this.$checkstatus(error.response.status)
+                
+            });
+          
         }
        
       },

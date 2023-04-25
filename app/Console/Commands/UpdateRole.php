@@ -45,6 +45,11 @@ class UpdateRole extends Command
                 "icon" => "dashboard",
                 "url" => "dashboard",
             ],
+            "user" => [
+                "caption" => "Foydalanuvchilar",
+                "icon" => "people",
+                "url" => "users",
+            ]  ,
             "organizations" => [
                 "caption" => "Tashkilotlar",
                 "icon" => "dashboard",
@@ -92,16 +97,13 @@ class UpdateRole extends Command
                 "icon" => "dashboard",
                 "url" => "shablonlar",
             ],
-            "user" => [
-                "caption" => "Foydalanuvchilar",
-                "icon" => "people",
-                "url" => "users",
-            ]     
+              
         ];
 
         $all_permission = [
             "Admin" => [
                 "dashboard" => [true, true, true, true],
+                "user" => [true, true, true, true],
                 "organizations" => [true, true, true, true],
                 "yuridik" => [
                     "read" => true,
@@ -114,11 +116,11 @@ class UpdateRole extends Command
                 ],
                 "kadr" => [true, true, true, true],
                 "hisobot" => [true, true, true, true],
-                "shablon" => [true, true, true, true],
-                "user" => [true, true, true, true]
+                "shablon" => [true, true, true, true]
             ],
             "Admin_Tuman" => [
                 "dashboard" => [true, true, true, true],
+                "user" => [false, false, false, false],
                 "organizations" => [false, false, false, false],
                 "yuridik" => [
                     "read" => true,
@@ -131,11 +133,11 @@ class UpdateRole extends Command
                 ],
                 "kadr" => [true, true, true, true],
                 "hisobot" => [true, true, true, true],
-                "shablon" => [true, true, true, true],
-                "user" => [false, false, false, false]
+                "shablon" => [true, true, true, true]
             ],
             "Admin_Korxona" => [
                 "dashboard" => [true, true, true, true],
+                "user" => [false, false, false, false],
                 "organizations" => [false, false, false, false],
                 "yuridik" => [
                     "read" => true,
@@ -149,7 +151,6 @@ class UpdateRole extends Command
                 "kadr" => [true, true, true, true],
                 "hisobot" => [true, true, true, true],
                 "shablon" => [true, true, true, true],
-                "user" => [false, false, false, false]
             ]
         ];
 

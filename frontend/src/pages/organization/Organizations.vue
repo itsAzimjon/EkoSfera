@@ -21,6 +21,7 @@
             <q-btn
               color="blue-8"
               icon="edit"
+              v-if="ruxsatlar.edit"
               @click="ShowEditModal(mainData.row)"
               size="sm"
               danse
@@ -29,6 +30,7 @@
             <q-btn
               color="red"
               icon="delete"
+              v-if="ruxsatlar.delete"
               @click="ShowDeleteModal(mainData.row)"
               size="sm"
               danse
@@ -39,6 +41,7 @@
         <template v-slot:top>
           <q-btn
             color="blue"
+            v-if="ruxsatlar.add"
             :disable="loading"
             label="Yangi qo'shish"
             @click="ShowAddModal"
@@ -99,6 +102,11 @@
       data () {
         return {
             search: "",
+            ruxsatlar:{
+              add:false,
+              edit:false,
+              delete:false
+            },
             url:"",
             loading: false,
             pagination : {

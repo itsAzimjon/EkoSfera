@@ -17,6 +17,7 @@ class ShartnomalarController extends Controller
         if($request->sortBy=="index"){
             $request->sortBy='id';
         }
+        $request->filter=strtolower( $request->filter);
         $data=Shartnomalar::where('name','like','%'.$request->filter.'%')
         ->with('tuman')
         ->orwhere('stir','like','%'.$request->filter.'%')
@@ -84,6 +85,7 @@ class ShartnomalarController extends Controller
             "hison_raqam" =>$request->hison_raqam ,
             "qqs" =>$request->qqs ,
             "gazna" =>$request->gazna??"" ,
+            "gazna_name" =>$request->gazna_name??"" ,
         ]);
         return response()->json([
             'shartnoma'=> $shartnoma
@@ -129,6 +131,7 @@ class ShartnomalarController extends Controller
             "hison_raqam" =>$request->hison_raqam ,
             "qqs" =>$request->qqs ,
             "gazna" =>$request->gazna??"" ,
+            "gazna_name" =>$request->gazna_name??"" ,
         ]);
         return response()->json([
             'shartnoma'=> $shartnoma
