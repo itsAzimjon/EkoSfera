@@ -4,8 +4,8 @@
       flat
       bordered
       ref="tableRef"
-      title="buyurtma"
-      :rows="buyurtma"
+      title="Haydovchilar ro'yxati"
+      :rows="haydovchilar"
       :columns="columns"
       row-key="id"
       v-model:pagination="pagination"
@@ -17,33 +17,13 @@
       no-data-label="Ma'lumotlar yo'q"
       no-results-label="Ma'lumotlar topilmadi"
     >
-      <template v-slot:body-cell-holat="buyurtma">
-        <q-td :buyurtma="buyurtma" align="left" width="20px">
-          <template v-if="buyurtma.row.holati">
-            <q-badge color="green" rounded class="q-mr-sm" />
-            Bajarilgan
-          </template>
-          <template v-else>
-            <q-badge color="red" rounded class="q-md" />
-            Bajarilmagan
-          </template>
-        </q-td>
-      </template>
-      <template v-slot:body-cell-action="buyurtma">
-        <q-td :buyurtma="buyurtma" align="left" width="20px">
-          <q-btn
-            color="green"
-            icon="visibility"
-            @click="ViewModel(buyurtma.row)"
-            size="sm"
-            danse
-            class="q-ml-sm"
-          />
+      <template v-slot:body-cell-action="haydovchilar">
+        <q-td :haydovchilar="haydovchilar" align="left" width="20px">
           <q-btn
             color="blue-8"
             icon="edit"
             v-if="ruxsatlar.edit"
-            @click="ShowEditModal(buyurtma.row)"
+            @click="ShowEditModal(haydovchilar.row)"
             size="sm"
             danse
             class="q-ml-sm"
@@ -52,7 +32,7 @@
             color="red"
             icon="delete"
             v-if="ruxsatlar.delete"
-            @click="ShowDeleteModal(buyurtma.row)"
+            @click="ShowDeleteModal(haydovchilar.row)"
             size="sm"
             danse
             class="q-ml-sm"
@@ -61,12 +41,12 @@
       </template>
       <template v-slot:top>
         <q-btn
+          v-if="ruxsatlar.add"
           color="blue"
           size="sm"
-          style="font-size: 0.7rem"
           :disable="loading"
-          label="Qo'shish"
-          v-if="ruxsatlar.add"
+          style="font-size: 0.7rem"
+          label="Haydovchi qo'shish"
           @click="ShowAddModal"
         />
 
@@ -103,56 +83,16 @@
         </q-input>
       </template>
     </q-table>
-    <q-dialog
-      style="min-width: 50%"
-      v-model="ViewModelRef"
-      @hide="viewModelClose"
-    >
-      <q-card class="q-dialog-plugin">
-        <q-card-section class="sticky bg-primary text-white">
-          <div class="text-h6">To'liq Ma'lumot</div>
-        </q-card-section>
-        <q-card-section>
-          <div>
-            <q-list>
-              <q-item> Buyurtmachi : {{ showdata.buyurtmachi }} </q-item>
-              <q-item> Buyurtmachi STIR : {{ showdata.stir }} </q-item>
-              <q-item> Sana : {{ showdata.sana }} </q-item>
-              <q-item> Masul : {{ showdata.masul }} </q-item>
-              <q-item> Telefon : {{ showdata.phone }} </q-item>
-            </q-list>
-            <template v-if="showdata.talon != null">
-              <div>
-                <div class="text-h6">Biriktirilgan Talon</div>
-                <q-item>
-                  Buyurtma bajarilgan sana : {{ showdata.talon.sana }}
-                </q-item>
-                <q-item> Maxsus texnika : {{ showdata.talon.texnika }} </q-item>
-                <q-item> Hayadovchi : {{ showdata.talon.haydovchi }} </q-item>
-                <q-item> Yuk Hajmi : {{ showdata.talon.yuk }} </q-item>
-                <q-item>
-                  Chiqindi turi :
-                  {{ ["", "Maishiy", "Suyuq"][parseInt(showdata.talon.type)] }}
-                </q-item>
-              </div>
-            </template>
-          </div>
-        </q-card-section>
-        <q-card-actions align="right" class="stickybutton bg-primary">
-          <q-btn color="info" label="Yopish" @click="viewModelClose" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
   </div>
 </template>
 <script>
+import EditAdd from "./EditAdd.vue";
 import { mapState } from "vuex";
-import AddEdit from "./AddEdit.vue";
 
 export default {
-  name: "buyurtma",
+  name: "haydovchilar",
   components: {
-    AddEdit,
+    EditAdd,
   },
   computed: {
     ...mapState({
@@ -161,13 +101,13 @@ export default {
   },
   data() {
     return {
-      search: "",
+      url: "",
       ruxsatlar: {
         add: false,
         edit: false,
         delete: false,
       },
-      url: "",
+      search: "",
       loading: false,
       pagination: {
         sortBy: "id",
@@ -175,57 +115,30 @@ export default {
         page: 1,
         rowsPerPage: 10,
         rowsNumber: 0,
+        label: "asdfk",
       },
       columns: [
         {
           name: "index",
-          label: "Buyurtma raqami",
-          field: "id",
+          label: "#",
+          field: "index",
           align: "left",
           style: "width: 10px",
           sortable: true,
         },
         {
-          name: "sana",
-          field: "sana",
-          label: "Sana",
+          name: "name",
+          field: "name",
+          label: "FIO",
           align: "left",
           sortable: true,
         },
         {
-          name: "buyurtmachi",
-          field: "buyurtmachi",
-          label: "Buyurtmachi",
-          align: "left",
-          sortable: false,
-        },
-        {
-          name: "stir",
-          field: "stir",
-          label: "Stir",
-          align: "left",
-          sortable: false,
-        },
-        {
-          name: "masul",
-          field: "masul",
-          label: "Masul shaxs",
+          name: "guvohnoma",
+          field: "guvohnoma",
+          label: "Haydovchilik guvohnomasi",
           align: "left",
           sortable: true,
-        },
-        {
-          name: "phone",
-          field: "phone",
-          label: "Telefon",
-          align: "left",
-          sortable: true,
-        },
-        {
-          name: "holat",
-          field: "holat",
-          label: "Holati",
-          align: "left",
-          sortable: false,
         },
         {
           name: "action",
@@ -234,28 +147,16 @@ export default {
           style: "width: 20px !important",
         },
       ],
-      visibleColumns: [
-        "index",
-        "sana",
-        "buyurtmachi",
-        "stir",
-        "masul",
-        "phone",
-        "holat",
-        "action",
-      ],
-      buyurtma: [],
+      visibleColumns: ["index", "name", "guvohnoma", "action"],
+      haydovchilar: [],
       AddData: {
-        sana: "",
-        buyurtmachi_id: "",
-        masul: "",
-        phone: "",
+        name: "",
+        guvohnoma: "",
       },
-      ViewModelRef: false,
-      showdata: [],
     };
   },
   async mounted() {
+    //tokenni tekshiruvdan o'tkazish
     this.$q.loading.show({
       spinnerColor: "green",
       spinnerSize: 140,
@@ -265,10 +166,11 @@ export default {
     });
     await this.getData(this.pagination, this.search);
     this.url = this.$route.name;
-    if (!this.$checkRole(this.url, this.permission)) {
+
+    let res = this.$getter(this.permission, this.url);
+    if (!res.read) {
       this.$router.push({ name: "login" });
     }
-    let res = this.$getter(this.permission, this.url);
     this.ruxsatlar = {
       add: res.add,
       edit: res.edit,
@@ -286,73 +188,65 @@ export default {
         descending: pagination.descending,
       };
       await this.$axios
-        .post("buyurtma", data)
+        .post("haydovchi", data)
         .then((response) => {
-          let data = response.data.buyurtma.data;
-          console.log(data);
-          this.buyurtma = [];
+          let data = response.data.haydovchilar.data;
+          this.haydovchilar = [];
           let ind =
-            (response.data.buyurtma.current_page - 1) *
-              response.data.buyurtma.per_page +
+            (response.data.haydovchilar.current_page - 1) *
+              response.data.haydovchilar.per_page +
             1;
           for (var i = 0; i < data.length; i++) {
             var json = {
               index: ind++,
               id: data[i].id,
-              sana: data[i].sana,
-              buyurtmachi: data[i].buyurtmachi.name,
-              stir: data[i].buyurtmachi.stir,
-              buyurtmachi_id: parseInt(data[i].buyurtmachi_id),
-              masul: data[i].masul,
-              phone: data[i].phone,
-              holati: data[i].talon != null,
-              talon: data[i].talon,
+              name: data[i].name,
+              guvohnoma: data[i].guvohnoma,
             };
-            this.buyurtma.push(json);
+            this.haydovchilar.push(json);
           }
-          this.pagination.rowsNumber = response.data.buyurtma.total;
+          this.pagination.rowsNumber = response.data.haydovchilar.total;
         })
         .catch((error) => {
-          this.$e("Malumot olishda xato");
+          this.$e("Mauloat olishda xato");
           this.$checkstatus(error.response.status);
         });
     },
-    onRequest(props) {
+    async onRequest(props) {
+      console.log(props);
       this.loading = true;
       this.pagination = props.pagination;
-      this.getData(props.pagination, this.search);
+      await this.getData(props.pagination, this.search);
       this.loading = false;
     },
     ShowAddModal() {
       this.$q
         .dialog({
-          component: AddEdit,
+          component: EditAdd,
+          // props forwarded to your custom component
           componentProps: {
             Data: this.AddData,
-            text: "Qo'shish",
             url: "add",
+            success: "Muofaqqiyatli qo'shildi",
+            error: "Qo'shilmadi",
+            text: "Yangi Haydovchi",
           },
         })
-        .onOk(() => {
+        .onOk((from) => {
           this.getData(this.pagination, this.search);
-          this.AddData = {
-            sana: "",
-            buyurtmachi_id: "",
-            masul: "",
-            phone: "",
-          };
         });
     },
     ShowEditModal(data) {
       this.$q
         .dialog({
-          component: AddEdit,
-
+          component: EditAdd,
           // props forwarded to your custom component
           componentProps: {
             Data: data,
-            text: "Foydalanuvchini O'zgartish",
             url: "edit",
+            success: "Muofaqqiyatli tahrirlandi",
+            error: "Tahrirlanmadi",
+            text: "Haydovchini O'zgartish",
           },
         })
         .onOk((from) => {
@@ -377,23 +271,15 @@ export default {
         })
         .onOk(() => {
           this.$axios
-            .post("buyurtma/delete", { id: data.id })
+            .post("haydovchi/delete", { id: data.id })
             .then((response) => {
               this.$s("Muofaqqiyatli O'chirildi");
               this.getData(this.pagination, this.search);
             })
             .catch((error) => {
               this.$e("O'chira olmadik");
-              this.$checkstatus(error.response.status);
             });
         });
-    },
-    ViewModel(data) {
-      this.showdata = data;
-      this.ViewModelRef = true;
-    },
-    viewModelClose() {
-      this.ViewModelRef = false;
     },
   },
 };
@@ -437,19 +323,4 @@ export default {
   td:first-child, th:first-child
     position: sticky
     left: 0
-</style>
-
-<style scoped>
-.sticky {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: inherit;
-}
-.stickybutton {
-  position: sticky;
-  bottom: 0;
-  z-index: 100;
-  background: inherit;
-}
 </style>

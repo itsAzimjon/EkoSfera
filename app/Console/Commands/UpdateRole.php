@@ -70,6 +70,16 @@ class UpdateRole extends Command
                         "icon" => "receipt",
                         "url" => "talonlar",
                     ],
+                    "haydovchi" => [
+                        "caption" => "Haydovchi",
+                        "icon" => "engineering",
+                        "url" => "haydovchi",
+                    ],
+                    "texnika" => [
+                        "caption" => "Texnikalar",
+                        "icon" => "local_shipping",
+                        "url" => "texnika",
+                    ],
                     "dalolatnoma" => [
                         "caption" => "Dalolatnoma",
                         "icon" => "receipt",
@@ -103,15 +113,17 @@ class UpdateRole extends Command
         $all_permission = [
             "Admin" => [
                 "dashboard" => [true, true, true, true],
-                "user" => [true, true, true, true],
-                "organizations" => [true, true, true, true],
+                "user" => [true, true, true, false],
+                "organizations" => [true, true, true, false],
                 "yuridik" => [
                     "read" => true,
                     "children" => [
-                        "shartnoma" => [true, true, true, true],
-                        "talon" => [true, true, true, true],
-                        "dalolatnoma" => [true, true, true, true],
-                        "buyurtma" => [true, true, true, true],
+                        "shartnoma" => [true, true, true, false],
+                        "haydovchi" => [true, true, true, false],
+                        "texnika" => [true, true, true, false],
+                        "talon" => [true, true, true, false],
+                        "dalolatnoma" => [true, true, true, false],
+                        "buyurtma" => [true, true, true, false],
                     ]
                 ],
                 "kadr" => [true, true, true, true],
@@ -126,6 +138,8 @@ class UpdateRole extends Command
                     "read" => true,
                     "children" => [
                         "shartnoma" => [true, true, true, true],
+                        "haydovchi" => [true, true, true, true],
+                        "texnika" => [true, true, true, true],
                         "talon" => [true, true, true, true],
                         "dalolatnoma" => [true, true, true, true],
                         "buyurtma" => [true, true, true, true],
@@ -143,6 +157,8 @@ class UpdateRole extends Command
                     "read" => true,
                     "children" => [
                         "shartnoma" => [true, true, true, true],
+                        "haydovchi" => [true, true, true, true],
+                        "texnika" => [true, true, true, true],
                         "talon" => [true, true, true, true],
                         "dalolatnoma" => [true, true, true, true],
                         "buyurtma" => [true, true, true, true],

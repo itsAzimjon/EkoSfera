@@ -6,7 +6,7 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none margin">
-          <q-input filled v-model="form.sana" mask="date" :rules="['date']" label="Sanasi">
+          <q-input dense v-model="form.sana" mask="date" :rules="['date']" label="Sanasi">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -23,7 +23,7 @@
         
         <q-card-section class="q-pt-none margin">
           <q-select 
-            filled
+            dense
             use-input
             @filter="buyurtna_filter"
             v-model="form.buyurtmachi_id" 

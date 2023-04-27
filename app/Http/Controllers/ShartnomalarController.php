@@ -20,13 +20,16 @@ class ShartnomalarController extends Controller
         $request->filter=strtolower( $request->filter);
         $data=Shartnomalar::where('name','like','%'.$request->filter.'%')
         ->with('tuman')
-        ->orwhere('stir','like','%'.$request->filter.'%')
-        ->orwhere('rahbar','like','%'.$request->filter.'%')
-        ->orwhere('bugalter','like','%'.$request->filter.'%')
-        ->orwhere('tel','like','%'.$request->filter.'%')
-        ->orwhere('mfo','like','%'.$request->filter.'%')
-        ->orwhere('hison_raqam','like','%'.$request->filter.'%')
-        ->orwhere('qqs','like','%'.$request->filter.'%')
+        ->where('holati','!=',$request->holati)
+        ->where(function($query) use ($request){
+            $query->orwhere('stir','like','%'.$request->filter.'%')
+            ->orwhere('rahbar','like','%'.$request->filter.'%')
+            ->orwhere('bugalter','like','%'.$request->filter.'%')
+            ->orwhere('tel','like','%'.$request->filter.'%')
+            ->orwhere('mfo','like','%'.$request->filter.'%')
+            ->orwhere('hison_raqam','like','%'.$request->filter.'%')
+            ->orwhere('qqs','like','%'.$request->filter.'%');
+        })
         ->orderBy($request->sortBy,$sort)
         ->paginate($request->rowsPerPage);
         return response()->json([
@@ -147,5 +150,21 @@ class ShartnomalarController extends Controller
         return response()->json([
             'message'=>"error"
         ],402); 
+    }
+    public function holat(Request $request)
+    {
+        $this->validate($request, [
+            "id" => "required",
+            'value'=>"required",
+        ]);
+        
+
+        
+        $shartnoma = Shartnomalar::where('id',$request->id)->update([
+            "holati" =>$request->value,
+        ]);
+        return response()->json([
+            'shartnoma'=> $shartnoma
+        ]); 
     }
 }

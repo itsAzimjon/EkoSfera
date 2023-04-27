@@ -6,7 +6,7 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none margin">
-          <q-input filled v-model="form.sana" mask="date" :rules="['date']" label="Sanasi">
+          <q-input dense v-model="form.sana" mask="date" :rules="['date']" label="Sanasi">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -23,7 +23,7 @@
         
         <q-card-section class="q-pt-none margin">
           <q-select 
-            filled
+            dense
             use-input
             @filter="buyurtmachi_filter"
             v-model="form.buyurtmachi_id" 
@@ -74,7 +74,7 @@
           
           <q-card-section class="q-pt-none margin col">
             <q-select 
-              filled
+              dense
               use-input
               v-model="form.type" 
               :options="types" 
@@ -93,7 +93,7 @@
 
           <q-card-section class="q-pt-none margin col" v-if="buyurtma">
             <q-select 
-              filled
+              dense
               @filter="buyurtma_filter"
               use-input
               v-model="form.buyurtma_id" 
@@ -182,7 +182,7 @@
           console.log(data);
           this.buyurtmalar=[]
           for(var i=0;i<data.length;i++){
-            if(data[i].talon)
+            if(!data[i].talon)
             {
                 var json = {
                     value:data[i].id,
@@ -229,7 +229,7 @@
             this.buyurtmalar=this.all_buyurtmalar.filter((v) => v.label.toLowerCase().indexOf(needle) > -1,)
           })
       },
-      onOKClick () {
+      async onOKClick () {
         this.disabled=true
         if(this.form.sana.length<1){
           this.$e("Sanani kiriting")
@@ -250,7 +250,7 @@
           this.$e("Yukni kiriting")
         }
         else{
-          this.$axios.post('talonlar/'+this.url,this.form).then(response=>{
+          await this.$axios.post('talonlar/'+this.url,this.form).then(response=>{
                 this.$emit('ok')
                 this.$s("Muvaffaqqiyatli qo'shildi")
                 this.hide()
@@ -261,7 +261,8 @@
             });
           
         }
-       
+        this.disabled=false
+        
       },
   
     //   onDialogHide () {
@@ -279,7 +280,7 @@
   </script>
   <style scoped>
   .margin{
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
   }
   .sticky{
     position: sticky; 

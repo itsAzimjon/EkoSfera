@@ -18,7 +18,13 @@ class OrganizationController extends Controller
         if ($request->sortBy == "index") {
             $request->sortBy = 'id';
         }
-        $data = Organization::where('name', 'like', '%' . $request->filter . '%')->with("regions")->orderBy($request->sortBy, $sort)->paginate($request->rowsPerPage);
+        $data = Organization::with("regions")
+        ->where(function($query) use ($request){
+            $query->where('name', 'like', '%' . $request->filter . '%');
+        })
+        ->where('status','!=',$request->holati)
+        ->orderBy($request->sortBy, $sort)
+        ->paginate($request->rowsPerPage);
 
         return response()->json([
             'status' => 1,
@@ -69,5 +75,19 @@ class OrganizationController extends Controller
         return response()->json([
             "status" => 1
         ], 200);
+    }
+    public function holat(Request $request)
+    {
+        $this->validate($request, [
+            "id" => "required",
+            'value'=>"required",
+        ]);
+        
+        Organization::where('id',$request->id)->update([
+            "status" =>$request->value,
+        ]);
+        return response()->json([
+            'message'=> "success"
+        ]); 
     }
 }

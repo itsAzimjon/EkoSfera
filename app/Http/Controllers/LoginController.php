@@ -47,9 +47,14 @@ class LoginController extends Controller
                 "icon" => "dashboard",
                 "url" => "dashboard",
             ],
+            "user" => [
+                "caption" => "Foydalanuvchilar",
+                "icon" => "people",
+                "url" => "users",
+            ]  ,
             "organizations" => [
                 "caption" => "Tashkilotlar",
-                "icon" => "dashboard",
+                "icon" => "corporate_fare",
                 "url" => "organizations",
             ],
             "yuridik" => [
@@ -64,8 +69,18 @@ class LoginController extends Controller
                     ],
                     "talon" => [
                         "caption" => "Talonlar",
-                        "icon" => "receipt",
+                        "icon" => "fact_check",
                         "url" => "talonlar",
+                    ],
+                    "haydovchi" => [
+                        "caption" => "Haydovchi",
+                        "icon" => "engineering",
+                        "url" => "haydovchi",
+                    ],
+                    "texnika" => [
+                        "caption" => "Texnikalar",
+                        "icon" => "local_shipping",
+                        "url" => "texnika",
                     ],
                     "dalolatnoma" => [
                         "caption" => "Dalolatnoma",
@@ -74,7 +89,7 @@ class LoginController extends Controller
                     ],
                     "buyurtma" =>[
                         "caption" => "Buyurtma",
-                        "icon" => "receipt",
+                        "icon" => "receipt_long",
                         "url" => "buyurtma",
                     ],
                 ]
@@ -94,11 +109,7 @@ class LoginController extends Controller
                 "icon" => "dashboard",
                 "url" => "shablonlar",
             ],
-            "user" => [
-                "caption" => "Foydalanuvchilar",
-                "icon" => "people",
-                "url" => "users",
-            ]     
+              
         ];
         $user = User::where("id", $id)->with("role")->first();
         $permission=json_decode($user->role->permission,TRUE)['data'];
@@ -170,8 +181,11 @@ class LoginController extends Controller
         }
         $request->filter=strtolower( $request->filter);
         $users=User::with("tuman")->with('organization')
-        ->where('name','like','%'.$request->filter.'%')
-        ->orwhere('email','like','%'.$request->filter.'%')
+        ->where(function($query) use ($request){
+            $query->where('name','like','%'.$request->filter.'%')
+            ->orwhere('email','like','%'.$request->filter.'%');
+        })
+        ->where('status','!=',$request->holati)
         ->orderBy($request->sortBy,$sort)
         ->paginate($request->rowsPerPage);
         return response()->json([
@@ -241,7 +255,7 @@ class LoginController extends Controller
     
     public function delete(Request $request)
     {
-        User::find($request->id)->delete();
+        $user = User::find($request->id)->update(['role_id'=>0]);
         return response()->json([
             'massage'=>"Success"
         ]); 
@@ -251,6 +265,20 @@ class LoginController extends Controller
         $data=Organization::all();
         return response()->json([
             'organization'=>$data
+        ]); 
+    }
+    public function holat(Request $request)
+    {
+        $this->validate($request, [
+            "id" => "required",
+            'value'=>"required",
+        ]);
+        
+        User::where('id',$request->id)->update([
+            "status" =>$request->value,
+        ]);
+        return response()->json([
+            'message'=> "success"
         ]); 
     }
 }

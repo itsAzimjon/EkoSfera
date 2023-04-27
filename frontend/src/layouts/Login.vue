@@ -1,4 +1,3 @@
-
 <template>
   <q-layout>
     <q-page-container>
@@ -18,6 +17,7 @@
                 <q-card-section>
                   <q-input
                     square
+                    dense
                     outlined
                     clearable
                     v-model="login.email"
@@ -27,9 +27,12 @@
                         (val && val.length > 0) || 'Please enter an email',
                     ]"
                     type="email"
+                    size="sm"
                     label="Email"
                   />
                   <q-input
+                    size="sm"
+                    dense
                     square
                     outlined
                     clearable
@@ -43,10 +46,10 @@
                   <q-btn
                     unelevated
                     color="primary"
-                    size="lg"
+                    size="sm"
                     class="full-width"
                     label="Login"
-                    @click="signin" 
+                    @click="signin"
                   />
                 </q-card-actions>
               </q-card>
@@ -58,54 +61,54 @@
   </q-layout>
 </template>
 <script>
-import {mapState} from "vuex"
-import { defineComponent } from 'vue';
+import { mapState } from "vuex";
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'HomeView',
-  components:{
-  },
+  name: "HomeView",
+  components: {},
   data() {
     return {
-      login:{
-        email:"",
-        password:""
-      }
-    }
+      login: {
+        email: "",
+        password: "",
+      },
+    };
   },
   computed: {
     ...mapState({
-      isLoading:state=>state.auth.isLoading,
-    })
+      isLoading: (state) => state.auth.isLoading,
+    }),
   },
   methods: {
-    async signin(){
+    async signin() {
       this.$q.loading.show({
-          spinnerColor: 'green',
-          spinnerSize: 140,
-          backgroundColor: 'blue',
-          message: 'Iltimos kuting!!!',
-          messageColor: 'black'
+        spinnerColor: "green",
+        spinnerSize: 140,
+        backgroundColor: "blue",
+        message: "Iltimos kuting!!!",
+        messageColor: "black",
+      });
+      await this.$store
+        .dispatch("Login", this.login)
+        .then((ren) => {
+          this.$s("Muofaqqiyatli Kiridingiz");
+          this.$router.push({ name: "dashboard" });
+          this.$q.loading.hide();
         })
-      await this.$store.dispatch('Login',this.login).then(ren=>{
-        this.$s("Muofaqqiyatli Kiridingiz")
-        this.$router.push({name:"dashboard"})
-        this.$q.loading.hide()
-      }).catch(error=>{
-        this.$e("Parol yoki email xato")
-        this.$q.loading.hide()
-      })
-
-    }
+        .catch((error) => {
+          this.$e("Parol yoki email xato");
+          this.$q.loading.hide();
+        });
+    },
   },
-  mounted(){
-
-    this.$store.dispatch('check').then(res=>{
-      this.$router.push({name:"dashboard"})
-      }).catch(error=>{
-        
+  mounted() {
+    this.$store
+      .dispatch("check")
+      .then((res) => {
+        this.$router.push({ name: "dashboard" });
       })
-  }
-  
+      .catch((error) => {});
+  },
 });
 </script>
