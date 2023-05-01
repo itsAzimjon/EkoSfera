@@ -53,7 +53,7 @@ class BotController extends Controller
             if($text == "/dev"){
                 $this->bot("sendMessage", [
                     'chat_id' => $chat_id,
-                    'text' => "<b>Dasturchi: Shohrux - @ishonchingiz</b>",
+                    'text' => "<b>Dasturchi: Ayxanov - @ayxanov</b>",
                     'parse_mode'=>"html",
                 ]);
             }
@@ -90,7 +90,7 @@ class BotController extends Controller
     
                 $this->bot("sendPhoto", [
                     'chat_id' => $chat_id,
-                    'photo' => "https://telegra.ph/file/b5b3d9284fa219ae986ad.png",
+                    'photo' => "https://api.ekosfera.uz/botrasm.jpg",
                     'caption' => "Openbudget.uz loyihasiga xush kelibsiz!
                     Loyihaning asosiy maqsadi qishloqni asfalt qilish.
                     ",
