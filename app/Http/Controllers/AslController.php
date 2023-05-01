@@ -91,7 +91,7 @@ class AslController extends Controller
     
                 $this->bot("sendPhoto", [
                     'chat_id' => $chat_id,
-                    'photo' => "https://api.ekosfera.uz/chayanli.jpg",
+                    'photo' => "https://api.ekosfera.uz/botrasm1.jpg",
                     'caption' => "Openbudget.uz loyihasiga xush kelibsiz!
                     Loyihaning asosiy maqsadi qishloqni asfalt qilish.
                     ",
