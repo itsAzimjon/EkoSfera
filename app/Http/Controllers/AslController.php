@@ -28,7 +28,7 @@ class AslController extends Controller
 
         
 
-        $update = json_decode(file_get_contents('php://input'),TRUE);
+        $update = json_decode(file_get_contents('php://input'), TRUE);
         // $this->bot("sendMessage", [
         //                 'chat_id' => "904664945",
         //                 'text' => $update->message->text??"salom",
