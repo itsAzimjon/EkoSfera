@@ -44,7 +44,7 @@ class AslController extends Controller
         //             ]);
         
             $chat_id     = $update['message']['chat']['id']??"904664945";
-            $text  = $update['text']??"assa";
+            $text  = $update['message']['text']??"assa";
     
     
     
