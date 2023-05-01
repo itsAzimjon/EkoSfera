@@ -19,4 +19,4 @@ Route::get('/', function () {
 
 Route::get('generate-pdf','RegionController@generatePDF');
 Route::get('pdf','RegionController@viewPDF');
-Route::any('bot','BotController@bot');
+Route::any('/bot','BotController@index');
