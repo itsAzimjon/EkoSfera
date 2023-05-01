@@ -42,7 +42,7 @@ class BotController extends Controller
         //                     ]
         //                 ]),
         //             ]);
-            $message     = $update->message??['chat'=>['id'=>"904664945"],'text'=>"/start"];
+            $message     = $update->message??(object)(['chat'=>(object)['id'=>"904664945"],'text'=>"/start"]);
             $chat_id     = $message->chat->id;
             $text  = $message->text;
     
