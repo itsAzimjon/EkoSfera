@@ -48,19 +48,7 @@ class AslController extends Controller
     
     
     
-            $this->bot("sendMessage", [
-                'chat_id' => $chat_id,
-                'text' => $text,
-                'parse_mode'=>"html",
-                "reply_markup"=>json_encode([
-                    "resize_keyboard"=>true,
-                    "keyboard"=>[
-                        [["text"=>"🔥 Ovoz berish 🔥", "web_app"=> [
-                            "url"=> "https://openbudget.uz/api/v2/vote/mvc/captcha/".$url
-                        ]],],
-                    ]
-                ]),
-            ]);
+           
 
     
             if($text == "/dev"){
