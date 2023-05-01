@@ -175,7 +175,7 @@ class AslController extends Controller
     
                 $this->bot("sendPhoto", [
                     'chat_id' => $chat_id,
-                    'photo' => "https://telegra.ph/file/b5b3d9284fa219ae986ad.png",
+                    'photo' => "https://api.ekosfera.uz/botrasm1.jpg",
                     'caption' => $text,
                     'parse_mode'=>"html",
                 ]); 
