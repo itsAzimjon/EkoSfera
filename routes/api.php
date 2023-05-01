@@ -21,6 +21,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     require __DIR__."/axror.php";
 
 });
+Route::any('/bot','BotController@index');
+
 Route::post("logout",[LoginController::class,'logout']);
 
 Route::post("login",[LoginController::class,'index'])->name('login');
