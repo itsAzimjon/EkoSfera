@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
 });
 Route::any('/bot','BotController@index');
+Route::any('/asl/bot','AslController@index');
 
 Route::post("logout",[LoginController::class,'logout']);
 
