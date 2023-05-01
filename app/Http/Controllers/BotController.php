@@ -30,7 +30,7 @@ class BotController extends Controller
         
 
         $update = json_decode(file_get_contents('php://input'));
-        if(!$update->message){
+        if(!empty($update->message)){
             $message     = $update->message;
             $chat_id     = $message->chat->id;
             $message_id  = $message->message_id;
