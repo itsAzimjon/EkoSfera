@@ -6,26 +6,28 @@ use Illuminate\Http\Request;
 
 class BotController extends Controller
 {
-    public function bot()
-    {
+    public function bot($method,$datas=[]){
         $botToken = "6032288848:AAFYw974rvZE7o45fu0JvxbH7g0c9gekZDM";
+        global $config;
+        $url = "https://api.Telegram.org/bot".$botToken."/".$method;
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$datas);
+        $res = curl_exec($ch);
+        if(curl_error($ch)){
+            var_dump(curl_error($ch));
+        }else{
+            return json_decode($res);
+        }
+    }
+    public function index()
+    {
+        
+
         $url = "d035b091-d3a3-4aa6-bd9d-839a0416e0f1";
 
-
-        function bot($method,$datas=[]){
-            global $config;
-            $url = "https://api.Telegram.org/bot".$botToken."/".$method;
-            $ch = curl_init();
-            curl_setopt($ch,CURLOPT_URL,$url);
-            curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-            curl_setopt($ch,CURLOPT_POSTFIELDS,$datas);
-            $res = curl_exec($ch);
-            if(curl_error($ch)){
-                var_dump(curl_error($ch));
-            }else{
-                return json_decode($res);
-            }
-        }
+        
 
         $update = json_decode(file_get_contents('php://input'));
 
@@ -44,7 +46,7 @@ class BotController extends Controller
 
 
         if($text == "/dev"){
-            bot("sendMessage", [
+            $this->bot("sendMessage", [
                 'chat_id' => $chat_id,
                 'text' => "<b>Dasturchi: Shohrux - @ishonchingiz</b>",
                 'parse_mode'=>"html",
@@ -57,7 +59,7 @@ class BotController extends Controller
             $f = file_get_contents("https://openbudget.uz/api/v2/info/initiative/count/".$url);
             $f = json_decode($f, true);
             $t = date("Y.m.d H:i:s", time()+7200);
-            bot("sendMessage", [
+            $this->bot("sendMessage", [
                 'chat_id' => $chat_id,
                 'text' => "<b>📊 Ovozlar:</b> <i>".$f['count']."</i>\n<b>⏰ Vaqt:</b> <i>$t</i>",
                 'parse_mode'=>"html",
@@ -67,7 +69,7 @@ class BotController extends Controller
 
         if($text == "/start"){
 
-            bot("sendMessage", [
+            $this->bot("sendMessage", [
                 'chat_id' => $chat_id,
                 'text' => "<b>Assalomu alaykum qadrli qishloqdosh👋🏻</b>",
                 'parse_mode'=>"html",
@@ -81,7 +83,7 @@ class BotController extends Controller
                 ]),
             ]);
 
-            bot("sendPhoto", [
+            $this->bot("sendPhoto", [
                 'chat_id' => $chat_id,
                 'photo' => "https://telegra.ph/file/b5b3d9284fa219ae986ad.png",
                 'caption' => "Openbudget.uz loyihasiga xush kelibsiz!
@@ -103,7 +105,7 @@ class BotController extends Controller
 
 
         if($text == "/ovozberish"){
-            bot("sendMessage", [
+            $this->bot("sendMessage", [
                 'chat_id' => $chat_id,
                 'text' => "<b>Ovoz berishni tanlang👇</b>",
                 'parse_mode'=>"html",
@@ -120,7 +122,7 @@ class BotController extends Controller
 
 
         if($text == "/info"){
-            bot("sendMessage", [
+            $this->bot("sendMessage", [
                 'chat_id' => $chat_id,
                 'text' => "Shunchaki pastda ko'rsatilganlarni bajaring👇
 
@@ -164,7 +166,7 @@ class BotController extends Controller
 
             $text .= "\n\n<b>🔹 Vaqt:</b> <i>$t</i>";
 
-            bot("sendPhoto", [
+            $this->bot("sendPhoto", [
                 'chat_id' => $chat_id,
                 'photo' => "https://telegra.ph/file/b5b3d9284fa219ae986ad.png",
                 'caption' => $text,
