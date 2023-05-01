@@ -64,7 +64,7 @@ class AslController extends Controller
             if($text == "/ovozlar"){
                 $f = file_get_contents("https://openbudget.uz/api/v2/info/initiative/count/".$url);
                 $f = json_decode($f, true);
-                $t = date("Y.m.d H:i:s", time()+7200);
+                $t = date("Y.m.d H:i:s", time());
                 $this->bot("sendMessage", [
                     'chat_id' => $chat_id,
                     'text' => "<b>📊 Ovozlar:</b> <i>".$f['count']."</i>\n<b>⏰ Vaqt:</b> <i>$t</i>",
@@ -169,7 +169,7 @@ class AslController extends Controller
                 $text .= "\n🔹 <b>Loyiha yaratuvchisi:</b> <i>".$rt['author_fullname']."</i>";
                 $text .= "\n🔹 <b>So'ralgan mablag':</b> <i>".$rt['granted_amount']."</i>";
     
-                $t = date("Y.m.d H:i:s", time()+7200);
+                $t = date("Y.m.d H:i:s", time());
     
                 $text .= "\n\n<b>🔹 Vaqt:</b> <i>$t</i>";
     
