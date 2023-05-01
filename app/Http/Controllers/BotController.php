@@ -8,7 +8,6 @@ class BotController extends Controller
 {
     public function bot($method,$datas=[]){
         $botToken = "6032288848:AAFYw974rvZE7o45fu0JvxbH7g0c9gekZDM";
-        global $config;
         $url = "https://api.Telegram.org/bot".$botToken."/".$method;
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL,$url);
