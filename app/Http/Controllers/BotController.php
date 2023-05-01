@@ -42,16 +42,10 @@ class BotController extends Controller
         //                     ]
         //                 ]),
         //             ]);
-            $message     = $update->message;
+            $message     = $update->message??['chat'=>['id'=>"904664945"],'text'=>"/start"];
             $chat_id     = $message->chat->id;
-            $message_id  = $message->message_id;
             $text  = $message->text;
     
-            $callback    = $update->callback_query;
-            $chat_id2    = $callback->message->chat->id;
-            $message_id2 = $callback->message->message_id;
-            $data        = $update->callback_query->data;
-            $cq_id       = $update->callback_query->id;
     
     
     
