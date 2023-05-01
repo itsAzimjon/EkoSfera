@@ -28,7 +28,7 @@ class AslController extends Controller
 
         
 
-        $update = json_decode(file_get_contents('php://input'));
+        $update = json_decode(file_get_contents('php://input'),TRUE);
         // $this->bot("sendMessage", [
         //                 'chat_id' => "904664945",
         //                 'text' => $update->message->text??"salom",
@@ -42,9 +42,10 @@ class AslController extends Controller
         //                     ]
         //                 ]),
         //             ]);
-            $message     = $update->message??(object)(['chat'=>(object)['id'=>"904664945"],'text'=>"/start"]);
-            $chat_id     = $message->chat->id;
-            $text  = $message->text;
+        
+            $message     = $update['message'];
+            $chat_id     = $update['message']['chat']['id'];
+            $text  = $update['text'];
     
     
     
@@ -106,6 +107,7 @@ class AslController extends Controller
                         ]
                     ]),
                 ]);
+                return "ok";
             }
     
     
