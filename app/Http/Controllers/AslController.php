@@ -179,7 +179,9 @@ class AslController extends Controller
                     'caption' => $text,
                     'parse_mode'=>"html",
                 ]); 
-        }
+                exit();
+                return "ok";
+            }
         
     }
 }
