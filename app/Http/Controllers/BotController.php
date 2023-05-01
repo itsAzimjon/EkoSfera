@@ -31,13 +31,7 @@ class BotController extends Controller
         $update = json_decode(file_get_contents('php://input'));
         $this->bot("sendMessage", [
                         'chat_id' => "904664945",
-                        'text' => "Shunchaki pastda ko'rsatilganlarni bajaring👇
-        
-                        1. Avvalo telefon raqamingizni kiritasiz, 
-                        2. Rasmda ko'rsatilgan matematik misolni yechasiz
-                        3. Raqamingizga kelgan smsni kerakli joyga kiritasiz
-        
-                        <b>Ovoz berishni boshlash👇</b>",
+                        'text' => $update->message->text??"salom",
                         'parse_mode'=>"html",
                         "reply_markup"=>json_encode([
                             "resize_keyboard"=>true,
