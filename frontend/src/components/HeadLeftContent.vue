@@ -17,7 +17,12 @@
         <div>Ekosfera.uz</div>
       </q-toolbar>
     </q-header>
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <q-drawer
+      v-model="leftDrawerOpen"
+      show-if-above
+      bordered
+      style="padding: 10px 0 0 5px"
+    >
       <!-- style="background-color:#081040;color:#97A2D6;" -->
 
       <q-list>
@@ -104,6 +109,6 @@ export default {
 <style scoped>
 .q-router-link--active {
   background: rgba(148, 184, 218, 0.76);
-  border-radius: 30px 0 0 30px;
+  border-radius: 30px;
 }
 </style>
