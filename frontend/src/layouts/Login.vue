@@ -131,6 +131,12 @@ html {
   color: #03e9f4;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 50000s ease-in-out 0s, color 5000s ease-in-out 0s;
+}
 input:focus ~ label,
 .login-box .user-box input:valid ~ label {
   top: -20px;

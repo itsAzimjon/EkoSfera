@@ -67,6 +67,11 @@ class LoginController extends Controller
                         "icon" => "receipt",
                         "url" => "shartnomalar",
                     ],
+                    "yolvaraqa" => [
+                        "caption" => "Yo'l varaqa",
+                        "icon" => "receipt",
+                        "url" => "yolvaraqa",
+                    ],
                     "talon" => [
                         "caption" => "Talonlar",
                         "icon" => "fact_check",
@@ -196,7 +201,7 @@ class LoginController extends Controller
     {
         $this->validate($request, [
             "name" => "required|min:3",
-            "email" => "bail|required|email|unique:users",
+            "email" => "bail|required|unique:users",
             "password" => "bail|required|min:8",
             "role_id" => "required"
         ]);
@@ -280,5 +285,23 @@ class LoginController extends Controller
         return response()->json([
             'message'=> "success"
         ]); 
+    }
+    public function email(Request $request){
+        if(empty($request->email)){
+            return response()->json([
+                "msg"=>"error"
+            ]);
+        }
+        $user=User::where('email',$request->email)->count();
+        if($user>0){
+            return response()->json([
+                "msg"=>"error"
+            ]);
+        }
+        else{
+            return response()->json([
+                "msg"=>"ok"
+            ]);
+        }
     }
 }

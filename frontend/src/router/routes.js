@@ -48,6 +48,11 @@ const routes = [
         name: "texnika",
         component: () => import("pages/texnika/Texnika.vue"),
       },
+      {
+        path: "/yolvaraqa",
+        name: "yolvaraqa",
+        component: () => import("pages/yolvaraqa/Yolvaraqa.vue"),
+      },
     ],
   },
   {

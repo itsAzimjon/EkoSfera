@@ -8,11 +8,9 @@ class Talonlar extends Model
 {
     protected $fillable = [
         "id",
-        "sana",
+        "olchov",
         "buyurtmachi_id",
-        "buyurtma_id",
-        "texnika",
-        "haydovchi",
+        "yolvaraqa_id",
         "yuk",
         "type",
         "created_at", "updated_at"
@@ -24,5 +22,9 @@ class Talonlar extends Model
     public function buyurtma()
     {
         return $this->belongsTo(\App\Buyurtma::class,'buyurtma_id','id');
+    }
+    public function yolvaraqa()
+    {
+        return $this->belongsTo(\App\Yolvaraqaa::class,'yolvaraqa_id','id');
     }
 }

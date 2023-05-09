@@ -15,7 +15,7 @@
           type="email"
           v-model="form.email"
           autofocus
-          label="Email"
+          label="Username"
         />
       </q-card-section>
 
@@ -206,12 +206,8 @@ export default {
       this.$q.loading.show();
       if (this.form.name.length < 3) {
         this.$e("FIO to'liq emas");
-      } else if (
-        !this.form.email.match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        )
-      ) {
-        this.$e("Email kiriting");
+      } else if (this.form.email.length < 2) {
+        this.$e("Username kiriting 2ta belgidan ko'p");
       } else if (this.form.role_id.length < 1) {
         this.$e("Foydalanuvchi vazifasini tanlang");
       } else if (
@@ -227,11 +223,23 @@ export default {
         this.$e("Ikki parol bir biriga most emas");
       } else {
         await this.$axios
-          .post("user/" + this.url, this.form)
+          .post("user/email", this.form)
           .then((response) => {
-            this.$s(this.success);
-            this.$emit("ok");
-            this.hide();
+            if (response.data.msg == "ok")
+              this.$axios
+                .post("user/" + this.url, this.form)
+                .then((response) => {
+                  this.$s(this.success);
+                  this.$emit("ok");
+                  this.hide();
+                })
+                .catch((error) => {
+                  this.$e(this.error);
+                  this.$checkstatus(error.response.status);
+                });
+            else {
+              this.$e("Bunday usernameli foydalanuvchi mavjud");
+            }
           })
           .catch((error) => {
             this.$e(this.error);

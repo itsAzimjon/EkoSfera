@@ -26,7 +26,13 @@ class TexnikaController extends Controller
             'texnikalar'=> $data,
         ]); 
     }
-   
+    public function get()
+    {
+        $data=Texnika::all();
+        return response()->json([
+            'texnikalar'=> $data,
+        ]); 
+    }
     public function add(Request $request)
     {
 

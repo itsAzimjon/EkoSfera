@@ -27,7 +27,13 @@ class HaydovchiController extends Controller
             'haydovchilar'=> $data,
         ]); 
     }
-   
+    public function get()
+    {
+        $data=Haydovchi::all();
+        return response()->json([
+            'haydovchilar'=> $data,
+        ]); 
+    }
     public function add(Request $request)
     {
 

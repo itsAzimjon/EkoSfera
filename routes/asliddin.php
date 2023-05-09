@@ -5,9 +5,11 @@ use App\Http\Controllers\BuyurtmaController;
 use App\Http\Controllers\HaydovchiController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\TexnikaController;
+use App\Http\Controllers\YolvaraqaaController;
 
 Route::post('user/add',[LoginController::class,'save']);
 Route::post('user/edit',[LoginController::class,'edit']);
+Route::post('user/email',[LoginController::class,'email']);
 Route::post('user/delete',[LoginController::class,'delete']);
 Route::get("user",[LoginController::class,'checkUser'])->name('checkUser');
 Route::post("users",[LoginController::class,'AllUser']);
@@ -29,17 +31,27 @@ Route::post('buyurtma/delete',[BuyurtmaController::class,'delete']);
 
 
 Route::post("haydovchi",[HaydovchiController::class,'getAll']);
+Route::get("haydovchi/get",[HaydovchiController::class,'get']);
 Route::post('haydovchi/add',[HaydovchiController::class,'add']);
 Route::post('haydovchi/edit',[HaydovchiController::class,'edit']);
 Route::post('haydovchi/delete',[HaydovchiController::class,'delete']);
 
 
 Route::post("texnika",[TexnikaController::class,'getAll']);
+Route::get("texnika/get",[TexnikaController::class,'get']);
 Route::post('texnika/add',[TexnikaController::class,'add']);
 Route::post('texnika/edit',[TexnikaController::class,'edit']);
 Route::post('texnika/delete',[TexnikaController::class,'delete']);
 
 Route::get("organization",[LoginController::class,'organization']);
 Route::post("organization/holat",[OrganizationController::class,'holat']);
+
+
+Route::post("yolvaraqa",[YolvaraqaaController::class,'index']);
+Route::post('yolvaraqa/add',[YolvaraqaaController::class,'add']);
+Route::get('yolvaraqa/get',[YolvaraqaaController::class,'get']);
+Route::post('yolvaraqa/edit',[YolvaraqaaController::class,'edit']);
+Route::post('yolvaraqa/delete',[YolvaraqaaController::class,'delete']);
+Route::post("yolvaraqa/holat",[YolvaraqaaController::class,'holat']);
 
 ?>

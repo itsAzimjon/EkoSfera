@@ -195,7 +195,7 @@ export default {
           field: "sana",
           label: "Sana",
           align: "left",
-          sortable: true,
+          sortable: false,
         },
         {
           name: "buyurtmachi",
@@ -216,21 +216,21 @@ export default {
           field: "texnika",
           label: "Maxsus texnika",
           align: "left",
-          sortable: true,
+          sortable: false,
         },
         {
           name: "haydovchi",
           field: "haydovchi",
           label: "Haydovchi",
           align: "left",
-          sortable: true,
+          sortable: false,
         },
         {
           name: "yuk",
           field: "yuk",
-          label: "Tashilgan yuk(kub)",
+          label: "Tashilgan yuk",
           align: "left",
-          sortable: false,
+          sortable: true,
         },
         {
           name: "chiqindi",
@@ -261,8 +261,8 @@ export default {
       AddData: {
         sana: "",
         buyurtmachi_id: "",
-        texnika: "",
-        haydovchi: "",
+        yolvaraqa_id: "",
+        olchov: "",
         yuk: "",
         type: "",
       },
@@ -312,15 +312,17 @@ export default {
             var json = {
               index: ind++,
               id: data[i].id,
-              sana: data[i].sana,
               buyurtma: data[i].buyurtma,
               buyurtmachi: data[i].buyurtmachi.name,
               stir: data[i].buyurtmachi.stir,
               buyurtmachi_id: parseInt(data[i].buyurtmachi_id),
+              yolvaraqa_id: parseInt(data[i].yolvaraqa_id),
               type: parseInt(data[i].type),
-              yuk: data[i].yuk,
-              haydovchi: data[i].haydovchi,
-              texnika: data[i].texnika,
+              yuk:
+                data[i].yuk + " " + ["Kub", "Tonna"][parseInt(data[i].olchov)],
+              sana: data[i].yolvaraqa.sana,
+              haydovchi: data[i].yolvaraqa.haydovchi.name,
+              texnika: data[i].yolvaraqa.texnika.nomer,
               chiqindi: ["", "Maishiy", "Suyuq"][parseInt(data[i].type)],
             };
             this.talonlar.push(json);
