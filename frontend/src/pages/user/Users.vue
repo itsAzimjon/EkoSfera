@@ -249,14 +249,6 @@ export default {
     };
   },
   async mounted() {
-    //tokenni tekshiruvdan o'tkazish
-    this.$q.loading.show({
-      spinnerColor: "green",
-      spinnerSize: 140,
-      backgroundColor: "blue",
-      message: "Iltimos kuting!!!",
-      messageColor: "black",
-    });
     await this.getData(this.pagination, this.search);
     this.url = this.$route.name;
 
@@ -269,7 +261,6 @@ export default {
       edit: res.edit,
       delete: res.delete,
     };
-    this.$q.loading.hide();
   },
   methods: {
     async getData(pagination, search) {
