@@ -75,7 +75,7 @@ class LoginController extends Controller
                 ]
             ],
             "dispechir" => [
-                "label" => "Dispechirlik xizmati",
+                "label" => "Dispetcherlik xizmati",
                 "caption" => "Texnika va talonlar",
                 "icon" => "assessment",
                 "children" => [
