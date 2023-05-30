@@ -59,7 +59,7 @@ class LoginController extends Controller
             ],
             "yuridik" => [
                 "label" => "Yuridik bo'lim",
-                "caption" => "Shartnomalar va talonlar",
+                "caption" => "Shartnomalar va dalolatnomalar",
                 "icon" => "assessment",
                 "children" => [
                     "shartnoma" => [
@@ -67,6 +67,18 @@ class LoginController extends Controller
                         "icon" => "receipt",
                         "url" => "shartnomalar",
                     ],
+                    "dalolatnoma" => [
+                        "caption" => "Dalolatnoma",
+                        "icon" => "receipt",
+                        "url" => "dalolatnoma",
+                    ],
+                ]
+            ],
+            "dispechir" => [
+                "label" => "Dispechirlik xizmati",
+                "caption" => "Texnika va talonlar",
+                "icon" => "assessment",
+                "children" => [
                     "yolvaraqa" => [
                         "caption" => "Yo'l varaqa",
                         "icon" => "receipt",
@@ -87,11 +99,7 @@ class LoginController extends Controller
                         "icon" => "local_shipping",
                         "url" => "texnika",
                     ],
-                    "dalolatnoma" => [
-                        "caption" => "Dalolatnoma",
-                        "icon" => "receipt",
-                        "url" => "dalolatnoma",
-                    ],
+                   
                     "buyurtma" =>[
                         "caption" => "Buyurtma",
                         "icon" => "receipt_long",
