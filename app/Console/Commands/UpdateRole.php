@@ -50,11 +50,16 @@ class UpdateRole extends Command
                     "read" => true,
                     "children" => [
                         "shartnoma" => [true, true, true, false],
+                        "dalolatnoma" => [true, true, true, false],
+                    ]
+                ],
+                'dispechir'=>[
+                    'read'=>true,
+                    'children'=>[
                         "yolvaraqa" => [true, true, true, false],
                         "haydovchi" => [true, true, true, false],
                         "texnika" => [true, true, true, false],
                         "talon" => [true, true, true, false],
-                        "dalolatnoma" => [true, true, true, false],
                         "buyurtma" => [true, true, true, false],
                     ]
                 ],
