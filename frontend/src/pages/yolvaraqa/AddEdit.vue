@@ -9,7 +9,15 @@
       <q-card-section class="sticky col-12">
         <div class="text-h6">{{ text }}</div>
       </q-card-section>
-
+      <q-card-section class="q-pt-none margin col-6 col-md-2 col-xl-1">
+        <q-input
+          dense
+          label="Yo'l varaqaa raqami"
+          v-model="form.raqami"
+          :rules="[(val) => val.length > 0 || 'Kiriting']"
+          autofocus
+        />
+      </q-card-section>
       <q-card-section class="q-pt-none margin col-6 col-md-2 col-xl-1">
         <q-input
           dense
@@ -229,6 +237,7 @@ export default {
       form: {
         id: "",
         sana: "",
+        raqami: "",
         tuman_id: "",
         organization_id: "",
         haydovchi_id: "",

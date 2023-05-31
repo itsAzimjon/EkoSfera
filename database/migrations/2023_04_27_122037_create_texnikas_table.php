@@ -16,6 +16,7 @@ class CreateTexnikasTable extends Migration
         Schema::create('texnikas', function (Blueprint $table) {
             $table->id();
             $table->string("nomer");
+            $table->unsignedBigInteger('organization_id');
             $table->string("type");
             $table->string('status')->default(1);
             $table->timestamps();

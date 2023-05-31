@@ -13,7 +13,6 @@
       :filter="search"
       binary-state-sort
       @request="onRequest"
-      :visible-columns="visibleColumns"
       no-data-label="Ma'lumotlar yo'q"
       no-results-label="Ma'lumotlar topilmadi"
     >
@@ -141,17 +140,24 @@ export default {
           sortable: true,
         },
         {
+          name: "karxona",
+          field: "karxona",
+          label: "Karxona ",
+          align: "left",
+          sortable: false,
+        },
+        {
           name: "action",
           label: "Action",
           align: "left",
           style: "width: 20px !important",
         },
       ],
-      visibleColumns: ["index", "nomer", "turi", "action"],
       texnikalar: [],
       AddData: {
         name: "",
         guvohnoma: "",
+        organization_id: "",
       },
     };
   },
@@ -202,7 +208,14 @@ export default {
               id: data[i].id,
               nomer: data[i].nomer,
               type: parseInt(data[i].type),
-              turi: ["Yengil", "Og'ir"][parseInt(data[i].type)],
+              organization_id: parseInt(data[i].organization_id),
+              karxona: data[i].organization.name,
+              turi: [
+                "Musorovoz - 7m3",
+                "Musurovoz - 12 m3",
+                "Krantaz",
+                "Yengil avtomashina",
+              ][parseInt(data[i].type)],
             };
             this.texnikalar.push(json);
           }
@@ -234,6 +247,11 @@ export default {
           },
         })
         .onOk((from) => {
+          this.AddData = {
+            name: "",
+            guvohnoma: "",
+            organization_id: "",
+          };
           this.getData(this.pagination, this.search);
         });
     },

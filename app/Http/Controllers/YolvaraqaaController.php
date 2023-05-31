@@ -26,6 +26,7 @@ class YolvaraqaaController extends Controller
         ->where('type',$request->type)
         ->where(function($query) use ($request){
             $query->orwhere('sana','like','%'.$request->filter.'%')
+            ->orwhere('raqami','like','%'.$request->filter.'%')
             ->orwhereHas('tuman', function($q)use ($request){
                 $q->where('name','like','%'.$request->filter.'%');
             })
@@ -52,6 +53,7 @@ class YolvaraqaaController extends Controller
         $this->validate($request, [
             "sana" => "required",
             "tuman_id" => "required",
+            "raqami" => "required",
             "organization_id" => "required",
             "haydovchi_id" => "required",
             "texnika_id" => "required",
@@ -67,6 +69,7 @@ class YolvaraqaaController extends Controller
 
         $data = Yolvaraqaa::create([
             "sana" => $request->sana,
+            "raqami" => $request->raqami,
             "tuman_id" => $request->tuman_id,
             "organization_id" => $request->organization_id,
             "haydovchi_id" => $request->haydovchi_id,

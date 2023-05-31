@@ -182,7 +182,7 @@ export default {
         for (var i = 0; i < data.length; i++) {
           var json = {
             value: data[i].id,
-            label: "#" + data[i].id + "#  " + data[i].sana,
+            label: "#" + data[i].raqami + "#  " + data[i].sana,
           };
           this.yolvaraqa.push(json);
         }

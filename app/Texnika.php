@@ -9,6 +9,11 @@ class Texnika extends Model
     protected $fillable = [
         'nomer',
         'type',
-        'status'
+        'status',
+        'organization_id'
     ];
+    public function organization()
+    {
+        return $this->belongsTo(\App\Organization::class,'organization_id','id');
+    }
 }

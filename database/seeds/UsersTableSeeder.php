@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => bcrypt('admin'),
         ]);
-        factory(App\User::class, 50)->create();
+        // factory(App\User::class, 50)->create();
         
         $regions = [
             "Arnasoy tumani",

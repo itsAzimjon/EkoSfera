@@ -9,6 +9,7 @@ class Yolvaraqaa extends Model
     protected $fillable = [
         "id",
         "sana",
+        "raqami",
         "tuman_id",
         "organization_id",
         "haydovchi_id",

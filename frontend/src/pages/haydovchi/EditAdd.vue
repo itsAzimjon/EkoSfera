@@ -24,6 +24,16 @@
           label="Haydovchilik guvohnomasi"
         />
       </q-card-section>
+      <q-card-section class="q-pt-none margin">
+        <q-select
+          dense
+          v-model="form.organization_id"
+          :options="organization"
+          label="Korxonani tanlang"
+          emit-value
+          map-options
+        />
+      </q-card-section>
       <q-card-actions align="right" class="text-blue stickybutton">
         <q-btn color="red" label="Bekor qilish" @click="hide()" />
         <q-btn
@@ -64,11 +74,12 @@ export default {
   data() {
     return {
       disabled: false,
-
+      organization: [],
       form: {
         id: "",
         name: "",
         guvohnoma: "",
+        organization_id: "",
       },
     };
   },
@@ -77,6 +88,22 @@ export default {
   ],
   async mounted() {
     this.form = this.Data;
+    await this.$axios
+      .get("organization")
+      .then((response) => {
+        let data = response.data.organization;
+        this.organization = [];
+        for (var i = 0; i < data.length; i++) {
+          var json = {
+            value: data[i].id,
+            label: data[i].name,
+          };
+          this.organization.push(json);
+        }
+      })
+      .catch((error) => {
+        this.$e("Korxanalarni olishda muammo");
+      });
   },
   methods: {
     show() {

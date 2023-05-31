@@ -276,6 +276,13 @@ export default {
           sortable: true,
         },
         {
+          name: "raqami",
+          field: "raqami",
+          label: "Yo'l vaqara raqami",
+          align: "left",
+          sortable: true,
+        },
+        {
           name: "korxona",
           field: "korxona",
           label: "Korxona",
@@ -375,6 +382,7 @@ export default {
       ],
       visibleColumns: [
         "index",
+        "raqami",
         "sana",
         "korxona",
         "tuman",
@@ -387,6 +395,7 @@ export default {
       AddData: {
         id: "",
         sana: "",
+        raqami: "",
         tuman_id: "",
         organization_id: "",
         haydovchi_id: "",
@@ -448,6 +457,7 @@ export default {
           for (var i = 0; i < data.length; i++) {
             var json = {
               index: ind++,
+              raqami: data[i].raqami,
               id: data[i].id,
               sana: data[i].sana,
               korxona: data[i].korxona.name,

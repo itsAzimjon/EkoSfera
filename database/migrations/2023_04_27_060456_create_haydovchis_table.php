@@ -17,6 +17,7 @@ class CreateHaydovchisTable extends Migration
             $table->id();
             $table->string("name");
             $table->string("guvohnoma");
+            $table->unsignedBigInteger('organization_id');
             $table->string('status')->default(1);
             $table->timestamps();
         });

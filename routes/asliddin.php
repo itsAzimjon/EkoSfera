@@ -29,14 +29,13 @@ Route::post('buyurtma/add',[BuyurtmaController::class,'add']);
 Route::post('buyurtma/edit',[BuyurtmaController::class,'edit']);
 Route::post('buyurtma/delete',[BuyurtmaController::class,'delete']);
 
-
 Route::post("haydovchi",[HaydovchiController::class,'getAll']);
 Route::get("haydovchi/get",[HaydovchiController::class,'get']);
 Route::post('haydovchi/add',[HaydovchiController::class,'add']);
 Route::post('haydovchi/edit',[HaydovchiController::class,'edit']);
 Route::post('haydovchi/delete',[HaydovchiController::class,'delete']);
 
-
+ 
 Route::post("texnika",[TexnikaController::class,'getAll']);
 Route::get("texnika/get",[TexnikaController::class,'get']);
 Route::post('texnika/add',[TexnikaController::class,'add']);
@@ -45,7 +44,6 @@ Route::post('texnika/delete',[TexnikaController::class,'delete']);
 
 Route::get("organization",[LoginController::class,'organization']);
 Route::post("organization/holat",[OrganizationController::class,'holat']);
-
 
 Route::post("yolvaraqa",[YolvaraqaaController::class,'index']);
 Route::post('yolvaraqa/add',[YolvaraqaaController::class,'add']);

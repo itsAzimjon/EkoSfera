@@ -28,6 +28,7 @@ class CreateYolvaraqaasTable extends Migration
             $table->integer('miqdori');
             $table->string("tibbiy");
             $table->string("texnik");
+            $table->string("raqami");
             $table->integer("type")->default(0);
             $table->timestamps();
         });

@@ -18,8 +18,12 @@ class TexnikaController extends Controller
             $request->sortBy='id';
         }
         $request->filter=strtolower( $request->filter);
-        $data=Texnika::
-        orwhere('nomer','like','%'.$request->filter.'%')
+        $data=Texnika::with('organization')
+        ->where(function($query) use ($request){
+            $query->orwhereHas('organization',function($qe)use ($request){
+                $qe->where('name','like','%'.$request->filter.'%');
+            })->orwhere('nomer','like','%'.$request->filter.'%');
+        })
         ->orderBy($request->sortBy,$sort)
         ->paginate($request->rowsPerPage);
         return response()->json([
@@ -39,11 +43,13 @@ class TexnikaController extends Controller
         $this->validate($request, [
             "nomer" => "required",
             "type" => "required",
+            "organization_id" => "required",
         ]);
 
         $texnikalar = Texnika::create([
             "nomer" => $request->nomer,
             "type" => $request->type,
+            "organization_id" => $request->organization_id,
         ]);
         return response()->json([
             'texnikalar'=> $texnikalar
@@ -53,6 +59,7 @@ class TexnikaController extends Controller
     {
         $this->validate($request, [
             "nomer" => "required",
+            "organization_id" => "required",
             "type" => "required",
         ]);
 
@@ -60,6 +67,7 @@ class TexnikaController extends Controller
 
         
         $texnika = Texnika::where('id',$request->id)->update([
+            "organization_id" => $request->organization_id,
             "nomer" => $request->nomer,
             "type" => $request->type,
         ]);

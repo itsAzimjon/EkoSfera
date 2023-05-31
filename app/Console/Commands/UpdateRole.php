@@ -44,23 +44,23 @@ class UpdateRole extends Command
         $all_permission = [
             "Admin" => [
                 "dashboard" => [true, true, true, true],
-                "user" => [true, true, true, false],
-                "organizations" => [true, true, true, false],
+                "user" => [true, true, true, true],
+                "organizations" => [true, true, true, true],
                 "yuridik" => [
                     "read" => true,
                     "children" => [
-                        "shartnoma" => [true, true, true, false],
-                        "dalolatnoma" => [true, true, true, false],
+                        "shartnoma" => [true, true, true, true],
+                        "dalolatnoma" => [true, true, true, true],
                     ]
                 ],
                 'dispechir'=>[
                     'read'=>true,
                     'children'=>[
-                        "yolvaraqa" => [true, true, true, false],
-                        "haydovchi" => [true, true, true, false],
-                        "texnika" => [true, true, true, false],
-                        "talon" => [true, true, true, false],
-                        "buyurtma" => [true, true, true, false],
+                        "yolvaraqa" => [true, true, true, true],
+                        "haydovchi" => [true, true, true, true],
+                        "texnika" => [true, true, true, true],
+                        "talon" => [true, true, true, true],
+                        "buyurtma" => [true, true, true, true],
                     ]
                 ],
                 "kadr" => [true, true, true, true],

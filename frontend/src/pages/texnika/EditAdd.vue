@@ -26,6 +26,16 @@
           hint="Texnika turi"
         />
       </q-card-section>
+      <q-card-section class="q-pt-none margin">
+        <q-select
+          dense
+          v-model="form.organization_id"
+          :options="organization"
+          label="Korxonani tanlang"
+          emit-value
+          map-options
+        />
+      </q-card-section>
       <q-card-actions align="right" class="text-blue stickybutton">
         <q-btn
           style="font-size: 0.7rem"
@@ -74,20 +84,37 @@ export default {
   data() {
     return {
       disabled: false,
-
+      organization: [],
       form: {
         id: "",
         nomer: "",
+        organization_id: "",
         type: "",
       },
       types: [
         {
           value: 0,
-          label: "Yengil",
+          label: "Musorovoz - 7m3",
         },
         {
           value: 1,
-          label: "Og'ir",
+          label: "Musurovoz - 12 m3",
+        },
+        {
+          value: 2,
+          label: "Krantaz",
+        },
+        {
+          value: 3,
+          label: "Samosval",
+        },
+        {
+          value: 4,
+          label: "Аssenizator",
+        },
+        {
+          value: 5,
+          label: "Yengil avtomashina",
         },
       ],
     };
@@ -97,6 +124,22 @@ export default {
   ],
   async mounted() {
     this.form = this.Data;
+    await this.$axios
+      .get("organization")
+      .then((response) => {
+        let data = response.data.organization;
+        this.organization = [];
+        for (var i = 0; i < data.length; i++) {
+          var json = {
+            value: data[i].id,
+            label: data[i].name,
+          };
+          this.organization.push(json);
+        }
+      })
+      .catch((error) => {
+        this.$e("Korxanalarni olishda muammo");
+      });
   },
   methods: {
     show() {

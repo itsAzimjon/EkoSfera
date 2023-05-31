@@ -13,7 +13,6 @@
       :filter="search"
       binary-state-sort
       @request="onRequest"
-      :visible-columns="visibleColumns"
       no-data-label="Ma'lumotlar yo'q"
       no-results-label="Ma'lumotlar topilmadi"
     >
@@ -141,16 +140,23 @@ export default {
           sortable: true,
         },
         {
+          name: "karxona",
+          field: "karxona",
+          label: "Karxona ",
+          align: "left",
+          sortable: false,
+        },
+        {
           name: "action",
           label: "Action",
           align: "left",
           style: "width: 20px !important",
         },
       ],
-      visibleColumns: ["index", "name", "guvohnoma", "action"],
       haydovchilar: [],
       AddData: {
         name: "",
+        organization_id: "",
         guvohnoma: "",
       },
     };
@@ -202,6 +208,8 @@ export default {
               id: data[i].id,
               name: data[i].name,
               guvohnoma: data[i].guvohnoma,
+              organization_id: parseInt(data[i].organization_id),
+              karxona: data[i].organization.name,
             };
             this.haydovchilar.push(json);
           }
