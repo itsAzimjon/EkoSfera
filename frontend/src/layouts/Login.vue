@@ -2,7 +2,7 @@
   <div class="body">
     <div class="login-box">
       <h2>Ekosfera</h2>
-      <form>
+      <form @keyup.enter="signin">
         <div class="user-box">
           <label>Login(Email)</label>
           <input type="text" v-model="login.email" required="" />
@@ -11,13 +11,7 @@
           <label>Password</label>
           <input type="password" v-model="login.password" required="" />
         </div>
-        <a type="button" @click="signin">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          Kirish
-        </a>
+        <a type="button" @click="signin"> Kirish </a>
       </form>
     </div>
   </div>
@@ -83,6 +77,13 @@ export default defineComponent({
 html {
   height: 100%;
 }
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 50000s ease-in-out 0s,
+    color 50000s ease-in-out 0s;
+}
 .body {
   width: 100%;
   height: 100vh;
@@ -106,6 +107,7 @@ html {
 }
 
 .login-box h2 {
+  font-size: 2rem;
   margin: 0 0 30px;
   padding: 0;
   color: #fff;
@@ -131,12 +133,6 @@ html {
   color: #03e9f4;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  transition: background-color 50000s ease-in-out 0s, color 5000s ease-in-out 0s;
-}
 input:focus ~ label,
 .login-box .user-box input:valid ~ label {
   top: -20px;
@@ -150,6 +146,8 @@ input:focus ~ label,
   display: inline-block;
   padding: 10px 20px;
   color: #03e9f4;
+  border-radius: 8px;
+  border: 1px solid #03e9f4;
   font-size: 16px;
   text-decoration: none;
   text-transform: uppercase;
@@ -160,11 +158,10 @@ input:focus ~ label,
 }
 
 .login-box a:hover {
-  background: #03e9f4;
-  color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
-    0 0 100px #03e9f4;
+  /* background: #03e9f4; */
+  /* color: #fff; */
+  /* border-radius: 5px; */
+  box-shadow: 0 2px 25px #03e9f4;
 }
 
 .login-box a span {

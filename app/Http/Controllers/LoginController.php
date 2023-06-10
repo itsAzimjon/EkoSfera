@@ -300,7 +300,7 @@ class LoginController extends Controller
                 "msg"=>"error"
             ]);
         }
-        $user=User::where('email',$request->email)->count();
+        $user=User::where('email',$request->email)->where('id','!=',$request->id)->count();
         if($user>0){
             return response()->json([
                 "msg"=>"error"

@@ -269,6 +269,10 @@ export default {
           value: 2,
           label: "Budjet",
         },
+        {
+          value: 3,
+          label: "Aholi",
+        },
       ],
       tuman: [],
       dis: false,

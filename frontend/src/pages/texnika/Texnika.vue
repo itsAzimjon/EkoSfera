@@ -214,6 +214,8 @@ export default {
                 "Musorovoz - 7m3",
                 "Musurovoz - 12 m3",
                 "Krantaz",
+                "Samosval",
+                "Аssenizator",
                 "Yengil avtomashina",
               ][parseInt(data[i].type)],
             };
