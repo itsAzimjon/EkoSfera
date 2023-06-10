@@ -217,9 +217,17 @@ export default {
         this.$e("Korxona  tanlang");
       } else if (this.form.role_id == 3 && this.form.tuman_id.length < 1) {
         this.$e("Tuman tanlang");
-      } else if (this.form.password.length < 8) {
+      } else if (
+        (this.form.password.length < 8 && this.url != "edit") ||
+        (this.form.password.length > 0 && this.form.password.length < 8)
+      ) {
         this.$e("Parol 8ta belgidan ko'p bo'lishi kerak");
-      } else if (this.form.password != this.form.return_password) {
+      } else if (
+        (this.form.password != this.form.return_password &&
+          this.url != "edit") ||
+        (this.form.password.length > 0 &&
+          this.form.password != this.form.return_password)
+      ) {
         this.$e("Ikki parol bir biriga most emas");
       } else {
         await this.$axios

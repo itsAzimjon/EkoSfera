@@ -239,7 +239,7 @@ class LoginController extends Controller
         $this->validate($request, [
             "id" => "required",
             "name" => "required|min:3",
-            "email" => "bail|required|email",
+            "email" => "bail|required",
             "role_id" => "required"
         ]);
         $data = [
@@ -251,6 +251,9 @@ class LoginController extends Controller
         $p = $request->password;
         $p_r = $request->return_password;
         if($p != "" || $p_r != ""){
+            $this->validate($request, [
+                'password'=>"min:8"
+            ]);
             if($p != $p_r){
                 return response()->json([
                     'msg'=> "Ikki parol bir xil emas"
