@@ -8,7 +8,7 @@
           <input type="text" v-model="login.email" required="" />
         </div>
         <div class="user-box">
-          <label>Password</label>
+          <label>Parol</label>
           <input type="password" v-model="login.password" required="" />
         </div>
         <a type="button" @click="signin"> Kirish </a>
